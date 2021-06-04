@@ -1,25 +1,25 @@
 package TADS;
 
-public class MyClosedHash<T extends Comparable<T>> implements MyHash<T>{
+public class MyClosedHash<K extends Comparable<K>, T> implements MyHash<K, T>{
 
     private int tableHashSize;
 
-    private ClosedHashNode<T>[] tableHash;
+    private ClosedHashNode<K, T>[] tableHash;
 
     public MyClosedHash(){
         this.tableHashSize = 100;
-        tableHash =  (ClosedHashNode<T>[]) new ClosedHashNode[tableHashSize];
+        tableHash =  (ClosedHashNode<K, T>[]) new ClosedHashNode[tableHashSize];
     }
 
     public MyClosedHash(int tableHashSize, float loadFactor){
         this.tableHashSize = tableHashSize;
-        tableHash = (ClosedHashNode<T>[]) new ClosedHashNode[tableHashSize];
+        tableHash = (ClosedHashNode<K, T>[]) new ClosedHashNode[tableHashSize];
     }
 
 
     @Override
-    public void put(T value) {
-        ClosedHashNode<T> element = new ClosedHashNode<T>(value);
+    public void put(K key, T value) {
+        ClosedHashNode element = new ClosedHashNode(key, value);
         int position = hashFunction(element);
         int count = 0;
         while(position < tableHashSize && tableHash[position] != null && !tableHash[position].isEmpty()){
@@ -33,12 +33,12 @@ public class MyClosedHash<T extends Comparable<T>> implements MyHash<T>{
     }
 
     @Override
-    public T get(T value) {
+    public T get(K value) {
         return null;
     }
 
     @Override
-    public void delete(T value) {
+    public void delete(K value) {
 
     }
 
@@ -52,7 +52,7 @@ public class MyClosedHash<T extends Comparable<T>> implements MyHash<T>{
         return false;
     }
 
-    private int hashFunction(ClosedHashNode<T> element){
+    private int hashFunction(ClosedHashNode<K, T> element){
         return tableHashSize % element.hashCode();
     }
 }
