@@ -1,32 +1,44 @@
 package TADS;
 
-public class MyClosedHash<K, T> implements MyHash<K, T>{
+public class MyClosedHash<T extends Comparable<T>> implements MyHash<T>{
 
-    private final int DEFAULT_INITIAL_TABLE_HASH_SIZE = 10;
+    private int tableHashSize;
 
-    private ClosedHashNode[] tableHash;
+    private ClosedHashNode<T>[] tableHash;
 
     public MyClosedHash(){
-        tableHash = new ClosedHashNode[DEFAULT_INITIAL_TABLE_HASH_SIZE];
+        this.tableHashSize = 100;
+        tableHash =  (ClosedHashNode<T>[]) new ClosedHashNode[tableHashSize];
     }
 
     public MyClosedHash(int tableHashSize, float loadFactor){
-        tableHash = new ClosedHashNode[tableHashSize];
+        this.tableHashSize = tableHashSize;
+        tableHash = (ClosedHashNode<T>[]) new ClosedHashNode[tableHashSize];
     }
 
 
     @Override
-    public void put(K key, T value) {
+    public void put(T value) {
+        ClosedHashNode<T> element = new ClosedHashNode<T>(value);
+        int position = hashFunction(element);
+        int count = 0;
+        while(position < tableHashSize && tableHash[position] != null && !tableHash[position].isEmpty()){
+            count ++;
+            position = tableHashSize % (position + count*count);
+
+        }
+
+        tableHash[position] = element;
 
     }
 
     @Override
-    public T get(K key) {
+    public T get(T value) {
         return null;
     }
 
     @Override
-    public void delete(K key) {
+    public void delete(T value) {
 
     }
 
@@ -38,5 +50,9 @@ public class MyClosedHash<K, T> implements MyHash<K, T>{
     @Override
     public boolean contains() {
         return false;
+    }
+
+    private int hashFunction(ClosedHashNode<T> element){
+        return tableHashSize % element.hashCode();
     }
 }

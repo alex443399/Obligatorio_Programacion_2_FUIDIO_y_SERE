@@ -1,10 +1,10 @@
 package TADS;
 
-public interface MyHash<K, T>{
+public interface MyHash<T extends Comparable<T>>{
 
-    void put(K key, T value);
-    T get(K key);
-    void delete(K key);
+    void put(T value);
+    T get(T value);
+    void delete(T value);
     int size();
     boolean contains();
 }
