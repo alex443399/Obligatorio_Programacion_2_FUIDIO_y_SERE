@@ -1,4 +1,8 @@
 package Exceptions;
 
-public class ElementDoesNotExistException {
+public class ElementDoesNotExistException extends Exception {
+
+    public ElementDoesNotExistException(){
+        super();
+    }
 }
