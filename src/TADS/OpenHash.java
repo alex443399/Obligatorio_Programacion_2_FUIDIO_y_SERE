@@ -8,7 +8,7 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hac
 
     public OpenHash(int tableHashSize){
         this.tableHashSize = tableHashSize;
-        HashTable = (OpenHashNode<K,T>[]) new Object[tableHashSize];
+        HashTable = (OpenHashNode<K,T>[]) new OpenHashNode  [tableHashSize];
     }
 
 
@@ -65,7 +65,7 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hac
 
     private int hashFunction(K key){
 
-        return tableHashSize % key.hashCode();
+        return key.hashCode() % tableHashSize;
     }
 
 

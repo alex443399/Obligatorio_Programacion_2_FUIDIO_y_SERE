@@ -92,6 +92,91 @@ public class Movie {
         this.reviewsFromCritics = parseIntNullEnabled(s_reviewsFromCritics);
     }
 
+    public String getImbdTitled() {
+        return imbdTitled;
+    }
 
+    public String getTitled() {
+        return titled;
+    }
 
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public LocalDate getDatePublished() {
+        return datePublished;
+    }
+
+    public ListaEnlazada getGenre() {
+        return genre;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public ListaEnlazada getCountry() {
+        return country;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public ListaEnlazada getDirector() {
+        return director;
+    }
+
+    public ListaEnlazada getWriter() {
+        return writer;
+    }
+
+    public String getProductorCompany() {
+        return productorCompany;
+    }
+
+    public ListaEnlazada getActors() {
+        return actors;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Float getAvgVote() {
+        return avgVote;
+    }
+
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public String getBudget() {
+        return budget;
+    }
+
+    public String getUsaGrossIncome() {
+        return usaGrossIncome;
+    }
+
+    public String getWorldWideGorssIncome() {
+        return worldWideGorssIncome;
+    }
+
+    public Integer getMetaScore() {
+        return metaScore;
+    }
+
+    public Integer getReviewsFromUsers() {
+        return reviewsFromUsers;
+    }
+
+    public Integer getReviewsFromCritics() {
+        return reviewsFromCritics;
+    }
 }

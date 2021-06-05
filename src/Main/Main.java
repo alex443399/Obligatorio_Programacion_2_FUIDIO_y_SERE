@@ -19,10 +19,9 @@ public class Main {
 
         Loader loader = new Loader();
 
-        OpenHash<Integer,String> tryHash = new OpenHash<Integer,String>(10);
+        OpenHash<Integer, Movie> movie_storage = loader.LoadMovies();
 
-        //OpenHash<Integer, Movie> movie_storage = loader.LoadMovies();
-
+        System.out.println(movie_storage.get(5500148).getTitled());
 
     }
 }
