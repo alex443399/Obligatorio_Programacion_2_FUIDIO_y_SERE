@@ -1,15 +1,14 @@
 package TADS;
 
-public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{
+public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hacer lo q estoy haciendo o UN ARRAYLIST DE LINKEDLIST???
 
     private int tableHashSize;
-    private OpenHashNode<K, T>[] HashTable;
+    private OpenHashNode<K,T>[] HashTable;//ArrayList<OpenHashNode<K,T>> hashTable = new ArrayList<OpenHashNode<K,T>>(tableHashSize);
     private int size;
 
     public OpenHash(int tableHashSize){
         this.tableHashSize = tableHashSize;
-        HashTable = (OpenHashNode<K, T>[]) new Object[tableHashSize];
-
+        HashTable = (OpenHashNode<K,T>[]) new Object[tableHashSize];
     }
 
 
@@ -31,7 +30,6 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{
         }
 
         size ++;
-
     }
 
     @Override

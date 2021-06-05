@@ -3,6 +3,7 @@ import Modelo.Movie;
 import TADS.ArrayList;
 import TADS.MyBSTImpl;
 import TADS.OpenHash;
+import TADS.OpenHashNode;
 import Utilidades.Functions;
 import Utilidades.Loader;
 
@@ -18,7 +19,9 @@ public class Main {
 
         Loader loader = new Loader();
 
-        OpenHash<Integer, Movie> movie_storage = loader.LoadMovies();
+        OpenHash<Integer,String> tryHash = new OpenHash<Integer,String>(10);
+
+        //OpenHash<Integer, Movie> movie_storage = loader.LoadMovies();
 
 
     }

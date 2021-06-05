@@ -35,10 +35,10 @@ public class Loader {
             i++;
             //System.out.println(line);
             String[] registro = Functions.StringArrayFromCsvLine(line,',','"',number_of_columns);
-/*
+
             for(int j = 0; j < registro.length; j++)
                 System.out.println(registro[j]);
-*/
+
             int name_string_length = registro[0].length();
             String imbd_title_id_string = registro[0].substring(2,name_string_length);
             int imdb_title_id = Integer.parseInt(imbd_title_id_string);

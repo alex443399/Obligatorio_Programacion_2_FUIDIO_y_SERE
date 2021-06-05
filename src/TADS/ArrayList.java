@@ -62,7 +62,7 @@ public class ArrayList<T> implements Lista<T>, MyStack<T> {
 
     @Override
     public void print() {
-        System.out.println("Puta");
+
     }
 
     public int size(){
