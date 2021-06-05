@@ -47,6 +47,47 @@ public class Functions {
         return resultado;
     }
 
+    public static String[] StringArrayFromCsvLine(String line, char del, char ignorar){
+        int L = line.length();
+        boolean inside = false;
+
+        ArrayList<String> preresultado = new ArrayList<String>();
+
+
+        int LeftIndex = 0, RightIndex = 0, current_column = 0;
+
+        while(LeftIndex < L) {
+            boolean condition_while_loop = RightIndex < L;
+            if(condition_while_loop)
+                condition_while_loop = (condition_while_loop) && (line.charAt(RightIndex) != del);
+            // la condicion se tiene que evaluar en partes pq si evaluamos line.charAt sin saber si el indice es < L puede Out Of Bounds Exceptions
+
+            while (condition_while_loop) {
+                if(line.charAt(RightIndex) == ignorar)
+                    inside = !inside;
+                RightIndex++;
+                /////////
+
+
+                /////////
+                condition_while_loop = RightIndex < L;
+                if(condition_while_loop)
+                    condition_while_loop = (condition_while_loop) &&
+                            ((line.charAt(RightIndex) != del) || inside);
+
+            }
+
+            String temp = line.substring(LeftIndex, RightIndex);
+
+            preresultado.add(temp);
+
+            RightIndex++;
+            LeftIndex = RightIndex;
+        }
+        String[] resultado = preresultado.toStringArray();
+        return resultado;
+    }
+
     public static ListaEnlazada<String> ListaEnCelda(String line){
         ListaEnlazada<String> resultado = new ListaEnlazada<String>();
         if(line.length() <= 0)
