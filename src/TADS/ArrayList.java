@@ -3,12 +3,19 @@ package TADS;
 import Exceptions.EmptyStackException;
 import Exceptions.IlegalIndexException;
 
+
 public class ArrayList<T> implements Lista<T>, MyStack<T> {
 
-    private T[] lista;
-    private int size;
+    private T[] lista;//(T[]) new Object[50];
+    private int size = 0;
+    private int initial_size;
 
     public ArrayList(){
+        this.initial_size = 50;//initial_size;
+        lista = (T[]) new Object[50];
+    }
+    public ArrayList(int initial_size){
+        this.initial_size = initial_size;
         lista = (T[]) new Object[50];
     }
 
@@ -110,5 +117,14 @@ public class ArrayList<T> implements Lista<T>, MyStack<T> {
         for(int i = 0; i < size; i ++){
             lista[i] = null;
         }
+    }
+
+    public String[] toStringArray(){
+        String[] awns = new String[size];
+        for(int i = 0; i < size; i++){
+            awns[i] = lista[i].toString();
+        }
+        return awns;
+
     }
 }

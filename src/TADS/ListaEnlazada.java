@@ -13,7 +13,7 @@ public class ListaEnlazada <T> implements Lista<T>, MyStack<T>, MyQueue<T>, MyDo
 
     @Override
     public void add(T value) {
-        Nodo<T> temp = new Nodo<>(value);
+        Nodo<T> temp = new Nodo<T>(value);
         //Si el primero es nulo, agregamos el primer elemento
         if (first == null){
             first = temp;
