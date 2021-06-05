@@ -1,41 +1,41 @@
 package TADS;
 
-public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hacer lo q estoy haciendo o UN ARRAYLIST DE LINKEDLIST???
-
+public class OpenHash<K extends Comparable<K>, T, Node> implements MyHash<K, T>{
+    //Nodo = OpenHashNode<K,T>
     private int tableHashSize;
-    private OpenHashNode<K,T>[] HashTable;//ArrayList<OpenHashNode<K,T>> hashTable = new ArrayList<OpenHashNode<K,T>>(tableHashSize);
+    private Node[] HashTable;//ArrayList<OpenHashNode<K,T>> hashTable = new ArrayList<OpenHashNode<K,T>>(tableHashSize);
     private int size;
 
     public OpenHash(int tableHashSize){
         this.tableHashSize = tableHashSize;
-        HashTable = (OpenHashNode<K,T>[]) new Object[tableHashSize];
+        HashTable = (Node[]) new Object[tableHashSize];
     }
 
 
     @Override
     public void put(K key, T value) {
 
-        OpenHashNode<K, T> element = new OpenHashNode<>(key, value);
         int position = hashFunction(key);
         if(HashTable[position] == null){
+
+            Node element = (Node) new OpenHashNode<K, T>(key, value);
             HashTable[position] = element;
         } else{
-            OpenHashNode<K, T> temp = HashTable[position];
+            OpenHashNode<K,T> temp = (OpenHashNode<K,T>) HashTable[position];
             while(temp.getNext() != null){
                 temp = temp.getNext();
             }
-
+            OpenHashNode<K, T> element = new OpenHashNode<K, T>(key, value);
             temp.setNext(element);
 
         }
-
         size ++;
     }
 
     @Override
     public T get(K key) {
         int position = hashFunction(key);
-        OpenHashNode<K, T> temp = HashTable[position];
+        OpenHashNode<K, T> temp = (OpenHashNode<K, T>) HashTable[position];
         while(temp != null && !temp.getKey().equals(key)){
             temp = temp.getNext();
         }
@@ -65,7 +65,7 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hac
 
     private int hashFunction(K key){
 
-        return tableHashSize % key.hashCode();
+        return key.hashCode() % tableHashSize;
     }
 
 
