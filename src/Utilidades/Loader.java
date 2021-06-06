@@ -13,6 +13,16 @@ public class Loader {
 
     public static final Float hash_load_factor = 0.8f;
 
+    public static final String proyect_path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
+    // Alex -> "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
+    // Fede -> "C:\\Users\\Federico Fuidio\\IdeaProjects\\Obligatorio_Programacion_2_FUIDIO_y_SERE\\src\\Files\\dataset\\"
+
+
+    public static final String movies_file_name = "IMDb movies.csv";
+    public static final String cast_member_file_name = "IMDb names.csv";
+    public static final String movie_cast_member_file_name = "IMDb title_principals.csv";
+    public static final String rating_file_name = "IMDb ratings.csv";
+
     public OpenHash<Integer, Movie> load_movie_database(int debbug_text) throws Exception{
 
         int number_of_columns = 22, number_of_rows = 85854;
@@ -23,7 +33,7 @@ public class Loader {
 
         if(debbug_text>0) System.out.println("Loading Movies Begining...");
 
-        String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb movies.csv";
+        String path = proyect_path+movies_file_name;
 
         String delimiter = ",";
 
@@ -81,7 +91,7 @@ public class Loader {
         OpenHash<Integer, CastMember> cast_member_storage = new OpenHash(hash_size);
         if(debbug_text>0) System.out.println("Loading Cast Members Begining...");
 
-        String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb names.csv";
+        String path = proyect_path+cast_member_file_name;
 
         String delimiter = ",";
 
@@ -163,7 +173,7 @@ public class Loader {
 
         if(debbug_text>0) System.out.println("Loading Ratings Begining...");
 
-        String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb ratings.csv";
+        String path = proyect_path+rating_file_name;
 
         String delimiter = ",";
 
@@ -231,7 +241,7 @@ public class Loader {
 
         if(debbug_text>0) System.out.println("Loading Movie Cast Members Begining...");
 
-        String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb title_principals.csv";
+        String path = proyect_path+movie_cast_member_file_name;
 
         String delimiter = ",";
 
