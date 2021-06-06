@@ -14,12 +14,15 @@ import java.io.FileReader;
 
 public class Loader {
 
+    public static final Float hash_load_factor = 0.8f;
 
     public OpenHash<Integer, Movie> load_movie_database(int debbug_text) throws Exception{
 
         int number_of_columns = 22, number_of_rows = 85854;
 
-        OpenHash<Integer, Movie> movie_storage = new OpenHash<Integer, Movie>(number_of_rows);
+        int hash_size = (int) (number_of_rows/hash_load_factor);
+
+        OpenHash<Integer, Movie> movie_storage = new OpenHash(hash_size);
 
         if(debbug_text>0) System.out.println("Loading Movies Begining...");
 
@@ -76,7 +79,9 @@ public class Loader {
 
         int number_of_columns = 17, number_of_rows = 297705;
 
-        OpenHash<Integer, CastMember> cast_member_storage = new OpenHash<Integer, CastMember>(number_of_rows);
+        int hash_size = (int) (number_of_rows/hash_load_factor);
+
+        OpenHash<Integer, CastMember> cast_member_storage = new OpenHash(hash_size);
         if(debbug_text>0) System.out.println("Loading Cast Members Begining...");
 
         String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb names.csv";
@@ -105,14 +110,14 @@ public class Loader {
             nextLine = br.readLine();
 
             condition_nextline = (nextLine != null);
-            if(condition_nextline) condition_nextline = condition_nextline && (!(nextLine.charAt(0) == 'n' && nextLine.charAt(1) == 'm'));
+            if(condition_nextline) condition_nextline = (!(nextLine.charAt(0) == 'n' && nextLine.charAt(1) == 'm'));
 
             while(condition_nextline){
                 line = line + nextLine;
                 nextLine = br.readLine();
 
                 condition_nextline = (nextLine != null);
-                if(condition_nextline) condition_nextline = condition_nextline && (!(nextLine.charAt(0) == 'n' && nextLine.charAt(1) == 'm'));
+                if(condition_nextline) condition_nextline = (!(nextLine.charAt(0) == 'n' && nextLine.charAt(1) == 'm'));
 
             }
 
@@ -157,7 +162,7 @@ public class Loader {
 
         int number_of_columns = 49, number_of_rows = 85855;
 
-        HeapImp<MovieRating> rating_storage = new HeapImp<MovieRating>(number_of_rows); //Heap es arbol, por lo que necesita q el espacio sea por de 2 o yqc por eso el *2
+        HeapImp<MovieRating> rating_storage = new HeapImp(number_of_rows); //Heap es arbol, el tamano exacto y necesario del heap lo determina el cosntructor de la clase.
 
         if(debbug_text>0) System.out.println("Loading Ratings Begining...");
 

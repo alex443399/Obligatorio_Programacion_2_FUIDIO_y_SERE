@@ -17,7 +17,7 @@ public class Functions {
         while(LeftIndex < L) {
             boolean condition_while_loop = RightIndex < L;
             if(condition_while_loop)
-                condition_while_loop = (condition_while_loop) && (line.charAt(RightIndex) != del);
+                condition_while_loop = (line.charAt(RightIndex) != del);
             // la condicion se tiene que evaluar en partes pq si evaluamos line.charAt sin saber si el indice es < L puede Out Of Bounds Exceptions
 
             while (condition_while_loop) {
@@ -30,7 +30,7 @@ public class Functions {
                 /////////
                 condition_while_loop = RightIndex < L;
                 if(condition_while_loop)
-                    condition_while_loop = (condition_while_loop) &&
+                    condition_while_loop =
                             ((line.charAt(RightIndex) != del) || inside);
 
             }
@@ -59,7 +59,7 @@ public class Functions {
         while(LeftIndex < L) {
             boolean condition_while_loop = RightIndex < L;
             if(condition_while_loop)
-                condition_while_loop = (condition_while_loop) && (line.charAt(RightIndex) != del);
+                condition_while_loop = (line.charAt(RightIndex) != del);
             // la condicion se tiene que evaluar en partes pq si evaluamos line.charAt sin saber si el indice es < L puede Out Of Bounds Exceptions
 
             while (condition_while_loop) {
@@ -72,8 +72,7 @@ public class Functions {
                 /////////
                 condition_while_loop = RightIndex < L;
                 if(condition_while_loop)
-                    condition_while_loop = (condition_while_loop) &&
-                            ((line.charAt(RightIndex) != del) || inside);
+                    condition_while_loop = ((line.charAt(RightIndex) != del) || inside);
 
             }
 
