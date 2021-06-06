@@ -3,7 +3,7 @@ package Modelo;
 import TADS.ArrayList;
 
 import java.util.List;
-import
+import static Utilidades.Functions.parseIntNullEnabled;
 
 public class MovieRating implements Comparable<MovieRating> {
 
@@ -55,7 +55,7 @@ public class MovieRating implements Comparable<MovieRating> {
     ){
         this.imdbTitle = imdbTitle;
         this.weightedAverage = Float.parseFloat(weighted_average_vote);
-        this.totalVotes = parseIntNullEnable(total_votes);
+        this.totalVotes = parseIntNullEnabled(total_votes);
         this.meanVotes = Float.parseFloat(mean_votes);
         this.votesRating = new ArrayList<>();
         votesRating.add(Integer.parseInt(votes_10));
@@ -69,39 +69,39 @@ public class MovieRating implements Comparable<MovieRating> {
         votesRating.add(Integer.parseInt(votes_3));
         votesRating.add(Integer.parseInt(votes_2));
         votesRating.add(Integer.parseInt(votes_1));
-        this.allGenders_0age = new Rating(Integer.parseInt(allgenders_0age_votes),
+        this.allGenders_0age = new Rating(Float.parseFloat(allgenders_0age_votes),
                 Float.parseFloat(allgenders_0age_avg_vote));
-        this.allGenders_18age = new Rating(Integer.parseInt(allgenders_18age_votes),
+        this.allGenders_18age = new Rating(Float.parseFloat(allgenders_18age_votes),
                 Float.parseFloat(allgenders_18age_avg_vote));
-        this.allGenders_30age = new Rating(Integer.parseInt(allgenders_30age_votes),
+        this.allGenders_30age = new Rating(Float.parseFloat(allgenders_30age_votes),
                 Float.parseFloat(allgenders_30age_avg_vote));
-        this.allGenders_45age = new Rating(Integer.parseInt(allgenders_45age_votes),
+        this.allGenders_45age = new Rating(Float.parseFloat(allgenders_45age_votes),
                 Float.parseFloat(allgenders_18age_avg_vote));
-        this.malesAllAge = new Rating(Integer.parseInt(males_allages_votes),
+        this.malesAllAge = new Rating(Float.parseFloat(males_allages_votes),
                 Float.parseFloat(males_allages_avg_vote));
-        this.males_0age = new Rating(Integer.parseInt(males_0age_votes),
+        this.males_0age = new Rating(Float.parseFloat(males_0age_votes),
                 Float.parseFloat(males_0age_avg_vote));
-        this.males_18age = new Rating(Integer.parseInt(males_18age_votes),
+        this.males_18age = new Rating(Float.parseFloat(males_18age_votes),
                 Float.parseFloat(males_18age_avg_vote));
-        this.males_30age = new Rating(Integer.parseInt(males_30age_votes),
+        this.males_30age = new Rating(Float.parseFloat(males_30age_votes),
                 Float.parseFloat(males_30age_avg_vote));
-        this.males_45age = new Rating(Integer.parseInt(males_45age_votes),
+        this.males_45age = new Rating(Float.parseFloat(males_45age_votes),
                 Float.parseFloat(males_45age_avg_vote));
-        this.femalesAllAge = new Rating(Integer.parseInt(females_allages_votes),
+        this.femalesAllAge = new Rating(Float.parseFloat(females_allages_votes),
                 Float.parseFloat(females_allages_avg_vote));
-        this.females_0age = new Rating(Integer.parseInt(females_0age_votes),
+        this.females_0age = new Rating(Float.parseFloat(females_0age_votes),
                 Float.parseFloat(females_0age_avg_vote));
-        this.females_18age = new Rating(Integer.parseInt(females_18age_votes),
+        this.females_18age = new Rating(Float.parseFloat(females_18age_votes),
                 Float.parseFloat(females_18age_avg_vote));
-        this.females_30age = new Rating(Integer.parseInt(females_30age_votes),
+        this.females_30age = new Rating(Float.parseFloat(females_30age_votes),
                 Float.parseFloat(females_30age_avg_vote));
-        this.females_45age = new Rating(Integer.parseInt(females_45age_votes),
+        this.females_45age = new Rating(Float.parseFloat(females_45age_votes),
                 Float.parseFloat(females_45age_avg_vote));
-        this.top_1000Voters = new Rating(Integer.parseInt(top1000_voters_rating),
+        this.top_1000Voters = new Rating(Float.parseFloat(top1000_voters_rating),
                 Float.parseFloat(top1000_voters_vote));
-        this.usVoters = new Rating(Integer.parseInt(us_voters_ratings),
+        this.usVoters = new Rating(Float.parseFloat(us_voters_ratings),
                 Float.parseFloat(us_voters_votes));
-        this.nonUsVoters = new Rating(Integer.parseInt(non_us_voters_ratings),
+        this.nonUsVoters = new Rating(Float.parseFloat(non_us_voters_ratings),
                 Float.parseFloat(non_us_voters_votes));
 
     }

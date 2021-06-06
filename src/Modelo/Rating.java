@@ -2,15 +2,15 @@ package Modelo;
 
 public class Rating {
 
-    private Integer NumberVotes;
+    private Float NumberVotes;
     private Float AverageRating;
 
-    public Rating(Integer NumberVotes, Float AverageRating){
+    public Rating(Float NumberVotes, Float AverageRating){
         this.NumberVotes = NumberVotes;
         this.AverageRating = AverageRating;
     }
 
-    public Integer getNumberVotes() {
+    public Float getNumberVotes() {
         return NumberVotes;
     }
 
