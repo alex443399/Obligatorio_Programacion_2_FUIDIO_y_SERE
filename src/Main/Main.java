@@ -1,6 +1,7 @@
 package Main;
 import Modelo.CastMember;
 import Modelo.Movie;
+import Modelo.MovieRating;
 import TADS.OpenHash;
 import Utilidades.Loader;
 
@@ -11,8 +12,11 @@ public class Main {
     public static void main(String[] args) throws Exception{
 
         Loader loader = new Loader();
-        OpenHash<Integer, Movie> movie_storage = loader.load_movie_database(2);
-        OpenHash<Integer, CastMember> cast_member_storage = loader.load_castmember_database(2);
+
+        OpenHash<Integer, MovieRating> movie_rating_storage = loader.load_review_database(3);
+
+        //OpenHash<Integer, Movie> movie_storage = loader.load_movie_database(2);
+        //OpenHash<Integer, CastMember> cast_member_storage = loader.load_castmember_database(2);
 
         //System.out.println(movie_storage.get(5500148).getTitled());
 
