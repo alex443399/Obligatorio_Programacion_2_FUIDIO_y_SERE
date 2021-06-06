@@ -5,6 +5,7 @@ import Modelo.CastMember;
 import Modelo.Movie;
 import Modelo.MovieRating;
 import Modelo.Rating;
+import TADS.HeapImp;
 import TADS.MyBSTImpl;
 import TADS.OpenHash;
 
@@ -152,11 +153,11 @@ public class Loader {
         return cast_member_storage;
     }
 
-    public OpenHash<Integer, MovieRating> load_review_database(int debbug_text) throws Exception{
+    public HeapImp<MovieRating> load_review_database(int debbug_text) throws Exception{
 
-        int number_of_columns = 49, number_of_rows = 85854;
+        int number_of_columns = 49, number_of_rows = 85855;
 
-        OpenHash<Integer, MovieRating> rating_storage = new OpenHash<Integer, MovieRating>(number_of_rows);
+        HeapImp<MovieRating> rating_storage = new HeapImp<MovieRating>(number_of_rows); //Heap es arbol, por lo que necesita q el espacio sea por de 2 o yqc por eso el *2
 
         if(debbug_text>0) System.out.println("Loading Ratings Begining...");
 
@@ -175,7 +176,7 @@ public class Loader {
         int error_counter = 0;
         int inserted_counter = 0;
 
-        while((line = br.readLine()) != null){// && i < 100
+        while((line = br.readLine()) != null){// && i < 2
             i++;
 
             String[] registro = Functions.StringArrayFromCsvLine(line,',','"',number_of_columns);
@@ -196,19 +197,19 @@ public class Loader {
                                 registro[40], registro[41], registro[42], registro[43], registro[44], registro[45], registro[46], registro[47], registro[48]
                         );
 
-                rating_storage.put(
-                        imdb_title_id,
+                rating_storage.insert(
                         rating_to_load
                 );
+                if(debbug_text>2) System.out.println("Loaded tt" + Integer.toString(imdb_title_id) + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
                 inserted_counter++;
             }
             catch (Exception e){
                 if(debbug_text>2) System.out.println("Error cargando durante la iteracion: " + Integer.toString(i) + " con titulo imdb: " + registro[0]);
                 error_counter++;
+                if(debbug_text>3) e.printStackTrace();
             }
 
-            if(debbug_text>2) System.out.println("Loaded tt" + Integer.toString(imdb_title_id) + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
-        }
+            }
         if(debbug_text>0) System.out.println("Loading Ratings Ended");
         //if(debbug_text>0) print time
         if(debbug_text>1) System.out.println("Errores: " + error_counter);

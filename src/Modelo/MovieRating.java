@@ -4,7 +4,7 @@ import TADS.ArrayList;
 
 import java.util.List;
 
-public class MovieRating {
+public class MovieRating implements Comparable<MovieRating> {
 
     private String imdbTitle;
 
@@ -53,7 +53,65 @@ public class MovieRating {
                        String non_us_voters_ratings, String non_us_voters_votes
     ){
         this.imdbTitle = imdbTitle;
+        this.weightedAverage = Float.parseFloat(weighted_average_vote);
 
     }
 
+    @Override
+    public int compareTo(MovieRating m) {
+        if(weightedAverage > m.weightedAverage)
+            return 1;
+        else if (weightedAverage < m.weightedAverage)
+            return -1;
+        else
+            return 0;
+    }
+
+    public String getImdbTitle() {
+        return imdbTitle;
+    }
+
+    public Float getWeightedAverage() {
+        return weightedAverage;
+    }
+
+    public Integer getTotalVotes() {
+        return totalVotes;
+    }
+
+    public Float getMeanVotes() {
+        return meanVotes;
+    }
+
+    public Float getMedianVote() {
+        return medianVote;
+    }
+
+    public ArrayList<Integer> getVotesRating() {
+        return votesRating;
+    }
+
+    public Rating getAllGenders() {
+        return allGenders;
+    }
+
+    public Rating getMales() {
+        return males;
+    }
+
+    public Rating getFemales() {
+        return females;
+    }
+
+    public Rating getTop1000() {
+        return top1000;
+    }
+
+    public Rating getUs() {
+        return us;
+    }
+
+    public Rating getNon_us() {
+        return non_us;
+    }
 }

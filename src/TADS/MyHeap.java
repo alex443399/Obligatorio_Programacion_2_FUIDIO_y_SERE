@@ -9,5 +9,6 @@ public interface MyHeap<T extends Comparable<T>> {
     T get() throws EmptyHeapException;
     int size();
     int level(int position);
+    T pop() throws EmptyHeapException;
 
 }

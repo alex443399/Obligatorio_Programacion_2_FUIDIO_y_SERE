@@ -2,6 +2,7 @@ package Main;
 import Modelo.CastMember;
 import Modelo.Movie;
 import Modelo.MovieRating;
+import TADS.HeapImp;
 import TADS.OpenHash;
 import Utilidades.Loader;
 
@@ -13,7 +14,14 @@ public class Main {
 
         Loader loader = new Loader();
 
-        OpenHash<Integer, MovieRating> movie_rating_storage = loader.load_review_database(3);
+        HeapImp<MovieRating> movie_rating_storage = loader.load_review_database(2); //4: Error->print
+
+        System.out.println("-----");
+        Float wa = 0f;
+        while((wa = movie_rating_storage.get().getWeightedAverage()) != null){
+            System.out.println(wa);
+            movie_rating_storage.delete();
+        }
 
         //OpenHash<Integer, Movie> movie_storage = loader.load_movie_database(2);
         //OpenHash<Integer, CastMember> cast_member_storage = loader.load_castmember_database(2);

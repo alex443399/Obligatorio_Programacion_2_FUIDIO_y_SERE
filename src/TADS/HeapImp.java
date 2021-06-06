@@ -5,14 +5,18 @@ import Exceptions.EmptyHeapException;
 public class HeapImp<T extends Comparable<T>> implements MyHeap<T>{
 
     private T[] values;
-    private int size;
+    private int amount_of_elements_stored;
+    private int storage_size;
 
     public HeapImp(){
         values = (T[]) new Comparable[20];
     }
 
-    public HeapImp(int size){
-        values = (T[]) new Comparable[size];
+    public HeapImp(int amount_of_data){
+        double n = Math.floor(Math.log(amount_of_data)/Math.log(2))+1d; //Cantidad de niveles en el arbol
+        int l = (int) Math.pow(2d,n)-1;
+        storage_size = l;
+        values = (T[]) new Comparable[storage_size];
     }
 
     private int getFather(int position){
@@ -29,56 +33,75 @@ public class HeapImp<T extends Comparable<T>> implements MyHeap<T>{
 
     @Override
     public void insert(T value) {
-        int position = size;
+        int position = amount_of_elements_stored;
         values[position] = value;
 
-        while(position != 0 &&
-                values[position].compareTo(values[getFather(position)]) > 0){
+
+        boolean condition_insert_loop = position > 0;
+        if(condition_insert_loop)
+            condition_insert_loop = (values[position].compareTo(values[getFather(position)]) > 0);
+
+        while(condition_insert_loop){// ERROR DE CONDICION OUT OF BOUNDS INMINENTEEE si no separamos la condicion en dos partes
+
+            T temp = values[position];
             values[position] = values[getFather(position)];
-            values[getFather(position)] = value;
+            values[getFather(position)] = temp;
+
             position = getFather(position);
+
+            condition_insert_loop = position > 0;
+            if(condition_insert_loop)
+                condition_insert_loop = (values[position].compareTo(values[getFather(position)]) > 0);
         }
 
-        size ++;
+        amount_of_elements_stored++;
     }
 
     @Override
     public T delete() throws EmptyHeapException{
-        if(size == 0){
+        if(amount_of_elements_stored == 0){
             throw new EmptyHeapException("The heap is empty");
         }
 
         T valueToReturn = values[0];
 
-        if(size == 1){
+        if(amount_of_elements_stored == 1){
             values[0] = null;
         } else{
             int position = 0;
-            values[0] = values[size - 1];
-            values[size - 1] = null;
+            values[0] = values[amount_of_elements_stored - 1];
+            values[amount_of_elements_stored - 1] = null;
 
 
-            int temp = maxPosition(getLeftChild(position), getRightChild(position));
+            Integer max_child_position = maxPosition(getLeftChild(position), getRightChild(position));
 
-            while(position < size && values[temp] != null &&
-                    values[temp].compareTo(values[position]) > 0){
+            while(position < amount_of_elements_stored && values[max_child_position] != null &&
+                    values[max_child_position].compareTo(values[position]) > 0){
+
                 T pivot = values[position];
-                values[position] = values[temp];
-                values[temp] = pivot;
-                position = temp;
-                temp = maxPosition(getLeftChild(position), getRightChild(position));
+                values[position] = values[max_child_position];
+                values[max_child_position] = pivot;
+
+                position = max_child_position;
+                max_child_position = maxPosition(getLeftChild(position), getRightChild(position));
+                if(max_child_position == null)
+                    break;
 
             }
 
 
         }
 
-        size --;
+        amount_of_elements_stored--;
         return valueToReturn;
 
     }
 
-    private int maxPosition(int position1, int position2){
+    private Integer maxPosition(int position1, int position2){
+
+        if(position1 >= storage_size || position2 >= storage_size)
+            return null;
+
         if (values[position1] == null){
             return position2;
         }
@@ -97,7 +120,7 @@ public class HeapImp<T extends Comparable<T>> implements MyHeap<T>{
     @Override
     public T get() throws EmptyHeapException{
 
-        if(size == 0){
+        if(amount_of_elements_stored == 0){
             throw new EmptyHeapException("The heap is empty");
         }
         return values[0];
@@ -105,7 +128,7 @@ public class HeapImp<T extends Comparable<T>> implements MyHeap<T>{
 
     @Override
     public int size() {
-        return size;
+        return amount_of_elements_stored;
     }
 
     @Override
@@ -117,6 +140,13 @@ public class HeapImp<T extends Comparable<T>> implements MyHeap<T>{
         }
 
         return level;
+    }
+
+    @Override
+    public T pop() throws EmptyHeapException {
+        T output = get();
+        delete();
+        return output;
     }
 
     private void print(){
