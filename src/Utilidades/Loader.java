@@ -24,6 +24,7 @@ public class Loader {
     public static final String rating_file_name = "IMDb ratings.csv";
 
     public OpenHash<Integer, Movie> load_movie_database(int debbug_text) throws Exception{
+        long start_time = System.currentTimeMillis();
 
         int number_of_columns = 22, number_of_rows = 85854;
 
@@ -75,14 +76,20 @@ public class Loader {
 
             if(debbug_text>2) System.out.println("Loaded tt " + Integer.toString(imdb_title_id) + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
         }
+
+        long end_time = System.currentTimeMillis();
+        long time_elapsed = end_time-start_time;
+
         if(debbug_text>0) System.out.println("Loading Movies Ended");
-        //if(debbug_text>0) print time
+        if(debbug_text>0) System.out.println("Duration: " + Long.toString(time_elapsed) + "ms");
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
         return movie_storage;
     }
 
     public OpenHash<Integer, CastMember> load_castmember_database(int debbug_text) throws Exception{//debbug_text 0 -> nada, 1-> Lo minimo letra, 2 -> letra + error y counter, 3 -> cada cargado
+
+        long start_time = System.currentTimeMillis();
 
         int number_of_columns = 17, number_of_rows = 297705;
 
@@ -157,8 +164,12 @@ public class Loader {
 
             if(debbug_text>2) System.out.println("Loaded " + registro[0] + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
         }
-        if(debbug_text>0) System.out.println("Loading CastMembers Ended");
-        //if(debbug_text>0) print time
+
+        long end_time = System.currentTimeMillis();
+        long time_elapsed = end_time-start_time;
+
+        if(debbug_text>0) System.out.println("Loading Cast Members Ended");
+        if(debbug_text>0) System.out.println("Duration: " + Long.toString(time_elapsed) + "ms");
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
 
@@ -166,6 +177,8 @@ public class Loader {
     }
 
     public HeapImp<MovieRating> load_review_database(int debbug_text) throws Exception{
+
+        long start_time = System.currentTimeMillis();
 
         int number_of_columns = 49, number_of_rows = 85855;
 
@@ -222,14 +235,20 @@ public class Loader {
             }
 
             }
-        if(debbug_text>0) System.out.println("Loading Ratings Ended");
-        //if(debbug_text>0) print time
+
+        long end_time = System.currentTimeMillis();
+        long time_elapsed = end_time-start_time;
+
+        if(debbug_text>0) System.out.println("Loading Reviews Ended");
+        if(debbug_text>0) System.out.println("Duration: " + Long.toString(time_elapsed) + "ms");
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
         return rating_storage;
     }
 
     public OpenHash<Integer, MovieCastMember> load_movie_cast_member(int debbug_text) throws Exception{
+
+        long start_time = System.currentTimeMillis();
 
         int number_of_columns = 6, number_of_rows = 835493;
 
@@ -286,8 +305,12 @@ public class Loader {
 
             if(debbug_text>2) System.out.println("Loaded tt " + Integer.toString(movie_id_number_int) + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
         }
-        if(debbug_text>0) System.out.println("Loading Movies Ended");
-        //if(debbug_text>0) print time
+        long end_time = System.currentTimeMillis();
+        long time_elapsed = end_time-start_time;
+
+        if(debbug_text>0) System.out.println("Loading Movie Cast Members Ended");
+        if(debbug_text>0) System.out.println("Duration: " + Long.toString(time_elapsed) + "ms");
+
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
         return movie_cast_member_storage;
