@@ -7,4 +7,5 @@ public interface MyHash<K extends Comparable<K>, T>{
     void delete(K key);
     int size();
     boolean contains();
+
 }
