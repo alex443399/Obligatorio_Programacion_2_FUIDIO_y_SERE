@@ -1,6 +1,7 @@
 package Main;
 import Modelo.CastMember;
 import Modelo.Movie;
+import Modelo.MovieCastMember;
 import Modelo.MovieRating;
 import TADS.HeapImp;
 import TADS.OpenHash;
@@ -14,7 +15,9 @@ public class Main {
 
         Loader loader = new Loader();
 
-        HeapImp<MovieRating> movie_rating_storage = loader.load_review_database(2); //4: Error->print
+        OpenHash<Integer, MovieCastMember> movie_cast_member_storage = loader.load_movie_cast_member(4);
+
+        /*HeapImp<MovieRating> movie_rating_storage = loader.load_review_database(2); //4: Error->print
 
         System.out.println("-----");
         Float wa;
@@ -23,7 +26,7 @@ public class Main {
             System.out.println(wa);
         }
 
-
+        */
         //OpenHash<Integer, Movie> movie_storage = loader.load_movie_database(2);
         //OpenHash<Integer, CastMember> cast_member_storage = loader.load_castmember_database(2);
 

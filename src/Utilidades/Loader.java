@@ -1,10 +1,7 @@
 package Utilidades;
 
 
-import Modelo.CastMember;
-import Modelo.Movie;
-import Modelo.MovieRating;
-import Modelo.Rating;
+import Modelo.*;
 import TADS.HeapImp;
 import TADS.MyBSTImpl;
 import TADS.OpenHash;
@@ -222,17 +219,19 @@ public class Loader {
         return rating_storage;
     }
 
-    public OpenHash<Integer, Movie> load_movie_cast_member(int debbug_text) throws Exception{
+    public OpenHash<Integer, MovieCastMember> load_movie_cast_member(int debbug_text) throws Exception{
 
-        int number_of_columns = 22, number_of_rows = 85854;
+        int number_of_columns = 6, number_of_rows = 835493;
 
-        int hash_size = (int) (number_of_rows/hash_load_factor);
+        int number_of_pk = 85855;
 
-        OpenHash<Integer, Movie> movie_storage = new OpenHash(hash_size);
+        int hash_size = (int) (number_of_pk/hash_load_factor);
 
-        if(debbug_text>0) System.out.println("Loading Movies Begining...");
+        OpenHash<Integer, MovieCastMember> movie_cast_member_storage = new OpenHash(hash_size);
 
-        String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb movies.csv";
+        if(debbug_text>0) System.out.println("Loading Movie Cast Members Begining...");
+
+        String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb title_principals.csv";
 
         String delimiter = ",";
 
@@ -247,38 +246,41 @@ public class Loader {
         int error_counter = 0;
         int inserted_counter = 0;
 
-        while((line = br.readLine()) != null){// && i < 100
+        while((line = br.readLine()) != null){// && i < 1000
             i++;
 
             String[] registro = Functions.StringArrayFromCsvLine(line,',','"',number_of_columns);
 
-            int name_string_length = registro[0].length();
-            String imbd_title_id_string = registro[0].substring(2,name_string_length);
-            int imdb_title_id = Integer.parseInt(imbd_title_id_string);
+            int movie_id_string_length = registro[0].length();
+            String movie_id_number_string = registro[0].substring(2,movie_id_string_length);
+            int movie_id_number_int = Integer.parseInt(movie_id_number_string);
 
 
-            if(debbug_text>2) System.out.println("Begining to load: tt" + imbd_title_id_string + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
+            if(debbug_text>2) System.out.println("Begining to load: tt" + movie_id_number_string + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
             try {
-                Movie movie_to_load = new Movie(registro[0], registro[1], registro[2], registro[3], registro[4], registro[5], registro[6], registro[7], registro[8], registro[9], registro[10], registro[11], registro[12], registro[13], registro[14], registro[15], registro[16], registro[17], registro[18], registro[19], registro[20], registro[21]);
+                MovieCastMember movie_cast_member_to_load = new MovieCastMember(
+                        registro[0], registro[1], registro[2], registro[3], registro[4], registro[5]
+                );
 
-                movie_storage.put(
-                        imdb_title_id,
-                        movie_to_load
+                movie_cast_member_storage.put(
+                        movie_id_number_int,
+                        movie_cast_member_to_load
                 );
                 inserted_counter++;
             }
             catch (Exception e){
                 if(debbug_text>2) System.out.println("Error cargando durante la iteracion: " + Integer.toString(i) + " con titulo imdb: " + registro[0]);
                 error_counter++;
+                if(debbug_text>3) e.printStackTrace();
             }
 
-            if(debbug_text>2) System.out.println("Loaded tt " + Integer.toString(imdb_title_id) + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
+            if(debbug_text>2) System.out.println("Loaded tt " + Integer.toString(movie_id_number_int) + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
         }
         if(debbug_text>0) System.out.println("Loading Movies Ended");
         //if(debbug_text>0) print time
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
-        return movie_storage;
+        return movie_cast_member_storage;
     }
 
 }

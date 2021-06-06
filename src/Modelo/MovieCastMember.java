@@ -1,6 +1,10 @@
 package Modelo;
 
+import TADS.ListaEnlazada;
+
 import java.util.List;
+
+import static Utilidades.Functions.ListaEnCelda;
 
 
 public class MovieCastMember {
@@ -10,7 +14,7 @@ public class MovieCastMember {
     private Integer ordering;
     private String category;
     private String job;
-    private String[] characters;
+    private ListaEnlazada<String> characters;
 
     public MovieCastMember(String imbdTitled, String ordering, String imbdNameId,
                            String category, String job, String characters){
@@ -19,7 +23,7 @@ public class MovieCastMember {
         this.ordering = Integer.parseInt(ordering);
         this.category = category;
         this.job = job;
-        this.characters = characters.split(",");
+        this.characters = ListaEnCelda(",");
     }
 
     public String getImbdNameId() {
@@ -42,7 +46,7 @@ public class MovieCastMember {
         return job;
     }
 
-    public String[] getCharacters() {
+    public ListaEnlazada<String> getCharacters() {
         return characters;
     }
 }
