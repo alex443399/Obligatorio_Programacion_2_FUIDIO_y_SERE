@@ -149,6 +149,11 @@ public class HeapImp<T extends Comparable<T>> implements MyHeap<T>{
         return output;
     }
 
+    @Override
+    public boolean isEmpty() {
+        return amount_of_elements_stored<=0;
+    }
+
     private void print(){
 
 
