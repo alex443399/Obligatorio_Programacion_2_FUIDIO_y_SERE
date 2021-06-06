@@ -23,7 +23,7 @@ public class Loader {
 
         if(debbug_text>0) System.out.println("Loading Movies Begining...");
 
-        String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb movies.csv";
+        String path = "C:\\Users\\Federico Fuidio\\IdeaProjects\\Obligatorio_Programacion_2_FUIDIO_y_SERE\\src\\Files\\dataset\\IMDb movies.csv";
 
         String delimiter = ",";
 
@@ -81,7 +81,7 @@ public class Loader {
         OpenHash<Integer, CastMember> cast_member_storage = new OpenHash(hash_size);
         if(debbug_text>0) System.out.println("Loading Cast Members Begining...");
 
-        String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb names.csv";
+        String path = "C:\\Users\\Federico Fuidio\\IdeaProjects\\Obligatorio_Programacion_2_FUIDIO_y_SERE\\src\\Files\\dataset\\IMDb names.csv";
 
         String delimiter = ",";
 
@@ -163,7 +163,7 @@ public class Loader {
 
         if(debbug_text>0) System.out.println("Loading Ratings Begining...");
 
-        String path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\IMDb ratings.csv";
+        String path = "C:\\Users\\Federico Fuidio\\IdeaProjects\\Obligatorio_Programacion_2_FUIDIO_y_SERE\\src\\Files\\dataset\\IMDb ratings.csv";
 
         String delimiter = ",";
 
