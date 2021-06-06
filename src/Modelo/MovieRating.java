@@ -105,5 +105,119 @@ public class MovieRating {
 
     }
 
+    public String getImdbTitle() {
+        return imdbTitle;
+    }
 
+    public Float getWeightedAverage() {
+        return weightedAverage;
+    }
+
+    public Integer getTotalVotes() {
+        return totalVotes;
+    }
+
+    public Float getMeanVotes() {
+        return meanVotes;
+    }
+
+    public Float getMedianVote() {
+        return medianVote;
+    }
+
+    public ArrayList<Integer> getVotesRating() {
+        return votesRating;
+    }
+
+    public Rating getAllGenders() {
+        return allGenders;
+    }
+
+    public Rating getMales() {
+        return males;
+    }
+
+    public Rating getFemales() {
+        return females;
+    }
+
+    public Rating getTop1000() {
+        return top1000;
+    }
+
+    public Rating getUs() {
+        return us;
+    }
+
+    public Rating getNon_us() {
+        return non_us;
+    }
+
+    public Rating getAllGenders_0age() {
+        return allGenders_0age;
+    }
+
+    public Rating getAllGenders_18age() {
+        return allGenders_18age;
+    }
+
+    public Rating getAllGenders_30age() {
+        return allGenders_30age;
+    }
+
+    public Rating getAllGenders_45age() {
+        return allGenders_45age;
+    }
+
+    public Rating getMalesAllAge() {
+        return malesAllAge;
+    }
+
+    public Rating getMales_0age() {
+        return males_0age;
+    }
+
+    public Rating getMales_18age() {
+        return males_18age;
+    }
+
+    public Rating getMales_30age() {
+        return males_30age;
+    }
+
+    public Rating getMales_45age() {
+        return males_45age;
+    }
+
+    public Rating getFemalesAllAge() {
+        return femalesAllAge;
+    }
+
+    public Rating getFemales_0age() {
+        return females_0age;
+    }
+
+    public Rating getFemales_18age() {
+        return females_18age;
+    }
+
+    public Rating getFemales_30age() {
+        return females_30age;
+    }
+
+    public Rating getFemales_45age() {
+        return females_45age;
+    }
+
+    public Rating getTop_1000Voters() {
+        return top_1000Voters;
+    }
+
+    public Rating getUsVoters() {
+        return usVoters;
+    }
+
+    public Rating getNonUsVoters() {
+        return nonUsVoters;
+    }
 }

@@ -10,4 +10,11 @@ public class Rating {
         this.AverageRating = AverageRating;
     }
 
+    public Integer getNumberVotes() {
+        return NumberVotes;
+    }
+
+    public Float getAverageRating() {
+        return AverageRating;
+    }
 }
