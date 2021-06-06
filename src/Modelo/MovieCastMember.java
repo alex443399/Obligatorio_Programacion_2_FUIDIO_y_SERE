@@ -2,16 +2,17 @@ package Modelo;
 
 import java.util.List;
 
+
 public class MovieCastMember {
 
     private String imbdNameId;
     private String imbdTitled;
-    private int ordering;
+    private Integer ordering;
     private String category;
     private String job;
     private String[] characters;
 
-    public MovieCastMember(String imbdNameId, String imbdTitled, String ordering,
+    public MovieCastMember(String imbdTitled, String ordering, String imbdNameId,
                            String category, String job, String characters){
         this.imbdNameId = imbdNameId;
         this.imbdTitled = imbdTitled;
@@ -29,7 +30,7 @@ public class MovieCastMember {
         return imbdTitled;
     }
 
-    public int getOrdering() {
+    public Integer getOrdering() {
         return ordering;
     }
 

@@ -3,6 +3,7 @@ package Modelo;
 import TADS.ArrayList;
 
 import java.util.List;
+import
 
 public class MovieRating implements Comparable<MovieRating> {
 
@@ -54,7 +55,7 @@ public class MovieRating implements Comparable<MovieRating> {
     ){
         this.imdbTitle = imdbTitle;
         this.weightedAverage = Float.parseFloat(weighted_average_vote);
-        this.totalVotes = Integer.parseInt(total_votes);
+        this.totalVotes = parseIntNullEnable(total_votes);
         this.meanVotes = Float.parseFloat(mean_votes);
         this.votesRating = new ArrayList<>();
         votesRating.add(Integer.parseInt(votes_10));
