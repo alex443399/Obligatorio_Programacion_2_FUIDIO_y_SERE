@@ -11,6 +11,9 @@ import Utilidades.Loader;
 public class MovieDataBase {
 
     public String proyect_path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
+    // Alex -> "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
+    // Fede -> "C:\\Users\\Federico Fuidio\\IdeaProjects\\Obligatorio_Programacion_2_FUIDIO_y_SERE\\src\\Files\\dataset1\\"
+
     Loader loader = new Loader(proyect_path);
 
     OpenHash<Integer, MovieCastMember> movie_cast_member_storage;

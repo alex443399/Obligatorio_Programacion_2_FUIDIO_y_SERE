@@ -14,8 +14,7 @@ public class Loader {
     public static final Float hash_load_factor = 0.8f;
 
     public final String proyect_path;
-    // Alex -> "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
-    // Fede -> "C:\\Users\\Federico Fuidio\\IdeaProjects\\Obligatorio_Programacion_2_FUIDIO_y_SERE\\src\\Files\\dataset1\\"
+
 
 
     public Loader(String proyect_path) {
