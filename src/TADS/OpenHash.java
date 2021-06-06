@@ -48,6 +48,12 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hac
 
     }
 
+    public OpenHashNode<K, T> getPosition(int position){
+
+        return HashTable[position];
+
+    }
+
     @Override
     public void delete(K key) {
 
