@@ -48,8 +48,14 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hac
 
     }
 
-    public OpenHashNode<K, T> getPosition(int position){
+    public OpenHashNode<K,T> getNode(K key) {
+        int position = hashFunction(key);
+        OpenHashNode<K, T> temp = HashTable[position];
+        return temp;
 
+    }
+
+    public OpenHashNode<K, T> getPosition(int position){
         return HashTable[position];
 
     }

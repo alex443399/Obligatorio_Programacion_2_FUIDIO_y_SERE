@@ -70,7 +70,7 @@ public class MovieRating implements Comparable<MovieRating> {
         votesRating.add(Integer.parseInt(votes_3));
         votesRating.add(Integer.parseInt(votes_3));
         votesRating.add(Integer.parseInt(votes_2));
-        votesRating.add(Integer.parseInt(votes_1));
+        votesRating.add(Integer.parseInt(votes_1));/*
         this.allGenders_0age = new Rating(Integer.parseInt(allgenders_0age_votes),
                 Float.parseFloat(allgenders_0age_avg_vote));
         this.allGenders_18age = new Rating(Integer.parseInt(allgenders_18age_votes),
@@ -104,7 +104,7 @@ public class MovieRating implements Comparable<MovieRating> {
         this.usVoters = new Rating(Integer.parseInt(us_voters_ratings),
                 Float.parseFloat(us_voters_votes));
         this.nonUsVoters = new Rating(Integer.parseInt(non_us_voters_ratings),
-                Float.parseFloat(non_us_voters_votes));
+                Float.parseFloat(non_us_voters_votes));*/
 
     }
 
