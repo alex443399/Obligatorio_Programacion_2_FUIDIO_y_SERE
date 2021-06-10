@@ -1,13 +1,14 @@
 package Modelo;
 
+import Exceptions.InvalidDateFormatException;
 import TADS.ListaEnlazada;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.List;
 
-import static Utilidades.Functions.ListaEnCelda;
-import static Utilidades.Functions.parseIntNullEnabled;
+import static Utilidades.Functions.*;
 
 public class Movie {
 
@@ -15,7 +16,7 @@ public class Movie {
     private String titled;
     private String originalTitle;
     private Integer year;
-    private LocalDate datePublished;
+    private Date datePublished;
     private ListaEnlazada genre;
     private Integer duration;
     private ListaEnlazada country;
@@ -34,7 +35,7 @@ public class Movie {
     private Integer reviewsFromUsers;
     private Integer reviewsFromCritics;
 
-    public Movie(String imbdTitled, String titled, String originalTitle, int year, LocalDate datePublished, ListaEnlazada genre, int duration, ListaEnlazada country, String language, ListaEnlazada director, ListaEnlazada writer, String productorCompany, ListaEnlazada actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldWideGorssIncome, int metaScore, int reviewsFromUsers, int reviewsFromCritics) {
+    public Movie(String imbdTitled, String titled, String originalTitle, int year, Date datePublished, ListaEnlazada genre, int duration, ListaEnlazada country, String language, ListaEnlazada director, ListaEnlazada writer, String productorCompany, ListaEnlazada actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldWideGorssIncome, int metaScore, int reviewsFromUsers, int reviewsFromCritics) {
         this.imbdTitled = imbdTitled;
         this.titled = titled;
         this.originalTitle = originalTitle;
@@ -59,20 +60,14 @@ public class Movie {
         this.reviewsFromCritics = reviewsFromCritics;
     }
 
-    public Movie(String imbdTitled, String titled, String originalTitle, String s_year, String s_datePublished, String s_genre, String s_duration, String s_country, String language, String s_director, String s_writer, String productorCompany, String s_actors, String description, String s_avgVote, String s_votes, String budget, String usaGrossIncome, String worldWideGorssIncome, String s_metaScore, String s_reviewsFromUsers, String s_reviewsFromCritics) {
+    public Movie(String imbdTitled, String titled, String originalTitle, String s_year, String s_datePublished, String s_genre, String s_duration, String s_country, String language, String s_director, String s_writer, String productorCompany, String s_actors, String description, String s_avgVote, String s_votes, String budget, String usaGrossIncome, String worldWideGorssIncome, String s_metaScore, String s_reviewsFromUsers, String s_reviewsFromCritics) throws InvalidDateFormatException {
         this.imbdTitled = imbdTitled;
         this.titled = titled;
         this.originalTitle = originalTitle;
-        this.year = parseIntNullEnabled(s_year); // Int
-        try{
-            this.datePublished = LocalDate.parse(s_datePublished); // LocalDate
-        }
-        catch (DateTimeParseException e){
-            if(s_datePublished.length() == 4)
-                this.datePublished = null;
-            else
-                this.datePublished = LocalDate.parse(s_datePublished);
-        }
+        this.year = parseYear(s_year); // Int
+
+        this.datePublished = DateFromRegisterString(s_datePublished);
+
         this.genre = ListaEnCelda(s_genre); // List<String>
         this.duration = parseIntNullEnabled(s_duration); // int
         this.country = ListaEnCelda(s_country); // List<String>
@@ -108,7 +103,7 @@ public class Movie {
         return year;
     }
 
-    public LocalDate getDatePublished() {
+    public Date getDatePublished() {
         return datePublished;
     }
 

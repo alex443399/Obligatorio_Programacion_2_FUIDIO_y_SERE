@@ -75,6 +75,7 @@ public class Loader {
             catch (Exception e){
                 if(debbug_text>2) System.out.println("Error cargando durante la iteracion: " + Integer.toString(i) + " con titulo imdb: " + registro[0]);
                 error_counter++;
+                if(debbug_text==-1) e.printStackTrace();
             }
 
             if(debbug_text>2) System.out.println("Loaded tt " + Integer.toString(imdb_title_id) + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
@@ -162,7 +163,7 @@ public class Loader {
             catch (Exception e){
                 if(debbug_text>2) System.out.println("Error cargando durante la iteracion: " + Integer.toString(i) + " con nombre imdb: " + registro[0]);
                 error_counter++;
-                e.printStackTrace();
+                if(debbug_text==-1) e.printStackTrace();
             }
 
             if(debbug_text>2) System.out.println("Loaded " + registro[0] + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
@@ -235,6 +236,7 @@ public class Loader {
                 if(debbug_text>2) System.out.println("Error cargando durante la iteracion: " + Integer.toString(i) + " con titulo imdb: " + registro[0]);
                 error_counter++;
                 if(debbug_text>3) e.printStackTrace();
+                if(debbug_text==-1) e.printStackTrace();
             }
 
             }
@@ -304,6 +306,7 @@ public class Loader {
                 if(debbug_text>2) System.out.println("Error cargando durante la iteracion: " + Integer.toString(i) + " con titulo imdb: " + registro[0]);
                 error_counter++;
                 if(debbug_text>3) e.printStackTrace();
+                if(debbug_text==-1) e.printStackTrace();
             }
 
             if(debbug_text>2) System.out.println("Loaded tt " + Integer.toString(movie_id_number_int) + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));

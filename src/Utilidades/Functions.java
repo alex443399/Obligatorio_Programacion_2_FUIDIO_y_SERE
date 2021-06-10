@@ -1,10 +1,18 @@
 package Utilidades;
 
+import Exceptions.InvalidDateFormatException;
 import TADS.ArrayList;
 import TADS.ListaEnlazada;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
+
 
 public class Functions {
+
+    public static ZoneId defaultZoneId = ZoneId.systemDefault();
 
     public static String[] StringArrayFromCsvLine(String line, char del, char ignorar, int cantidad_de_columnas){
         int L = line.length();
@@ -120,6 +128,38 @@ public class Functions {
                 return Integer.parseInt(s);
         else
             return Integer.parseInt(s);
+    }
+
+    public static Integer parseYear(String s){
+        int l = s.length();
+        String clipped = s.substring(l-4,l);
+        return Integer.parseInt(clipped);
+    }
+
+    public static Date DateFromRegisterString(String s_date) throws InvalidDateFormatException {
+        try {
+            LocalDate ld = LocalDate.parse(s_date);
+            return DateFromLocalDate(ld);
+
+        } catch (DateTimeParseException date_ex) {
+            int string_length = s_date.length();
+            String possible_year_substring = s_date.substring(string_length-4,string_length);
+
+            try {
+                int possible_year = Integer.parseInt(possible_year_substring);
+                LocalDate ld = LocalDate.of(possible_year,1,1);
+                return DateFromLocalDate(ld);
+
+            }
+            catch(NumberFormatException number_ex){
+                throw new InvalidDateFormatException("Inputted date: -" + s_date + "- has invalid format");
+            }
+        }
+    }
+
+    public static Date DateFromLocalDate(LocalDate ld){//https://beginnersbook.com/2017/10/java-convert-localdate-to-date/
+        Date date = Date.from(ld.atStartOfDay(defaultZoneId).toInstant());
+        return date;
     }
 
 }
