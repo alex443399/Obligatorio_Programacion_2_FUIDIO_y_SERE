@@ -1,6 +1,7 @@
 package Utilidades;
 
 import Exceptions.InvalidDateFormatException;
+import Modelo.CauseOfDeath;
 import TADS.ArrayList;
 import TADS.ListaEnlazada;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
+import java.util.LinkedList;
 
 
 public class Functions {
@@ -190,6 +192,59 @@ public class Functions {
 
         return awnser;
 
+    }
+
+    public static ListaEnlazada<CauseOfDeath> CausasDeMuerte(String s_cause_of_death){
+        int index1 = 0;
+        int index2 = 0;
+        int L = s_cause_of_death.length();
+
+        ListaEnlazada<CauseOfDeath> resultado = new ListaEnlazada();
+
+        while(index1 < L) {
+
+            boolean break_now_condition = false;
+            boolean comma_flag = false;
+            boolean and_flag = false;
+
+            while (!break_now_condition) {
+                index2++;
+                break_now_condition = false;
+                if (index2 < L)
+                    comma_flag = (s_cause_of_death.charAt(index2) == ',');
+                if (index2 + 5 < L)
+                    and_flag = (s_cause_of_death.substring(index2, index2 + 5).equalsIgnoreCase(" and "));//que pasa si tiene algo antes???
+
+                break_now_condition = comma_flag || and_flag;
+                if(index2 >= L)
+                    break_now_condition = true;
+            }
+            ////
+            String sumando = s_cause_of_death.substring(index1, index2);
+            //// trimming
+            while(sumando.charAt(0) == ' ')
+                sumando = sumando.substring(1, sumando.length());
+
+            while(sumando.charAt(sumando.length()-1)==' ')
+                sumando = sumando.substring(0,sumando.length()-1);
+
+            resultado.add(new CauseOfDeath(sumando));
+            ////
+            if(comma_flag){
+                index1 = index2+1; // Capaz deberia ser +2, porque despues de cada, hay un espacio
+                index2 = index1;
+            }
+            else if(and_flag){
+                index1 = index2+5;
+                index2 = index1;
+            }
+            else{
+                index1 = index2;
+                index2 = index1;
+            }
+
+        }
+        return resultado;
     }
 
 }
