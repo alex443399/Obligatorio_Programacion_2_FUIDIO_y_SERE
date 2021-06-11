@@ -1,10 +1,10 @@
 package Modelo;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.LinkedList;
+import Exceptions.InvalidDateFormatException;
 
-import static Utilidades.Functions.parseIntNullEnabled;
+import java.util.Date;
+
+import static Utilidades.Functions.*;
 
 public class CastMember {
 
@@ -13,11 +13,11 @@ public class CastMember {
     private String birthName;
     private Integer height;
     private String bio;
-    private LocalDate birthDate;
+    private Date birthDate;
     private String birthState;
     private String birthCountry;
     private String birthCity;
-    private LocalDate deathDate;
+    private Date deathDate;
     private String deathState;
     private String deathCountry;
     private String deathCity;
@@ -27,7 +27,7 @@ public class CastMember {
     private Integer spousesWithChildren;
     private Integer children;
 
-    public CastMember(String imbdNameId, String name, String birthName, int height, String bio, LocalDate birthDate, String birthState, String birthCountry, String birthCity, LocalDate deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children) {
+    public CastMember(String imbdNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children) {
         this.imbdNameId = imbdNameId;
         this.name = name;
         this.birthName = birthName;
@@ -48,41 +48,25 @@ public class CastMember {
         this.children = children;
     }
 
-    public CastMember(String imbdNameId, String name, String birthName, String s_height, String bio, String birthDetails, String date_of_birth, String place_of_birth, String deathDetails, String date_of_death, String place_of_death, String reason_of_death, String spousesString, String s_spouses, String s_divorces, String s_spousesWithChildren, String s_children) {
+    public CastMember(String imbdNameId, String name, String birthName, String s_height, String bio, String birthDetails, String date_of_birth, String place_of_birth, String deathDetails, String date_of_death, String place_of_death, String reason_of_death, String spousesString, String s_spouses, String s_divorces, String s_spousesWithChildren, String s_children) throws InvalidDateFormatException {
         this.imbdNameId = imbdNameId;
         this.name = name;
         this.birthName = birthName;
         this.height = parseIntNullEnabled(s_height);
         this.bio = bio;
-        /*
-        try{
-            this.birthDate = LocalDate.parse(s_birthDate);
-        }
-        catch (DateTimeParseException e){
-            if(s_birthDate.length() == 4)
-                this.birthDate = null;
-            else
-                this.birthDate = LocalDate.parse(s_birthDate);
-        }
+        this.birthDate = DateFromRegisterString(date_of_birth);
+        String[] place_birth = ParametersFromPlaceString(place_of_birth);
+        this.birthCity = place_birth[0];
+        this.birthState = place_birth[1];
+        this.birthCountry = place_birth[2];
 
-        this.birthState = birthState;
-        this.birthCountry = birthCountry;
-        this.birthCity = birthCity;
-        */
-        /*
-        try {
-            this.deathDate = LocalDate.parse(s_deathDate);
-        }
-        catch (DateTimeParseException e){
-            if(s_deathDate.length() == 4)
-                this.deathDate = null;
-            else
-                this.deathDate = LocalDate.parse(s_deathDate);
-        }
-        this.deathState = deathState;
-        this.deathCountry = deathCountry;
-        this.deathCity = deathCity;
-        */
+        this.deathDate = DateFromRegisterString(date_of_death);
+        String[] place_death = ParametersFromPlaceString(place_of_death);
+
+        this.deathCity = place_death[0];
+        this.deathState = place_death[1];
+        this.deathCountry = place_death[2];
+
         this.spousesString = spousesString;
         this.spouses = parseIntNullEnabled(s_spouses);
         this.divorces = parseIntNullEnabled(s_divorces);
@@ -110,7 +94,7 @@ public class CastMember {
         return bio;
     }
 
-    public LocalDate getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
@@ -126,7 +110,7 @@ public class CastMember {
         return birthCity;
     }
 
-    public LocalDate getDeathDate() {
+    public Date getDeathDate() {
         return deathDate;
     }
 

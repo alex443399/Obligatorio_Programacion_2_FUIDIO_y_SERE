@@ -162,4 +162,34 @@ public class Functions {
         return date;
     }
 
+    public static String[] ParametersFromPlaceString(String place){
+        String[] arrayFromReg = StringArrayFromCsvLine(place,',','"');
+        String[] awnser = new String[3];
+        int L = arrayFromReg.length;
+        if(L>=3){
+            awnser[2] = arrayFromReg[L-1];
+            awnser[1] = arrayFromReg[L-2];
+            awnser[0] = arrayFromReg[L-3];
+
+        }
+        else if(L==2){
+            awnser[2] = arrayFromReg[1];
+            awnser[1] = null;
+            awnser[0] = arrayFromReg[0];
+        }
+        else if(L==1){
+            awnser[2] = arrayFromReg[0];
+            awnser[1] = null;
+            awnser[0] = null;
+        }
+        else{
+            awnser[2] = null;
+            awnser[1] = null;
+            awnser[0] = null;
+        }
+
+        return awnser;
+
+    }
+
 }
