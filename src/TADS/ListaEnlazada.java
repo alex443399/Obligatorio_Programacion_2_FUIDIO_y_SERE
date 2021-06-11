@@ -87,12 +87,19 @@ public class ListaEnlazada <T> implements Lista<T>, MyStack<T>, MyQueue<T>, MyDo
     }
 
     public boolean estaEnLista(T elemento) {
+        if(first == null)
+            return false;
         Nodo<T> temp = first;
         while (temp.getNextValue() != null) {
             temp = temp.getNextValue();
-            if (temp.getValue() == elemento) {
-                return true;
+            T value = temp.getValue();
+            if(value != null){
+                if (value.equals(elemento)) {
+                    return true;
+                }
             }
+            else
+                return false;
         }
         return false;
     }

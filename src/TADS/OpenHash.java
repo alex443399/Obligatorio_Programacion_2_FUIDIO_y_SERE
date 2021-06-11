@@ -80,5 +80,7 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hac
         return key.hashCode() % tableHashSize;
     }
 
-
+    public int getTableHashSize() {
+        return tableHashSize;
+    }
 }

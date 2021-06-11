@@ -165,32 +165,38 @@ public class Functions {
     }
 
     public static String[] ParametersFromPlaceString(String place){
+        if(place.charAt(0) == '"')
+            place = place.substring(1);
+
+        if(place.charAt(place.length()-1) == '"')
+            place = place.substring(0,place.length()-1);
+
         String[] arrayFromReg = StringArrayFromCsvLine(place,',','"');
-        String[] awnser = new String[3];
+        String[] answer = new String[3];
         int L = arrayFromReg.length;
         if(L>=3){
-            awnser[2] = arrayFromReg[L-1];
-            awnser[1] = arrayFromReg[L-2];
-            awnser[0] = arrayFromReg[L-3];
+            answer[2] = trimSpaces(arrayFromReg[L-1]);
+            answer[1] = trimSpaces(arrayFromReg[L-2]);
+            answer[0] = trimSpaces(arrayFromReg[L-3]);
 
         }
         else if(L==2){
-            awnser[2] = arrayFromReg[1];
-            awnser[1] = null;
-            awnser[0] = arrayFromReg[0];
+            answer[2] = trimSpaces(arrayFromReg[1]);
+            answer[1] = null;
+            answer[0] = trimSpaces(arrayFromReg[0]);
         }
         else if(L==1){
-            awnser[2] = arrayFromReg[0];
-            awnser[1] = null;
-            awnser[0] = null;
+            answer[2] = trimSpaces(arrayFromReg[0]);
+            answer[1] = null;
+            answer[0] = null;
         }
         else{
-            awnser[2] = null;
-            awnser[1] = null;
-            awnser[0] = null;
+            answer[2] = null;
+            answer[1] = null;
+            answer[0] = null;
         }
 
-        return awnser;
+        return answer;
 
     }
 
@@ -222,11 +228,7 @@ public class Functions {
             ////
             String sumando = s_cause_of_death.substring(index1, index2);
             //// trimming
-            while(sumando.charAt(0) == ' ')
-                sumando = sumando.substring(1, sumando.length());
-
-            while(sumando.charAt(sumando.length()-1)==' ')
-                sumando = sumando.substring(0,sumando.length()-1);
+            sumando = trimSpaces(sumando);
 
             resultado.add(new CauseOfDeath(sumando));
             ////
@@ -245,6 +247,15 @@ public class Functions {
 
         }
         return resultado;
+    }
+
+    public static String trimSpaces(String s){
+        while(s.charAt(0) == ' ')
+            s = s.substring(1);
+        while(s.charAt(s.length()-1) == ' ')
+            s = s.substring(0, s.length()-1);
+
+        return s;
     }
 
 }
