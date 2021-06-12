@@ -6,6 +6,6 @@ public interface MyHash<K extends Comparable<K>, T>{
     T get(K key);
     void delete(K key);
     int size();
-    boolean contains();
+    boolean contains(K key, T value);
 
 }

@@ -64,69 +64,32 @@ public class MovieDataBase {
         if(debbug_text >= 2) System.out.println("Discriminacion por pais empieza");
 
         String[] key_words_paises = {"USA", "UK", "France", "Italy"};
-        ListaEnlazada<String> keys_pais = obtener_por_paises(key_words_paises);
+        OpenHash<String, String> keys_pais = obtener_por_paises(key_words_paises);
 
         if(debbug_text >= 2) System.out.println("Discriminacion por pais acaba");
 
-
+        //////////////////////
 
         if(debbug_text >= 2) System.out.println("filtracion por profesion empieza");
 
-        String[] Profesiones = {"Director", "Producer"};
-        ListaEnlazada<String> keys_pais_y_profesion = new ListaEnlazada();
+        String[] Profesiones = {"Director", "Producer","director", "producer"};
+        ListaEnlazada<String> keys_pais_y_profesion = obtener_por_profesion_dado_hash(Profesiones, keys_pais, debbug_text);
 
-        int relations_to_try = movie_cast_member_storage.getTableHashSize();
+        if(debbug_text >= 2) System.out.println("filtracion por profesion acaba");
 
-        for(int index = 0; index < relations_to_try; index++){
+        /////////////////////
 
-            if(debbug_text >= 3) System.out.println("Indice del hash: " + Integer.toString(index));
-            OpenHashNode<Integer, MovieCastMember> temp_cell = movie_cast_member_storage.getPosition(index);
-
-            if(temp_cell != null) {
-                MovieCastMember temp_cm = temp_cell.getValue();
-                if (temp_cm != null) {
-
-                    if (keys_pais.estaEnLista(temp_cm.getImbdNameId())) {   // ACA ESTA LA LENTEJA
-/*
-                        String profesion = temp_cm.getCategory();
-                        if(profesion.equals("Productor"))
-                            keys_pais_y_profesion.add(temp_cm.getImbdNameId());*/
-                    }
-                }
-/*
-                while (temp_cell.getNext() != null) {
-                    temp_cell = temp_cell.getNext();
-                    temp_cm = temp_cell.getValue();
-
-
-                    if(index == 2461){
-                        System.out.println(temp_cm.getImbdNameId());
-                        System.out.println(temp_cell.getNext());
-                    }
-
-                    if (temp_cm != null) {
-                        if (keys_pais.estaEnLista(temp_cm.getImbdNameId())) {
-                            //aca esta revisando, compara profesion y blah blah
-                            String profesion = temp_cm.getCategory();
-                            if(profesion.equals("Productor"))
-                                keys_pais_y_profesion.add(temp_cm.getImbdNameId());
-                        }
-                    }
-                }*/
-            }
-
-        }
-
-        if(debbug_text >= 2) System.out.println("Discriminacion por pais acaba");
-
+        System.out.println("Comienzo prints");
         for(int i = 0; i < keys_pais_y_profesion.size(); i++)
             System.out.println(keys_pais_y_profesion.get(i));
+        System.out.println("Final prints");
+        System.out.println(keys_pais_y_profesion.size());
 
     }
 
-    public ListaEnlazada<String> obtener_por_paises(String[] key_words_paises){
+    public OpenHash<String,String> obtener_por_paises(String[] key_words_paises){
 
-        ListaEnlazada<String> keys_pais = new ListaEnlazada();
+        OpenHash<String,String> keys_pais_pre = new OpenHash(297705);
 
         int N = cast_member_storage.getTableHashSize();
         for(int i = 0; i < N; i++){
@@ -135,20 +98,89 @@ public class MovieDataBase {
             if(temp_cell != null) {
                 String paisito = temp_cell.getValue().getBirthCountry();
                 if(paisito != null)
-                    if(multiContains(paisito,key_words_paises))
-                        keys_pais.add(temp_cell.getValue().getImbdNameId());
+                    if(multiContains(paisito,key_words_paises)) {
+                        String s = temp_cell.getValue().getImbdNameId();
+                        keys_pais_pre.put(s,s);
+                    }
 
                 while (temp_cell.getNext() != null) {
                     temp_cell = temp_cell.getNext();
                     paisito = temp_cell.getValue().getBirthCountry();
                     if(paisito != null)
-                        if(multiContains(paisito,key_words_paises))
-                           keys_pais.add(temp_cell.getValue().getImbdNameId());
+                        if(multiContains(paisito,key_words_paises)) {
+                            String s = temp_cell.getValue().getImbdNameId();
+                            keys_pais_pre.put(s,s);
+                        }
                 }
             }
 
         }
-        return keys_pais;
+        return keys_pais_pre;
+    }
+
+    public ListaEnlazada<String> obtener_por_profesion_dado_hash(String[] Profesiones, OpenHash<String,String> keys_pais, int debbug_text){
+
+        ListaEnlazada<String> keys_pais_y_profesion = new ListaEnlazada();
+
+        int relations_to_try = movie_cast_member_storage.getTableHashSize();
+
+        for(int index = 0; index < relations_to_try; index++){
+
+            if(debbug_text >= 3) System.out.println("Indice del hash: " + Integer.toString(index));
+
+
+            OpenHashNode<Integer, MovieCastMember> temp_cell = movie_cast_member_storage.getPosition(index);
+
+            if(temp_cell != null) {
+                MovieCastMember temp_cm = temp_cell.getValue();
+                if (temp_cm != null) {
+                    String name_actor = temp_cm.getImbdNameId();
+
+                    //version estupida del hash contains
+                    OpenHashNode<String, String> temp_node = keys_pais.getNode(name_actor);
+                    while(temp_node != null){// name_actor si vive en los paises
+
+
+                        if(temp_node.getValue().equals(name_actor)){
+                            String profesion = temp_cm.getCategory();
+                            if(multiContains(profesion,Profesiones))
+                                keys_pais_y_profesion.add(temp_cm.getImbdNameId());
+                        }
+
+                        temp_node = temp_node.getNext();
+                    }
+
+                }
+
+                while (temp_cell.getNext() != null) {
+                    temp_cell = temp_cell.getNext();
+                    temp_cm = temp_cell.getValue();
+
+
+                    if (temp_cm != null) {
+                        String name_actor = temp_cm.getImbdNameId();
+
+                        //version estupida del hash contains
+                        OpenHashNode<String, String> temp_node = keys_pais.getNode(name_actor);
+                        while(temp_node != null){// name_actor si vive en los paises
+
+
+
+                            if(temp_node.getValue().equals(name_actor)){
+                                String profesion = temp_cm.getCategory();
+                                if(multiContains(profesion,Profesiones)){
+                                    keys_pais_y_profesion.add(temp_cm.getImbdNameId());
+                                }
+                            }
+
+                            temp_node = temp_node.getNext();
+                        }
+                    }
+                }
+            }
+
+        }
+        return keys_pais_y_profesion;
     }
 
     public void listCountries(){

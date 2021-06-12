@@ -48,7 +48,7 @@ public class MyClosedHash<K extends Comparable<K>, T> implements MyHash<K, T>{
     }
 
     @Override
-    public boolean contains() {
+    public boolean contains(K key, T value) {
         return false;
     }
 

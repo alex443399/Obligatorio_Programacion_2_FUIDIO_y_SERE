@@ -71,13 +71,15 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hac
     }
 
     @Override
-    public boolean contains() {
+    public boolean contains(K key, T value) {
         return false;
     }
 
     public int hashFunction(K key){
-
-        return key.hashCode() % tableHashSize;
+        int value = (key.hashCode()) % tableHashSize;
+        if(value < 0)
+            value+=tableHashSize;
+        return value;
     }
 
     public int getTableHashSize() {
