@@ -76,7 +76,14 @@ public class MovieDataBase {
 
         /////////////////////
 
+        int cantidad_de_profesionales = keys_pais_y_profesion.size();
+
         OpenHash<CauseOfDeath, Integer> cause_of_death_hash = new OpenHash(50000);//48268 elementos que cumplen cond
+
+        for(int i = 0; i < cantidad_de_profesionales; i++){
+            String profesional_imdb_name = keys_pais_y_profesion.get(i);
+
+        }
 
 
 

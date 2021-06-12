@@ -1,6 +1,6 @@
 package Modelo;
 
-public class CauseOfDeath implements Comparable<CauseOfDeath> {
+public class CauseOfDeath{
 
     private String name;
 
@@ -13,7 +13,12 @@ public class CauseOfDeath implements Comparable<CauseOfDeath> {
     }
 
     @Override
-    public int compareTo(CauseOfDeath o) {
-        return 0;
+    public boolean equals(Object o){
+        if(o == this)
+            return true;
+        if(!(o instanceof CauseOfDeath))
+            return false;
+        CauseOfDeath c = (CauseOfDeath) o;
+        return c.toString().equals(toString());
     }
 }

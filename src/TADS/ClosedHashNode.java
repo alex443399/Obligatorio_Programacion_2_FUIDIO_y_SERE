@@ -1,6 +1,6 @@
 package TADS;
 
-public class ClosedHashNode<K extends Comparable<K>, T>{
+public class ClosedHashNode<K, T>{
 
     private K key;
     private T value;

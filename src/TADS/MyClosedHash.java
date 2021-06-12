@@ -1,6 +1,6 @@
 package TADS;
 
-public class MyClosedHash<K extends Comparable<K>, T> implements MyHash<K, T>{
+public class MyClosedHash<K, T> implements MyHash<K, T>{
 
     private int tableHashSize;
 
