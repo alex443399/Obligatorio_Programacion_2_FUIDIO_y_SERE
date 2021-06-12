@@ -2,10 +2,7 @@ package Main;
 
 import Exceptions.IlegalIndexException;
 import Modelo.*;
-import TADS.HeapImp;
-import TADS.ListaEnlazada;
-import TADS.OpenHash;
-import TADS.OpenHashNode;
+import TADS.*;
 import Utilidades.Loader;
 
 import static Utilidades.Functions.multiContains;
@@ -70,7 +67,7 @@ public class MovieDataBase {
         if(debbug_text >= 2) System.out.println("filtracion por profesion empieza");
 
         String[] Profesiones = {"Director", "Producer","director", "producer"};
-        ListaEnlazada<String> keys_pais_y_profesion = obtener_por_profesion_dado_hash(Profesiones, keys_pais, debbug_text);
+        ArrayList<String> keys_pais_y_profesion = obtener_por_profesion_dado_hash(Profesiones, keys_pais, debbug_text);
 
         if(debbug_text >= 2) System.out.println("filtracion por profesion acaba");
 
@@ -82,6 +79,21 @@ public class MovieDataBase {
 
         for(int i = 0; i < cantidad_de_profesionales; i++){
             String profesional_imdb_name = keys_pais_y_profesion.get(i);
+            int profesional_key = Integer.parseInt(profesional_imdb_name.substring(2,profesional_imdb_name.length()));
+
+            OpenHashNode<Integer,CastMember> temp_node = cast_member_storage.getNode(profesional_key);
+
+            while(!temp_node.getValue().getImbdNameId().equals(profesional_imdb_name)){
+                temp_node = temp_node.getNext();
+            }
+
+            CastMember cast_member_posta = temp_node.getValue();
+
+            ArrayList<CauseOfDeath> causas_de_muerte_de_un_cast_member = cast_member_posta.getCauseOfDeath();
+
+            for(int j = 0; j < causas_de_muerte_de_un_cast_member.size(); j++){
+                cause_of_death_hash.put(causas_de_muerte_de_un_cast_member.get(j),1); //???? ACA SEGUIR
+            }
 
         }
 
@@ -120,9 +132,9 @@ public class MovieDataBase {
         return keys_pais_pre;
     }
 
-    public ListaEnlazada<String> obtener_por_profesion_dado_hash(String[] Profesiones, OpenHash<String,String> keys_pais, int debbug_text){
+    public ArrayList<String> obtener_por_profesion_dado_hash(String[] Profesiones, OpenHash<String,String> keys_pais, int debbug_text){
 
-        ListaEnlazada<String> keys_pais_y_profesion = new ListaEnlazada();
+        ArrayList<String> keys_pais_y_profesion = new ArrayList();
 
         int relations_to_try = movie_cast_member_storage.getTableHashSize();
 

@@ -1,6 +1,7 @@
 package Modelo;
 
 import Exceptions.InvalidDateFormatException;
+import TADS.ArrayList;
 import TADS.ListaEnlazada;
 
 import java.util.Date;
@@ -27,7 +28,7 @@ public class CastMember {
     private Integer divorces;
     private Integer spousesWithChildren;
     private Integer children;
-    ListaEnlazada<CauseOfDeath> causeOfDeath;
+    ArrayList<CauseOfDeath> causeOfDeath;
 
     public CastMember(String imbdNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children) {
         this.imbdNameId = imbdNameId;
@@ -152,5 +153,9 @@ public class CastMember {
 
     public Integer getChildren() {
         return children;
+    }
+
+    public ArrayList<CauseOfDeath> getCauseOfDeath() {
+        return causeOfDeath;
     }
 }

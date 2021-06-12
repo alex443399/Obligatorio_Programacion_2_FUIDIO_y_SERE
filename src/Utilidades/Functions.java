@@ -203,12 +203,12 @@ public class Functions {
 
     }
 
-    public static ListaEnlazada<CauseOfDeath> CausasDeMuerte(String s_cause_of_death){
+    public static ArrayList<CauseOfDeath> CausasDeMuerte(String s_cause_of_death){
         int index1 = 0;
         int index2 = 0;
         int L = s_cause_of_death.length();
 
-        ListaEnlazada<CauseOfDeath> resultado = new ListaEnlazada();
+        ArrayList<CauseOfDeath> resultado = new ArrayList();
 
         while(index1 < L) {
 
