@@ -1,10 +1,7 @@
 package Main;
 
 import Exceptions.IlegalIndexException;
-import Modelo.CastMember;
-import Modelo.Movie;
-import Modelo.MovieCastMember;
-import Modelo.MovieRating;
+import Modelo.*;
 import TADS.HeapImp;
 import TADS.ListaEnlazada;
 import TADS.OpenHash;
@@ -79,11 +76,9 @@ public class MovieDataBase {
 
         /////////////////////
 
-        System.out.println("Comienzo prints");
-        for(int i = 0; i < keys_pais_y_profesion.size(); i++)
-            System.out.println(keys_pais_y_profesion.get(i));
-        System.out.println("Final prints");
-        System.out.println(keys_pais_y_profesion.size());
+        OpenHash<CauseOfDeath, Integer> cause_of_death_hash = new OpenHash(50000);//48268 elementos que cumplen cond
+
+
 
     }
 

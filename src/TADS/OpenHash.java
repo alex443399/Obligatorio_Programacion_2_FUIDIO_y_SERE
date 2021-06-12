@@ -1,6 +1,6 @@
 package TADS;
 
-public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hacer lo q estoy haciendo o UN ARRAYLIST DE LINKEDLIST???
+public class OpenHash<K, T> implements MyHash<K, T>{// Hacer lo q estoy haciendo o UN ARRAYLIST DE LINKEDLIST???
 
     private int tableHashSize;
     private OpenHashNode<K,T>[] HashTable;//ArrayList<OpenHashNode<K,T>> hashTable = new ArrayList<OpenHashNode<K,T>>(tableHashSize);

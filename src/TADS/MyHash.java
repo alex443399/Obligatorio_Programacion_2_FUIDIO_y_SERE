@@ -1,6 +1,6 @@
 package TADS;
 
-public interface MyHash<K extends Comparable<K>, T>{
+public interface MyHash<K, T>{
 
     void put(K key, T value);
     T get(K key);
