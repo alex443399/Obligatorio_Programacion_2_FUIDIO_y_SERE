@@ -15,7 +15,7 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hac
     @Override
     public void put(K key, T value) {
 
-        OpenHashNode<K, T> element = new OpenHashNode<>(key, value);
+        OpenHashNode<K, T> element = new OpenHashNode(key, value);
         int position = hashFunction(key);
         if(HashTable[position] == null){
             HashTable[position] = element;
@@ -75,7 +75,7 @@ public class OpenHash<K extends Comparable<K>, T> implements MyHash<K, T>{// Hac
         return false;
     }
 
-    private int hashFunction(K key){
+    public int hashFunction(K key){
 
         return key.hashCode() % tableHashSize;
     }

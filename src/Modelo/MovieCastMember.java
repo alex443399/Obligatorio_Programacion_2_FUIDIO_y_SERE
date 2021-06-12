@@ -23,7 +23,9 @@ public class MovieCastMember {
         this.ordering = Integer.parseInt(ordering);
         this.category = category;
         this.job = job;
-        this.characters = ListaEnCelda(",");
+        if(characters != null)
+            if(characters.length() > 0)
+                this.characters = ListaEnCelda(characters);
     }
 
     public String getImbdNameId() {
@@ -48,5 +50,9 @@ public class MovieCastMember {
 
     public ListaEnlazada<String> getCharacters() {
         return characters;
+    }
+
+    public Integer Name_Key(){
+        return Integer.parseInt(imbdNameId.substring(2,imbdNameId.length()));
     }
 }

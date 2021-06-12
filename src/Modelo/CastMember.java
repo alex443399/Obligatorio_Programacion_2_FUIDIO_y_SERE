@@ -58,16 +58,21 @@ public class CastMember {
         this.bio = bio;
         this.birthDate = DateFromRegisterString(date_of_birth);
         String[] place_birth = ParametersFromPlaceString(place_of_birth);
-        this.birthCity = place_birth[0];
-        this.birthState = place_birth[1];
-        this.birthCountry = place_birth[2];
+
+        if(place_birth != null) {
+            this.birthCity = place_birth[0];
+            this.birthState = place_birth[1];
+            this.birthCountry = place_birth[2];
+        }
 
         this.deathDate = DateFromRegisterString(date_of_death);
         String[] place_death = ParametersFromPlaceString(place_of_death);
 
-        this.deathCity = place_death[0];
-        this.deathState = place_death[1];
-        this.deathCountry = place_death[2];
+        if(place_death != null) {
+            this.deathCity = place_death[0];
+            this.deathState = place_death[1];
+            this.deathCountry = place_death[2];
+        }
 
         this.spousesString = spousesString;
         this.spouses = parseIntNullEnabled(s_spouses);

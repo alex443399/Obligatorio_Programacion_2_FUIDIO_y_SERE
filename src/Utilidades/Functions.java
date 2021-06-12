@@ -145,17 +145,20 @@ public class Functions {
 
         } catch (DateTimeParseException date_ex) {
             int string_length = s_date.length();
-            String possible_year_substring = s_date.substring(string_length-4,string_length);
+            if(string_length >= 4) {
+                String possible_year_substring = s_date.substring(string_length - 4, string_length);
 
-            try {
-                int possible_year = Integer.parseInt(possible_year_substring);
-                LocalDate ld = LocalDate.of(possible_year,1,1);
-                return DateFromLocalDate(ld);
+                try {
+                    int possible_year = Integer.parseInt(possible_year_substring);
+                    LocalDate ld = LocalDate.of(possible_year, 1, 1);
+                    return DateFromLocalDate(ld);
 
+                } catch (NumberFormatException number_ex) {
+                    return null;
+                    //throw new InvalidDateFormatException("Inputted date: -" + s_date + "- has invalid format");
+                }
             }
-            catch(NumberFormatException number_ex){
-                throw new InvalidDateFormatException("Inputted date: -" + s_date + "- has invalid format");
-            }
+            else return null;
         }
     }
 
@@ -165,38 +168,38 @@ public class Functions {
     }
 
     public static String[] ParametersFromPlaceString(String place){
-        if(place.charAt(0) == '"')
-            place = place.substring(1);
+        if(place.length() > 0) {
+            if (place.charAt(0) == '"')
+                place = place.substring(1);
 
-        if(place.charAt(place.length()-1) == '"')
-            place = place.substring(0,place.length()-1);
+            if (place.charAt(place.length() - 1) == '"')
+                place = place.substring(0, place.length() - 1);
 
-        String[] arrayFromReg = StringArrayFromCsvLine(place,',','"');
-        String[] answer = new String[3];
-        int L = arrayFromReg.length;
-        if(L>=3){
-            answer[2] = trimSpaces(arrayFromReg[L-1]);
-            answer[1] = trimSpaces(arrayFromReg[L-2]);
-            answer[0] = trimSpaces(arrayFromReg[L-3]);
+            String[] arrayFromReg = StringArrayFromCsvLine(place, ',', '"');
+            String[] answer = new String[3];
+            int L = arrayFromReg.length;
+            if (L >= 3) {
+                answer[2] = trimSpaces(arrayFromReg[L - 1]);
+                answer[1] = trimSpaces(arrayFromReg[L - 2]);
+                answer[0] = trimSpaces(arrayFromReg[L - 3]);
 
-        }
-        else if(L==2){
-            answer[2] = trimSpaces(arrayFromReg[1]);
-            answer[1] = null;
-            answer[0] = trimSpaces(arrayFromReg[0]);
-        }
-        else if(L==1){
-            answer[2] = trimSpaces(arrayFromReg[0]);
-            answer[1] = null;
-            answer[0] = null;
-        }
-        else{
-            answer[2] = null;
-            answer[1] = null;
-            answer[0] = null;
-        }
+            } else if (L == 2) {
+                answer[2] = trimSpaces(arrayFromReg[1]);
+                answer[1] = null;
+                answer[0] = trimSpaces(arrayFromReg[0]);
+            } else if (L == 1) {
+                answer[2] = trimSpaces(arrayFromReg[0]);
+                answer[1] = null;
+                answer[0] = null;
+            } else {
+                answer[2] = null;
+                answer[1] = null;
+                answer[0] = null;
+            }
 
-        return answer;
+            return answer;
+        }
+        else return null;
 
     }
 
@@ -256,6 +259,15 @@ public class Functions {
             s = s.substring(0, s.length()-1);
 
         return s;
+    }
+
+    public static boolean multiContains(String analizada, String[] array_of_strings){
+        int L = array_of_strings.length;
+        for(int i = 0; i < L; i++){
+            if(analizada.contains(array_of_strings[i]))
+                return true;
+        }
+        return false;
     }
 
 }

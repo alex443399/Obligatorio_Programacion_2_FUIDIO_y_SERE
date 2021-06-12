@@ -18,5 +18,7 @@ public class Main {
 
         db.load();
 
+        db.Querry2(3);
+
     }
 }
