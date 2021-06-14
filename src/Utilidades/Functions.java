@@ -139,6 +139,7 @@ public class Functions {
     }
 
     public static Date DateFromRegisterString(String s_date) throws InvalidDateFormatException {
+        s_date = trimChar(s_date,'"');
         try {
             LocalDate ld = LocalDate.parse(s_date);
             return DateFromLocalDate(ld);
@@ -154,8 +155,18 @@ public class Functions {
                     return DateFromLocalDate(ld);
 
                 } catch (NumberFormatException number_ex) {
-                    return null;
-                    //throw new InvalidDateFormatException("Inputted date: -" + s_date + "- has invalid format");
+
+                    try {
+                        possible_year_substring = s_date.substring(0,4);
+                        int possible_year = Integer.parseInt(possible_year_substring);
+                        LocalDate ld = LocalDate.of(possible_year, 1, 1);
+                        return DateFromLocalDate(ld);
+
+                    } catch (NumberFormatException number_ex_2) {
+                        //System.out.println(s_date);
+                        return null;
+                        //throw new InvalidDateFormatException("Inputted date: -" + s_date + "- has invalid format");
+                    }
                 }
             }
             else return null;
