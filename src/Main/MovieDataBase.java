@@ -5,6 +5,7 @@ import Modelo.*;
 import TADS.*;
 import Utilidades.Loader;
 
+import java.util.Date;
 import java.util.Locale;
 
 import static Utilidades.Functions.multiContains;
@@ -132,6 +133,106 @@ public class MovieDataBase {
 
         System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
 
+    }
+
+    public void Querry4(int debbug_text) throws IlegalIndexException {
+        /**
+         * Teniendo en cuenta los siguientes roles: actor y actress, se quiere
+         * obtener cual es el año más habitual en el que nacen dichos individuos.
+         * Es decir, dadas las películas realizadas, se quiere ver cuál es el año de
+         * nacimiento mas frecuente para las actrices y cuál es el año más habitual
+         * de nacimiento para los actores
+         */
+
+        long start_time = System.currentTimeMillis();
+
+        int cantidad_de_cast_members = 297705;
+
+        OpenHash<String, String> keys_de_castMember_que_vamos_a_filtrar = new OpenHash(cantidad_de_cast_members);
+
+        // Cargamos el arreglo con las keys
+
+        for(int i = 0; i < cast_member_storage.getTableHashSize(); i++){
+
+            OpenHashNode<Integer, CastMember> temp_node = cast_member_storage.getPosition(i);
+
+            while(temp_node != null){
+
+                String id_string = temp_node.getValue().getImbdNameId();
+
+                keys_de_castMember_que_vamos_a_filtrar.put(id_string,id_string);
+
+                temp_node = temp_node.getNext();
+            }
+        }
+
+        String[] Actor_key_words = {"actor"};
+        String[] Actress_key_words = {"actress"};
+
+        ArrayList<String> actors = obtener_por_profesion_dado_hash(Actor_key_words, keys_de_castMember_que_vamos_a_filtrar, 0);
+        ArrayList<String> actresses = obtener_por_profesion_dado_hash(Actress_key_words, keys_de_castMember_que_vamos_a_filtrar, 0);
+
+        int year0 = 1800;
+        int year_actual = 2021;
+
+        int cantidad_de_anos = year_actual-year0; //2021
+
+
+        int[][] count_anos = new int[cantidad_de_anos][2];
+        int[] max_ano = new int[2];
+
+        for(int i = 0; i < actors.size(); i++){
+
+            String actor_key_String = actors.get(i);
+            int actor_key_int = Integer.parseInt(actor_key_String.substring(2,actor_key_String.length()));
+            CastMember actor = cast_member_storage.get(actor_key_int);
+
+            Date date_of_birth_of_actor = actor.getBirthDate();
+            if(date_of_birth_of_actor != null) {
+                int year = date_of_birth_of_actor.getYear()+1900;
+                int index = year - year0;
+                count_anos[index][0]++;
+            }
+
+        }
+
+        for(int i = 0; i < actresses.size(); i++){
+
+            String actress_key_String = actresses.get(i);
+            int actress_key_int = Integer.parseInt(actress_key_String.substring(2,actress_key_String.length()));
+            CastMember actress = cast_member_storage.get(actress_key_int);
+
+            Date date_of_birth_of_actress = actress.getBirthDate();
+            if(date_of_birth_of_actress != null) {
+                int year = date_of_birth_of_actress.getYear()+1900;
+                int index = year - year0;
+                count_anos[index][1]++;
+            }
+        }
+
+        for(int i = 0; i < cantidad_de_anos; i++){
+
+            if(count_anos[i][0] > count_anos[max_ano[0]][0]){
+                max_ano[0] = i;
+            }
+            if(count_anos[i][1] > count_anos[max_ano[1]][1]){
+                max_ano[1] = i;
+            }
+        }
+
+        int max_ano_actores = max_ano[0] + year0;
+        int max_ano_actress = max_ano[1] + year0;
+        System.out.println("Actores: ");
+        System.out.println("    Año: " + max_ano_actores);
+        System.out.println("    Cantidad: " + count_anos[max_ano[0]][0]);
+        System.out.println("Actrices: ");
+        System.out.println("    Año: " + max_ano_actress);
+        System.out.println("    Cantidad: " + count_anos[max_ano[1]][1]);
+
+        long end_time = System.currentTimeMillis();
+        long time_elapsed = end_time-start_time;
+
+        System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
     }
 
     public OpenHash<String,Integer> obtener_death_count(ArrayList<String> keys_pais_y_profesion, int death_hash_table_size) throws IlegalIndexException {
