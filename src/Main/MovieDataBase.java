@@ -57,6 +57,8 @@ public class MovieDataBase {
         // Primero vamos a testear q countries existen
         // listCountries(); // Le pregunte a Jimena que cuenta como que pais, hasta que me conteste voy a usar como key "USA", "UK", "Italy", "France"
 
+        long start_time = System.currentTimeMillis();
+
         if(debbug_text >= 2) System.out.println("Discriminacion por pais empieza");
 
         String[] key_words_paises = {"USA", "UK", "France", "Italy"};
@@ -120,11 +122,15 @@ public class MovieDataBase {
 
         if(debbug_text >= 2) System.out.println("Rankear las causas de muerte acaba");
 
+        long end_time = System.currentTimeMillis();
+        long time_elapsed = end_time-start_time;
+
         for(int i = 0; i < N; i++){
             System.out.println("Causa de muerte: " + top_names[i]);
             System.out.println("Cantidad de personas: " + top_counts[i]);
         }
 
+        System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
 
     }
 
