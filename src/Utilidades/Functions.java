@@ -204,6 +204,18 @@ public class Functions {
     }
 
     public static ArrayList<CauseOfDeath> CausasDeMuerte(String s_cause_of_death){
+
+        if(s_cause_of_death == null)
+            return new ArrayList<CauseOfDeath>();
+        if(s_cause_of_death.length()<=0)
+            return new ArrayList<CauseOfDeath>();
+
+        while (s_cause_of_death.charAt(0) == '"' && s_cause_of_death.charAt(s_cause_of_death.length()-1) == '"')
+            s_cause_of_death = s_cause_of_death.substring(1,s_cause_of_death.length()-1);
+
+        if(s_cause_of_death.length()<=0)
+            return new ArrayList<CauseOfDeath>();
+
         int index1 = 0;
         int index2 = 0;
         int L = s_cause_of_death.length();
@@ -253,9 +265,13 @@ public class Functions {
     }
 
     public static String trimSpaces(String s){
-        while(s.charAt(0) == ' ')
+        return trimChar(s,' ');
+    }
+
+    public static String trimChar(String s, char c){
+        while(s.charAt(0) == c)
             s = s.substring(1);
-        while(s.charAt(s.length()-1) == ' ')
+        while(s.charAt(s.length()-1) == c)
             s = s.substring(0, s.length()-1);
 
         return s;

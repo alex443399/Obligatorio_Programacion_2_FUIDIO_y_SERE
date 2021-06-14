@@ -3,7 +3,7 @@ package TADS;
 public class OpenHashNode<K, T>{
 
     private final K key;
-    private final T value;
+    private T value;
     private OpenHashNode<K, T> next;
 
 
@@ -28,5 +28,7 @@ public class OpenHashNode<K, T>{
         this.next = next;
     }
 
-
+    public void setValue(T value) {
+        this.value = value;
+    }
 }

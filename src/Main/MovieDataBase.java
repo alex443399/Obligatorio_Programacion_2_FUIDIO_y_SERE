@@ -5,6 +5,8 @@ import Modelo.*;
 import TADS.*;
 import Utilidades.Loader;
 
+import java.util.Locale;
+
 import static Utilidades.Functions.multiContains;
 
 public class MovieDataBase {
@@ -75,9 +77,12 @@ public class MovieDataBase {
 
         int cantidad_de_profesionales = keys_pais_y_profesion.size();
 
-        OpenHash<CauseOfDeath, Integer> cause_of_death_hash = new OpenHash(50000);//48268 elementos que cumplen cond
+        int death_hash_table_size = 50000;
+
+        OpenHash<String, Integer> cause_of_death_hash = new OpenHash(death_hash_table_size);//48268 elementos que cumplen cond
 
         for(int i = 0; i < cantidad_de_profesionales; i++){
+            //Conseguir profesional - Begin
             String profesional_imdb_name = keys_pais_y_profesion.get(i);
             int profesional_key = Integer.parseInt(profesional_imdb_name.substring(2,profesional_imdb_name.length()));
 
@@ -88,11 +93,31 @@ public class MovieDataBase {
             }
 
             CastMember cast_member_posta = temp_node.getValue();
+            //Conseguir profesional - End
 
             ArrayList<CauseOfDeath> causas_de_muerte_de_un_cast_member = cast_member_posta.getCauseOfDeath();
 
             for(int j = 0; j < causas_de_muerte_de_un_cast_member.size(); j++){
-                cause_of_death_hash.put(causas_de_muerte_de_un_cast_member.get(j),1); //???? ACA SEGUIR
+
+                String temp_cause_of_death_de_cast_member_posta = causas_de_muerte_de_un_cast_member.get(j).getName().toLowerCase();
+
+                OpenHashNode<String, Integer> nodo_temporal = cause_of_death_hash.getNode(temp_cause_of_death_de_cast_member_posta);
+
+                if(nodo_temporal == null){
+                    cause_of_death_hash.put(temp_cause_of_death_de_cast_member_posta,1);
+                }
+                else{
+                    while (!nodo_temporal.getKey().equals(temp_cause_of_death_de_cast_member_posta)) {
+                        nodo_temporal = nodo_temporal.getNext();
+                        if(nodo_temporal == null)
+                            break;
+                    }
+                    if(nodo_temporal != null) {
+                        int current_cout = nodo_temporal.getValue();
+
+                        nodo_temporal.setValue(current_cout + 1);
+                    }
+                }
             }
 
         }

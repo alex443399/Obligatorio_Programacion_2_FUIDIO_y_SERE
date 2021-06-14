@@ -19,6 +19,10 @@ public class CauseOfDeath{
         if(!(o instanceof CauseOfDeath))
             return false;
         CauseOfDeath c = (CauseOfDeath) o;
-        return c.toString().equals(toString());
+        return c.toString().equals(this.toString());
+    }
+
+    public String getName() {
+        return name;
     }
 }
