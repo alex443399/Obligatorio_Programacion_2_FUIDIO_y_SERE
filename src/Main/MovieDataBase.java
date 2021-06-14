@@ -75,9 +75,61 @@ public class MovieDataBase {
 
         /////////////////////
 
-        int cantidad_de_profesionales = keys_pais_y_profesion.size();
+        if(debbug_text >= 2) System.out.println("Contar las causas de muerte empieza");
 
-        int death_hash_table_size = 50000;
+        int death_hash_table_size = 500;
+        OpenHash<String, Integer> cause_of_death_hash = obtener_death_count(keys_pais_y_profesion, death_hash_table_size);
+
+        if(debbug_text >= 2) System.out.println("Contar las causas de muerte acaba");
+
+        /////////////////////
+
+        if(debbug_text >= 2) System.out.println("Rankear las causas de muerte empieza");
+
+        int N = 5; // la cantidad del top que queremos
+
+        String[] top_names = new String[N]; // Mayor en 0
+        int[] top_counts = new int[N]; // Mayor en 0
+
+        for(int i = 0; i < death_hash_table_size; i++){
+            OpenHashNode<String,Integer> temp_node = cause_of_death_hash.getPosition(i);
+            while(temp_node != null){
+                int temp_count = temp_node.getValue();
+                if(temp_count >= top_counts[N-1]){
+
+                    for(int j = 0; j < N; j++){
+
+                        if(top_counts[j] < temp_count){
+
+                            for(int k = N-1; k > j; k--){
+                                top_names[k] = top_names[k-1];
+                                top_counts[k] = top_counts[k-1];
+                            }
+                            top_names[j] = temp_node.getKey();
+                            top_counts[j] = temp_count;
+                            break;
+                        }
+                    }
+
+                }
+                temp_node = temp_node.getNext();
+
+            }
+
+        }
+
+        if(debbug_text >= 2) System.out.println("Rankear las causas de muerte acaba");
+
+        for(int i = 0; i < N; i++){
+            System.out.println("Causa de muerte: " + top_names[i]);
+            System.out.println("Cantidad de personas: " + top_counts[i]);
+        }
+
+
+    }
+
+    public OpenHash<String,Integer> obtener_death_count(ArrayList<String> keys_pais_y_profesion, int death_hash_table_size) throws IlegalIndexException {
+        int cantidad_de_profesionales = keys_pais_y_profesion.size();
 
         OpenHash<String, Integer> cause_of_death_hash = new OpenHash(death_hash_table_size);//48268 elementos que cumplen cond
 
@@ -121,9 +173,7 @@ public class MovieDataBase {
             }
 
         }
-
-
-
+        return cause_of_death_hash;
     }
 
     public OpenHash<String,String> obtener_por_paises(String[] key_words_paises){
