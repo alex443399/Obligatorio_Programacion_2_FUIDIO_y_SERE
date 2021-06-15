@@ -98,7 +98,7 @@ public class Functions {
     }
 
     public static ListaEnlazada<String> ListaEnCelda(String line){
-        ListaEnlazada<String> resultado = new ListaEnlazada<String>();
+        ListaEnlazada<String> resultado = new ListaEnlazada<>();
         if(line.length() <= 0)
             return resultado;
         else if(line.charAt(0) != '"'){
@@ -106,14 +106,22 @@ public class Functions {
             return resultado;
         }
         else{
-            String line_sin_commillas = line.substring(1,line.length()-2);
+            String line_sin_commillas = line.substring(1,line.length()-1); //Debería ser -1
+            if(line.contains("'")) {
+                String[] string_arr = line_sin_commillas.split("'");
+                for (int i = 0; i < string_arr.length; i++)
+                    resultado.add(string_arr[i]);
+                return resultado;
+            } else{
+                String[] string_arr = line_sin_commillas.split(", ");
+                for (int i = 0; i < string_arr.length; i++)
+                    resultado.add(string_arr[i]);
+                return resultado;
+            }
 
-            String[] string_arr = line_sin_commillas.split("'");
-            for(int i = 0; i < string_arr.length; i++)
-                resultado.add(string_arr[i]);
-            return resultado;
         }
     }
+
 
     public static Integer parseIntNullEnabled(String s){
         // https://javarevisited.blogspot.com/2014/12/9-things-about-null-in-java.html#axzz6wvZ1ouSu
