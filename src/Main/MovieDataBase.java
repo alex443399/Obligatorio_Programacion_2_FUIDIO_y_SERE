@@ -16,7 +16,7 @@ import static Utilidades.Functions.multiContains;
 
 public class MovieDataBase {
 
-    public String proyect_path = "C:\\Users\\Federico Fuidio\\IdeaProjects\\Copia_obligatorio\\src\\Files\\dataset1\\";
+    public String proyect_path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
     // Alex -> "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
     // Fede -> "C:\\Users\\Federico Fuidio\\IdeaProjects\\Copia_obligatorio\\src\\Files\\dataset1\\"
 
@@ -36,10 +36,11 @@ public class MovieDataBase {
     public void load(){
         long start_time = System.currentTimeMillis();
         try {
-            movie_cast_member_storage = loader.load_movie_cast_member(0);
-            movie_rating_storage = loader.load_review_database(0);
-            movie_storage = loader.load_movie_database(0);
-            cast_member_storage = loader.load_castmember_database(-1); //debbug_tex = 0
+            int debbug_text = 0;
+            movie_cast_member_storage = loader.load_movie_cast_member(debbug_text);
+            movie_rating_storage = loader.load_review_database(debbug_text);
+            movie_storage = loader.load_movie_database(debbug_text);
+            cast_member_storage = loader.load_castmember_database(debbug_text); //debbug_tex = 0
             data_loaded = true;
         }
         catch(Exception e){
@@ -51,6 +52,26 @@ public class MovieDataBase {
 
         System.out.println("Carga de datos exitosa, tiempo de ejecución de la carga:" + Long.toString(time_elapsed) + "ms");
         System.out.println();
+    }
+
+    public void Query(int Q) throws IlegalIndexException {
+        switch (Q){
+            case 1:
+                Query1();
+                break;
+            case 2:
+                Querry2(0);
+                break;
+            case 3:
+                Query3();
+                break;
+            case 4:
+                Querry4(0);
+                break;
+            case 5:
+                Query5();
+                break;
+        }
     }
 
     public void Query1(){
@@ -185,6 +206,7 @@ public class MovieDataBase {
         for(int i = 0; i < N; i++){
             System.out.println("Causa de muerte: " + top_names[i]);
             System.out.println("Cantidad de personas: " + top_counts[i]);
+            System.out.println();
         }
 
         System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
@@ -379,9 +401,11 @@ public class MovieDataBase {
         System.out.println("Actores: ");
         System.out.println("    Año: " + max_ano_actores);
         System.out.println("    Cantidad: " + count_anos[max_ano[0]][0]);
+        System.out.println();
         System.out.println("Actrices: ");
         System.out.println("    Año: " + max_ano_actress);
         System.out.println("    Cantidad: " + count_anos[max_ano[1]][1]);
+        System.out.println();
 
         long end_time = System.currentTimeMillis();
         long time_elapsed = end_time-start_time;
