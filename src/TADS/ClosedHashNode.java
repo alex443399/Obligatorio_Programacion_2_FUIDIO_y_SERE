@@ -1,15 +1,17 @@
 package TADS;
 
-public class ClosedHashNode<K, T>{
+public class ClosedHashNode<K extends Comparable<K>, T>{
 
     private K key;
     private T value;
     private boolean empty;
+    private int reps;
 
     public ClosedHashNode(K key, T value){
 
         this.key = key;
         this.value = value;
+        this.reps = 1;
     }
 
 
@@ -42,4 +44,13 @@ public class ClosedHashNode<K, T>{
     public void setKey(K key) {
         this.key = key;
     }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public void setReps(int reps) {
+        this.reps = reps;
+    }
+
 }

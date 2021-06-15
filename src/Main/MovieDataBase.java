@@ -1,10 +1,14 @@
 package Main;
 
+import Exceptions.EmptyHeapException;
 import Exceptions.IlegalIndexException;
 import Modelo.*;
 import TADS.*;
 import Utilidades.Loader;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 
@@ -12,9 +16,9 @@ import static Utilidades.Functions.multiContains;
 
 public class MovieDataBase {
 
-    public String proyect_path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
+    public String proyect_path = "C:\\Users\\Federico Fuidio\\IdeaProjects\\Copia_obligatorio\\src\\Files\\dataset1\\";
     // Alex -> "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
-    // Fede -> "C:\\Users\\Federico Fuidio\\IdeaProjects\\Obligatorio_Programacion_2_FUIDIO_y_SERE\\src\\Files\\dataset1\\"
+    // Fede -> "C:\\Users\\Federico Fuidio\\IdeaProjects\\Copia_obligatorio\\src\\Files\\dataset1\\"
 
     Loader loader = new Loader(proyect_path);
 
@@ -35,7 +39,7 @@ public class MovieDataBase {
             movie_cast_member_storage = loader.load_movie_cast_member(0);
             movie_rating_storage = loader.load_review_database(0);
             movie_storage = loader.load_movie_database(0);
-            cast_member_storage = loader.load_castmember_database(0);
+            cast_member_storage = loader.load_castmember_database(-1); //debbug_tex = 0
             data_loaded = true;
         }
         catch(Exception e){
@@ -46,6 +50,58 @@ public class MovieDataBase {
         long time_elapsed = end_time-start_time;
 
         System.out.println("Carga de datos exitosa, tiempo de ejecución de la carga:" + Long.toString(time_elapsed) + "ms");
+        System.out.println();
+    }
+
+    public void Query1(){
+
+        long begin = System.currentTimeMillis();
+
+        //Hay cerca de 90000 actores, definimos el hash con un poco más del doble de buckets,
+        //Para asegurar que el load factor nunca supere el 0.5
+        MyClosedHash<String, Integer> result = new MyClosedHash<>(180000);
+
+        for(int i = 0; i < movie_cast_member_storage.getTableHashSize(); i++){
+
+            OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getPosition(i);
+            while(temp != null){
+
+                if(temp.getValue().getCategory().contains("actor") ||
+                        temp.getValue().getCategory().contains("actress")){
+
+                    result.put(temp.getValue().getImbdNameId(), 1);
+
+                }
+                temp = temp.getNext();
+            }
+
+        }
+
+        result.Bubblesort(5);
+
+        for (int i = 0; i < 5; i++){
+
+            ClosedHashNode<String, Integer> retorno = result.getPosition(result.getTableHashSize() - i - 1);
+            // La key guardade es un string, para poder buscar el nombre del acotor en
+            // cast_member_strage debemos buscar con un key que es integer:
+            int name_string_length = retorno.getKey().length();
+            String imbd_title_id_string = retorno.getKey().substring(2,name_string_length);
+            int imdb_title_id = Integer.parseInt(imbd_title_id_string);
+
+            CastMember temp = cast_member_storage.get(imdb_title_id);
+            String name = temp.getName();
+
+            System.out.println("Nombre actor/actriz: " + name);
+            System.out.println("Cantidad de apariciones: " + retorno.getReps());
+            System.out.println(); //
+
+        }
+
+        long end = System.currentTimeMillis();
+        System.out.println("Tiempo de ejecicion de la consulta: " + (end - begin) + "ms");
+        System.out.println();
+
+
     }
 
     public void Querry2(int debbug_text) throws IlegalIndexException {
@@ -134,6 +190,104 @@ public class MovieDataBase {
         System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
 
     }
+
+    public void Query3(){
+        long begin = System.currentTimeMillis();
+
+        int counter = 0; //El counter nos indicará el momento en el que obtenemos las 14 peliculas:
+        //Los elementos que sacaremos los colocamos en elementosSacados, para luego insertarlos de nuevo:
+        ListaEnlazada<MovieRating> elementosSacados = new ListaEnlazada<>();
+        Lista<Movie> resultados = new ListaEnlazada<>(); //Aquí iran las 14 peliculas que queremos que nos
+        //devuelva la consulta
+
+        MovieRating temp;
+        Movie pelicula;
+        while(counter < 14){
+            try {
+                temp = movie_rating_storage.pop();
+                elementosSacados.add(temp);
+                int name_string_length = temp.getImdbTitle().length();
+                String imbd_title_id_string = temp.getImdbTitle().substring(2,name_string_length);
+                int imdb_title_id = Integer.parseInt(imbd_title_id_string);
+
+                pelicula = movie_storage.get(imdb_title_id);
+                SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+
+                if(pelicula.getDatePublished() != null &&
+                        pelicula.getDatePublished().compareTo(sdformat.parse("1950-01-01")) >= 0
+                        && pelicula.getDatePublished().compareTo(sdformat.parse("1960-01-01")) < 0){
+                    resultados.add(pelicula);
+                    counter ++;
+                }
+
+            } catch (EmptyHeapException | ParseException e) {
+                e.printStackTrace();
+            }
+
+        } //Ahora, en resulta tenemos, ordenados de mayor a menor, las peliculas con mas weigthed average
+        //Con año de estreno entre 1950 y 1960. en elementos sacados, estan todos los elementos que se sacaron del heap
+        //Ahora, antes de seguir, volvemos a colocar en el heap los elementos en elementosSacados.
+
+        int elementosAInsertar = elementosSacados.size();
+        for (int i = 0; i < elementosAInsertar; i++){
+            try {
+                movie_rating_storage.insert(elementosSacados.get(i));
+            } catch (IlegalIndexException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (int i = 0; i < 14; i++){
+            try{
+                float sumaAltura = 0;
+                pelicula = resultados.get(i);
+                //Pasamos el id de pelicula a integer, para buscar en la relación esa pelicula:
+                int name_string_length = pelicula.getImbdTitled().length();
+                String imbd_title_id_string = pelicula.getImbdTitled().substring(2,name_string_length);
+                int imdb_title_id = Integer.parseInt(imbd_title_id_string);
+
+                OpenHashNode<Integer, MovieCastMember> relation = movie_cast_member_storage.getNode(imdb_title_id);
+                //Buscamos todos los actores que actuaron en la pelicula:
+                int canitdadAcotres = 0;
+                while(relation.getNext() != null){
+                    if(relation.getKey().equals(imdb_title_id) && (relation.getValue().getCategory().contains("actor")
+                            || relation.getValue().getCategory().contains("actress"))){
+                        // Pasamos el id de actor a Integer:
+                        name_string_length = relation.getValue().getImbdNameId().length();
+                        String imdb_CastMember_id_string = relation.getValue().getImbdNameId().substring(2,name_string_length);
+                        int imdb_CastMember_id = Integer.parseInt(imdb_CastMember_id_string);
+                        CastMember actor = cast_member_storage.get(imdb_CastMember_id);
+
+                        if(actor != null && actor.getHeight() != null) {
+                            sumaAltura = sumaAltura + actor.getHeight();
+                            canitdadAcotres ++;
+                        }
+
+                    }
+
+                    relation = relation.getNext();
+                }
+
+                if(sumaAltura != 0){
+                    float promedio = sumaAltura/canitdadAcotres;
+                    System.out.println("ID pelicula: " + pelicula.getImbdTitled());
+                    System.out.println("Nombre: " + pelicula.getOriginalTitle());
+                    System.out.println("Altura promedio de actores: " + promedio);
+                    System.out.println();
+                }
+
+
+
+            } catch (IlegalIndexException e){
+                e.printStackTrace();
+            }
+        }
+
+        long end = System.currentTimeMillis();
+        System.out.println("Tiempo de ejecucion de la consulta: " + (end - begin) + "ms");
+        System.out.println();
+    }
+
 
     public void Querry4(int debbug_text) throws IlegalIndexException {
         /**
@@ -233,6 +387,50 @@ public class MovieDataBase {
         long time_elapsed = end_time-start_time;
 
         System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
+    }
+
+
+    public void Query5(){
+        long start_time = System.currentTimeMillis();
+        MyClosedHash<String, Integer> result = new MyClosedHash<>(5000000);
+        for (int i = 0; i < movie_storage.getTableHashSize(); i++){
+            OpenHashNode<Integer, Movie> peli = movie_storage.getPosition(i);
+            while(peli != null){
+
+                if(TieneActores(peli.getKey())){
+                    ListaEnlazada<String> temp = peli.getValue().getGenre();
+
+                    for (int j = 0; j < temp.size(); j++){
+
+                        try {
+                            result.put(temp.get(j), 1);
+
+                        } catch (IlegalIndexException e) {
+                            //e.printStackTrace();
+
+                        }
+                    }
+                }
+                peli = peli.getNext();
+            }
+        }
+
+
+
+        // Ahora, en result, tenemos todos los generos en el closed Hahs. Hacemos bubblesort 10 veces y terminamos:
+        result.Bubblesort(10);
+
+        for (int i = 0; i < 10; i++){
+            ClosedHashNode<String, Integer> temp = result.getPosition(result.getTableHashSize()-1-i);
+
+            System.out.println("Genero pelicula: " + temp.getKey());
+            System.out.println("Cantidad: " + temp.getReps());
+            System.out.println();
+        }
+
+        long end_time = System.currentTimeMillis();
+        System.out.println("tiempo de ejecución de la consulta: " + (end_time - start_time) + "ms");
+
     }
 
     public OpenHash<String,Integer> obtener_death_count(ArrayList<String> keys_pais_y_profesion, int death_hash_table_size) throws IlegalIndexException {
@@ -417,6 +615,84 @@ public class MovieDataBase {
         }
         System.out.println(paises.size());
 
+    }
+
+    public ListaEnlazada<Integer> peliculasDeUnActor(String idActor){
+        ListaEnlazada<Integer> result = new ListaEnlazada<>();
+        for (int i = 0; i < movie_cast_member_storage.getTableHashSize(); i++){
+            OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getNode(i);
+            while(temp != null){
+                if(temp.getValue().getImbdNameId().equals(idActor)){
+                    result.add(temp.getKey());
+                }
+                temp = temp.getNext();
+            }
+        }
+        return result;
+    }
+
+    public boolean TieneActores(Integer movieId){
+        OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getNode(movieId);
+        while(temp != null){
+            if(temp.getValue().getCategory().contains("actor") ||
+                    temp.getValue().getCategory().contains("actress")){
+                //Pasamos el Id en la relacion a integer, para buscar en castMember:
+                int name_string_length = temp.getValue().getImbdNameId().length();
+                String imdb_CastMember_id_string = temp.getValue().getImbdNameId().substring(2, name_string_length);
+                int imdb_CastMember_id = Integer.parseInt(imdb_CastMember_id_string);
+
+                CastMember actor = cast_member_storage.get(imdb_CastMember_id);
+                if(actor.getChildren() > 2){
+                    return true;
+                }
+            }
+            temp = temp.getNext();
+        }
+        return false;
+
+    }
+
+    public void prueba1(){
+        int counter = 0;
+        int i = 0;
+        while(counter <= 200){
+            if(cast_member_storage.getPosition(i) != null) {
+                System.out.println(cast_member_storage.getPosition(i).getValue().getName());
+                counter ++;
+            }
+            i ++;
+
+            if(i >= 1000000){
+                counter = 400;
+            }
+        }
+    }
+
+    public void prueba2() throws IlegalIndexException {
+        for (int i = 0; i < 1000; i++){
+            if(movie_storage.getPosition(i) != null){
+                ListaEnlazada<String> temp = movie_storage.getPosition(i).getValue().getGenre();
+                temp.print();
+            }
+        }
+    }
+
+    public void cantidadDeGenero(String genero){
+        int counter = 0;
+        for(int i = 0; i < movie_storage.getTableHashSize(); i++){
+            OpenHashNode<Integer, Movie> temp = movie_storage.getNode(i);
+            while(temp != null){
+                ListaEnlazada<String> genres = temp.getValue().getGenre();
+                for(int j = 0; j < genres.size(); j++){
+                    if(genres.contains(genero)){
+                        counter ++;
+                    }
+                }
+                temp = temp.getNext();
+            }
+        }
+
+        System.out.println("genero: " + genero + " " + counter);
     }
 
 }

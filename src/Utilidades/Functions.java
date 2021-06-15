@@ -280,10 +280,12 @@ public class Functions {
     }
 
     public static String trimChar(String s, char c){
-        while(s.charAt(0) == c)
-            s = s.substring(1);
-        while(s.charAt(s.length()-1) == c)
-            s = s.substring(0, s.length()-1);
+        if(s.length() > 0) {
+            while (s.charAt(0) == c)
+                s = s.substring(1);
+            while (s.charAt(s.length() - 1) == c)
+                s = s.substring(0, s.length() - 1);
+        }
 
         return s;
     }

@@ -54,7 +54,7 @@ public class ListaEnlazada <T> implements Lista<T>, MyStack<T>, MyQueue<T>, MyDo
 
     @Override
     public T get(int position) throws IlegalIndexException {
-        if(position >= size || position < 0){
+        if(position >= size){
             throw new IlegalIndexException("Invalid position");
         }
         Nodo<T> temp = first;
@@ -65,6 +65,7 @@ public class ListaEnlazada <T> implements Lista<T>, MyStack<T>, MyQueue<T>, MyDo
         } //temp es el nodo en la posicion buscada
 
         return temp.getValue();
+
     }
 
     @Override
@@ -244,6 +245,20 @@ public class ListaEnlazada <T> implements Lista<T>, MyStack<T>, MyQueue<T>, MyDo
 
         return data;
 
+    }
+
+    public boolean contains(T value){
+        boolean contain = false;
+        Nodo<T> temp = first;
+        while(temp != null){
+            if(temp.getValue().equals(value)){
+                contain = true;
+                return contain;
+            }
+            temp = temp.getNextValue();
+        }
+
+        return contain;
     }
 
 }

@@ -17,14 +17,14 @@ public class Movie {
     private String originalTitle;
     private Integer year;
     private Date datePublished;
-    private ListaEnlazada genre;
+    private ListaEnlazada<String > genre;
     private Integer duration;
-    private ListaEnlazada country;
+    private ListaEnlazada<String> country;
     private String language;
-    private ListaEnlazada director;
-    private ListaEnlazada writer;
+    private ListaEnlazada<String> director;
+    private ListaEnlazada<String> writer;
     private String productorCompany;
-    private ListaEnlazada actors;
+    private ListaEnlazada<String> actors;
     private String description;
     private Float avgVote;
     private Integer votes;
@@ -35,7 +35,7 @@ public class Movie {
     private Integer reviewsFromUsers;
     private Integer reviewsFromCritics;
 
-    public Movie(String imbdTitled, String titled, String originalTitle, int year, Date datePublished, ListaEnlazada genre, int duration, ListaEnlazada country, String language, ListaEnlazada director, ListaEnlazada writer, String productorCompany, ListaEnlazada actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldWideGorssIncome, int metaScore, int reviewsFromUsers, int reviewsFromCritics) {
+    public Movie(String imbdTitled, String titled, String originalTitle, int year, Date datePublished, ListaEnlazada<String> genre, int duration, ListaEnlazada country, String language, ListaEnlazada director, ListaEnlazada writer, String productorCompany, ListaEnlazada actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldWideGorssIncome, int metaScore, int reviewsFromUsers, int reviewsFromCritics) {
         this.imbdTitled = imbdTitled;
         this.titled = titled;
         this.originalTitle = originalTitle;
@@ -107,7 +107,7 @@ public class Movie {
         return datePublished;
     }
 
-    public ListaEnlazada getGenre() {
+    public ListaEnlazada<String> getGenre() {
         return genre;
     }
 

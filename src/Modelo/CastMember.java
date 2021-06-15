@@ -30,7 +30,7 @@ public class CastMember {
     private Integer children;
     ArrayList<CauseOfDeath> causeOfDeath;
 
-    public CastMember(String imbdNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children) {
+    public CastMember(String imbdNameId, String name, String birthName, Integer height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children) {
         this.imbdNameId = imbdNameId;
         this.name = name;
         this.birthName = birthName;
@@ -95,7 +95,7 @@ public class CastMember {
         return birthName;
     }
 
-    public int getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
