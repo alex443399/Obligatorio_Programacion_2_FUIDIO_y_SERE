@@ -271,7 +271,7 @@ public class MovieDataBase {
                 OpenHashNode<Integer, MovieCastMember> relation = movie_cast_member_storage.getNode(imdb_title_id);
                 //Buscamos todos los actores que actuaron en la pelicula:
                 int canitdadAcotres = 0;
-                while(relation.getNext() != null){
+                while(relation != null){
                     if(relation.getKey().equals(imdb_title_id) && (relation.getValue().getCategory().contains("actor")
                             || relation.getValue().getCategory().contains("actress"))){
                         // Pasamos el id de actor a Integer:
@@ -351,7 +351,7 @@ public class MovieDataBase {
         int year0 = 1800;
         int year_actual = 2021;
 
-        int cantidad_de_anos = year_actual-year0; //2021
+        int cantidad_de_anos = year_actual-year0; //no incluye 2021, aunque nacio aca
 
 
         int[][] count_anos = new int[cantidad_de_anos][2];
@@ -658,16 +658,18 @@ public class MovieDataBase {
     public boolean TieneActores(Integer movieId){
         OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getNode(movieId);
         while(temp != null){
-            if(temp.getValue().getCategory().contains("actor") ||
-                    temp.getValue().getCategory().contains("actress")){
-                //Pasamos el Id en la relacion a integer, para buscar en castMember:
-                int name_string_length = temp.getValue().getImbdNameId().length();
-                String imdb_CastMember_id_string = temp.getValue().getImbdNameId().substring(2, name_string_length);
-                int imdb_CastMember_id = Integer.parseInt(imdb_CastMember_id_string);
+            if(temp.getKey().equals(movieId)) {
+                if (temp.getValue().getCategory().contains("actor") ||
+                        temp.getValue().getCategory().contains("actress")) {
+                    //Pasamos el Id en la relacion a integer, para buscar en castMember:
+                    int name_string_length = temp.getValue().getImbdNameId().length();
+                    String imdb_CastMember_id_string = temp.getValue().getImbdNameId().substring(2, name_string_length);
+                    int imdb_CastMember_id = Integer.parseInt(imdb_CastMember_id_string);
 
-                CastMember actor = cast_member_storage.get(imdb_CastMember_id);
-                if(actor.getChildren() > 2){
-                    return true;
+                    CastMember actor = cast_member_storage.get(imdb_CastMember_id);
+                    if (actor.getChildren() > 2) {
+                        return true;
+                    }
                 }
             }
             temp = temp.getNext();
