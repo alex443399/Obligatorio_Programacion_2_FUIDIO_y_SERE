@@ -55,23 +55,30 @@ public class MovieDataBase {
     }
 
     public void Query(int Q) throws IlegalIndexException {
-        switch (Q){
-            case 1:
-                Query1();
-                break;
-            case 2:
-                Querry2(0);
-                break;
-            case 3:
-                Query3();
-                break;
-            case 4:
-                Querry4(0);
-                break;
-            case 5:
-                Query5();
-                break;
+        if(data_loaded) {
+            switch (Q) {
+                case 1:
+                    Query1();
+                    break;
+                case 2:
+                    Querry2(0);
+                    break;
+                case 3:
+                    Query3();
+                    break;
+                case 4:
+                    Querry4(0);
+                    break;
+                case 5:
+                    Query5();
+                    break;
+            }
         }
+        else {
+            System.out.println("Por favor caerga los datos antes de hacer los querries");
+        }
+
+
     }
 
     public void Query1(){
@@ -210,7 +217,7 @@ public class MovieDataBase {
         }
 
         System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
-
+        System.out.println();
     }
 
     public void Query3(){
@@ -286,13 +293,12 @@ public class MovieDataBase {
                         }
 
                     }
-
                     relation = relation.getNext();
                 }
 
                 if(sumaAltura != 0){
                     float promedio = sumaAltura/canitdadAcotres;
-                    System.out.println("ID pelicula: " + pelicula.getImbdTitled());
+                    System.out.println("Id pelicula: " + pelicula.getImbdTitled());
                     System.out.println("Nombre: " + pelicula.getOriginalTitle());
                     System.out.println("Altura promedio de actores: " + promedio);
                     System.out.println();
@@ -454,6 +460,7 @@ public class MovieDataBase {
 
         long end_time = System.currentTimeMillis();
         System.out.println("tiempo de ejecución de la consulta: " + (end_time - start_time) + "ms");
+        System.out.println();
 
     }
 
