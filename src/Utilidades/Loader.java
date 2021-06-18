@@ -8,6 +8,9 @@ import TADS.OpenHash;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Loader {
 
@@ -41,7 +44,7 @@ public class Loader {
 
         String delimiter = ",";
 
-        BufferedReader br = new BufferedReader(new FileReader(path));
+        BufferedReader br = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8);
 
         String header_line = br.readLine();
 
@@ -106,7 +109,7 @@ public class Loader {
 
         String delimiter = ",";
 
-        BufferedReader br = new BufferedReader(new FileReader(path));
+        BufferedReader br = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8);
 
         String header_line = br.readLine();
 
@@ -194,7 +197,7 @@ public class Loader {
 
         String delimiter = ",";
 
-        BufferedReader br = new BufferedReader(new FileReader(path));
+        BufferedReader br = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8);
 
         String header_line = br.readLine();
 
@@ -269,7 +272,7 @@ public class Loader {
 
         String delimiter = ",";
 
-        BufferedReader br = new BufferedReader(new FileReader(path));
+        BufferedReader br = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8);
 
         String header_line = br.readLine();
 
