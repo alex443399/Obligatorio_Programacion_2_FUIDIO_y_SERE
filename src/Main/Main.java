@@ -18,7 +18,7 @@ public class Main {
 
         db.load(); // Hay muchas fechas que no se cargan, incluyendo "July 22 in Chicago, Illinois, USA", "c. 1928 in Israel", "October 9"
 
-        db.Query(5);
+        db.Query5();
 
     }
 }

@@ -16,7 +16,7 @@ import static Utilidades.Functions.multiContains;
 
 public class MovieDataBase {
 
-    public String proyect_path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
+    public String proyect_path = "C:\\Users\\Federico Fuidio\\IdeaProjects\\Obligatorio_Programacion_2_FUIDIO_y_SERE\\src\\Files\\";
     // Alex -> "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
     // Fede -> "C:\\Users\\Federico Fuidio\\IdeaProjects\\Copia_obligatorio\\src\\Files\\dataset1\\"
 
@@ -416,7 +416,7 @@ public class MovieDataBase {
 
     public void Query5(){
         long start_time = System.currentTimeMillis();
-        MyClosedHash<String, Integer> result = new MyClosedHash<>(5000000);
+        MyClosedHash<String, Integer> result = new MyClosedHash<>(50000);
         for (int i = 0; i < movie_storage.getTableHashSize(); i++){
             OpenHashNode<Integer, Movie> peli = movie_storage.getPosition(i);
             while(peli != null){
@@ -430,7 +430,7 @@ public class MovieDataBase {
                             result.put(temp.get(j), 1);
 
                         } catch (IlegalIndexException e) {
-                            //e.printStackTrace();
+                            e.printStackTrace();
 
                         }
                     }
