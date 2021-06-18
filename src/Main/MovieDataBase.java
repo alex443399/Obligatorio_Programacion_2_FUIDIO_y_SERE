@@ -6,6 +6,8 @@ import Modelo.*;
 import TADS.*;
 import Utilidades.Loader;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -16,11 +18,13 @@ import static Utilidades.Functions.multiContains;
 
 public class MovieDataBase {
 
-    public String proyect_path = "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
-    // Alex -> "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
-    // Fede -> "C:\\Users\\Federico Fuidio\\IdeaProjects\\Copia_obligatorio\\src\\Files\\dataset1\\"
+    Path path = Paths.get("."); // http://tutorials.jenkov.com/java-nio/path.html de aca aprendi a usar paths
+    String path_absolute = path.toAbsolutePath().toString();
 
-    Loader loader = new Loader(proyect_path);
+    public String proyect_path = path_absolute.substring(0,path_absolute.length()-1);
+    public String file_path = proyect_path + "src\\Files\\";
+
+    Loader loader = new Loader(file_path);
 
     boolean data_loaded = false;
 
