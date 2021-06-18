@@ -6,6 +6,8 @@ import Modelo.*;
 import TADS.*;
 import Utilidades.Loader;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -16,11 +18,13 @@ import static Utilidades.Functions.multiContains;
 
 public class MovieDataBase {
 
-    public String proyect_path = "C:\\Users\\Federico Fuidio\\IdeaProjects\\Obligatorio_Programacion_2_FUIDIO_y_SERE\\src\\Files\\";
-    // Alex -> "C:\\Users\\alex4\\IdeaProjects\\Obligatorio Programacion 2 v1\\src\\Files\\";
-    // Fede -> "C:\\Users\\Federico Fuidio\\IdeaProjects\\Copia_obligatorio\\src\\Files\\dataset1\\"
+    Path path = Paths.get("."); // http://tutorials.jenkov.com/java-nio/path.html de aca aprendi a usar paths
+    String path_absolute = path.toAbsolutePath().toString();
 
-    Loader loader = new Loader(proyect_path);
+    public String proyect_path = path_absolute.substring(0,path_absolute.length()-1);
+    public String file_path = proyect_path + "src\\Files\\";
+
+    Loader loader = new Loader(file_path);
 
     boolean data_loaded = false;
 
@@ -55,23 +59,30 @@ public class MovieDataBase {
     }
 
     public void Query(int Q) throws IlegalIndexException {
-        switch (Q){
-            case 1:
-                Query1();
-                break;
-            case 2:
-                Querry2(0);
-                break;
-            case 3:
-                Query3();
-                break;
-            case 4:
-                Querry4(0);
-                break;
-            case 5:
-                Query5();
-                break;
+        if(data_loaded) {
+            switch (Q) {
+                case 1:
+                    Query1();
+                    break;
+                case 2:
+                    Querry2(0);
+                    break;
+                case 3:
+                    Query3();
+                    break;
+                case 4:
+                    Querry4(0);
+                    break;
+                case 5:
+                    Query5();
+                    break;
+            }
         }
+        else {
+            System.out.println("Por favor caerga los datos antes de hacer los querries");
+        }
+
+
     }
 
     public void Query1(){
@@ -210,7 +221,7 @@ public class MovieDataBase {
         }
 
         System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
-
+        System.out.println();
     }
 
     public void Query3(){
@@ -271,7 +282,7 @@ public class MovieDataBase {
                 OpenHashNode<Integer, MovieCastMember> relation = movie_cast_member_storage.getNode(imdb_title_id);
                 //Buscamos todos los actores que actuaron en la pelicula:
                 int canitdadAcotres = 0;
-                while(relation.getNext() != null){
+                while(relation != null){
                     if(relation.getKey().equals(imdb_title_id) && (relation.getValue().getCategory().contains("actor")
                             || relation.getValue().getCategory().contains("actress"))){
                         // Pasamos el id de actor a Integer:
@@ -286,13 +297,12 @@ public class MovieDataBase {
                         }
 
                     }
-
                     relation = relation.getNext();
                 }
 
                 if(sumaAltura != 0){
                     float promedio = sumaAltura/canitdadAcotres;
-                    System.out.println("ID pelicula: " + pelicula.getImbdTitled());
+                    System.out.println("Id pelicula: " + pelicula.getImbdTitled());
                     System.out.println("Nombre: " + pelicula.getOriginalTitle());
                     System.out.println("Altura promedio de actores: " + promedio);
                     System.out.println();
@@ -351,7 +361,7 @@ public class MovieDataBase {
         int year0 = 1800;
         int year_actual = 2021;
 
-        int cantidad_de_anos = year_actual-year0; //2021
+        int cantidad_de_anos = year_actual-year0; //no incluye 2021, aunque nacio aca
 
 
         int[][] count_anos = new int[cantidad_de_anos][2];
@@ -416,7 +426,7 @@ public class MovieDataBase {
 
     public void Query5(){
         long start_time = System.currentTimeMillis();
-        MyClosedHash<String, Integer> result = new MyClosedHash<>(50000);
+        MyClosedHash<String, Integer> result = new MyClosedHash<>(5000000);
         for (int i = 0; i < movie_storage.getTableHashSize(); i++){
             OpenHashNode<Integer, Movie> peli = movie_storage.getPosition(i);
             while(peli != null){
@@ -430,7 +440,7 @@ public class MovieDataBase {
                             result.put(temp.get(j), 1);
 
                         } catch (IlegalIndexException e) {
-                            e.printStackTrace();
+                            //e.printStackTrace();
 
                         }
                     }
@@ -454,6 +464,7 @@ public class MovieDataBase {
 
         long end_time = System.currentTimeMillis();
         System.out.println("tiempo de ejecución de la consulta: " + (end_time - start_time) + "ms");
+        System.out.println();
 
     }
 
@@ -658,16 +669,18 @@ public class MovieDataBase {
     public boolean TieneActores(Integer movieId){
         OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getNode(movieId);
         while(temp != null){
-            if(temp.getValue().getCategory().contains("actor") ||
-                    temp.getValue().getCategory().contains("actress")){
-                //Pasamos el Id en la relacion a integer, para buscar en castMember:
-                int name_string_length = temp.getValue().getImbdNameId().length();
-                String imdb_CastMember_id_string = temp.getValue().getImbdNameId().substring(2, name_string_length);
-                int imdb_CastMember_id = Integer.parseInt(imdb_CastMember_id_string);
+            if(temp.getKey().equals(movieId)) {
+                if (temp.getValue().getCategory().contains("actor") ||
+                        temp.getValue().getCategory().contains("actress")) {
+                    //Pasamos el Id en la relacion a integer, para buscar en castMember:
+                    int name_string_length = temp.getValue().getImbdNameId().length();
+                    String imdb_CastMember_id_string = temp.getValue().getImbdNameId().substring(2, name_string_length);
+                    int imdb_CastMember_id = Integer.parseInt(imdb_CastMember_id_string);
 
-                CastMember actor = cast_member_storage.get(imdb_CastMember_id);
-                if(actor.getChildren() > 2){
-                    return true;
+                    CastMember actor = cast_member_storage.get(imdb_CastMember_id);
+                    if (actor.getChildren() > 2) {
+                        return true;
+                    }
                 }
             }
             temp = temp.getNext();
