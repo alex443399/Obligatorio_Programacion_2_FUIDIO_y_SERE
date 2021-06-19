@@ -15,7 +15,7 @@ public class OpenHash<K, T> implements MyHash<K, T>{// Hacer lo q estoy haciendo
     @Override
     public void put(K key, T value) {
 
-        OpenHashNode<K, T> element = new OpenHashNode(key, value);
+        OpenHashNode<K, T> element = new OpenHashNode<>(key, value);
         int position = hashFunction(key);
         if(HashTable[position] == null){
             HashTable[position] = element;
@@ -71,8 +71,13 @@ public class OpenHash<K, T> implements MyHash<K, T>{// Hacer lo q estoy haciendo
     }
 
     @Override
-    public boolean contains(K key, T value) {
-        return false;
+    public boolean contains(K key) {
+        boolean contiene = false;
+
+        if(get(key) != null){
+            contiene = true;
+        }
+        return contiene;
     }
 
     public int hashFunction(K key){

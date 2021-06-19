@@ -334,7 +334,7 @@ public class MovieDataBase {
 
         int cantidad_de_cast_members = 297705;
 
-        OpenHash<String, String> keys_de_castMember_que_vamos_a_filtrar = new OpenHash(cantidad_de_cast_members);
+        OpenHash<String, String> keys_de_castMember_que_vamos_a_filtrar = new OpenHash<>(cantidad_de_cast_members);
 
         // Cargamos el arreglo con las keys
 
@@ -367,38 +367,62 @@ public class MovieDataBase {
         int[][] count_anos = new int[cantidad_de_anos][2];
         int[] max_ano = new int[2];
 
-        for(int i = 0; i < actors.size(); i++){
+        OpenHash<String, String> temp1 = new OpenHash<>(1000000);
 
+        for(int i = 0; i < actors.size(); i++){
+            boolean entre = false;
             String actor_key_String = actors.get(i);
             int actor_key_int = Integer.parseInt(actor_key_String.substring(2,actor_key_String.length()));
             CastMember actor = cast_member_storage.get(actor_key_int);
 
             Date date_of_birth_of_actor = actor.getBirthDate();
-            if(date_of_birth_of_actor != null) {
-                int year = date_of_birth_of_actor.getYear()+1900;
+            if(date_of_birth_of_actor != null && !temp1.contains(actor.getImbdNameId())) {
+                int year = date_of_birth_of_actor.getYear() + 1900;
                 int index = year - year0;
                 count_anos[index][0]++;
+                entre = true;
+
             }
+
+            if(entre && temp1.contains(actor.getImbdNameId())){
+                System.out.println("Encontre un actor repetido");
+            }
+
+            temp1.put(actor.getImbdNameId(), actor.getImbdNameId());
 
         }
 
+        OpenHash<String, String> temp = new OpenHash<>(1000000);
+
         for(int i = 0; i < actresses.size(); i++){
 
+            boolean entre = false;
             String actress_key_String = actresses.get(i);
             int actress_key_int = Integer.parseInt(actress_key_String.substring(2,actress_key_String.length()));
             CastMember actress = cast_member_storage.get(actress_key_int);
 
             Date date_of_birth_of_actress = actress.getBirthDate();
-            if(date_of_birth_of_actress != null) {
+            if(date_of_birth_of_actress != null && !temp.contains(actress.getImbdNameId())) {
                 int year = date_of_birth_of_actress.getYear()+1900;
                 int index = year - year0;
                 count_anos[index][1]++;
+                entre = true;
             }
+
+            if(temp.contains(actress.getImbdNameId()) && entre){
+                System.out.println("Encontre un repetido!!!");
+            }
+
+            temp.put(actress.getImbdNameId(), actress.getImbdNameId());
         }
+        int sum = 0;
 
         for(int i = 0; i < cantidad_de_anos; i++){
 
+
+            sum = sum + count_anos[i][0] + count_anos[i][1];
             if(count_anos[i][0] > count_anos[max_ano[0]][0]){
+
                 max_ano[0] = i;
             }
             if(count_anos[i][1] > count_anos[max_ano[1]][1]){
@@ -406,6 +430,7 @@ public class MovieDataBase {
             }
         }
 
+        System.out.println("Cantidad de actores/actrices: " + sum);
         int max_ano_actores = max_ano[0] + year0;
         int max_ano_actress = max_ano[1] + year0;
         System.out.println("Actores: ");
@@ -421,6 +446,13 @@ public class MovieDataBase {
         long time_elapsed = end_time-start_time;
 
         System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
+
+        cantidadProfesion("actor");
+
+        System.out.println("________________");
+
+        Query4();
+
     }
 
 
@@ -552,13 +584,42 @@ public class MovieDataBase {
         ArrayList<String> keys_pais_y_profesion = new ArrayList();
 
         int relations_to_try = movie_cast_member_storage.getTableHashSize();
+        OpenHash<String, String> acotres_ya_analizados = new OpenHash<>(10000000);
 
-        for(int index = 0; index < relations_to_try; index++){
+        for(int index = 0; index < movie_cast_member_storage.getTableHashSize(); index++){
 
             if(debbug_text >= 3) System.out.println("Indice del hash: " + Integer.toString(index));
 
 
             OpenHashNode<Integer, MovieCastMember> temp_cell = movie_cast_member_storage.getPosition(index);
+
+
+            while (temp_cell != null) {
+
+                String ActorId = temp_cell.getValue().getImbdNameId();
+                OpenHashNode<String, String> temp_node = keys_pais.getNode(ActorId);
+
+                if (temp_node != null) {
+
+                    if (temp_node.getValue().equals(ActorId)) {
+
+                        String profesion = temp_cell.getValue().getCategory();
+
+                        if (multiContains(profesion, Profesiones)) {
+                            acotres_ya_analizados.put(ActorId, ActorId);
+                            keys_pais_y_profesion.add(ActorId);
+                        }
+                    }
+
+                    temp_cell = temp_cell.getNext();
+                }
+            }
+
+
+
+
+
+            /*
 
             if(temp_cell != null) {
                 MovieCastMember temp_cm = temp_cell.getValue();
@@ -606,7 +667,13 @@ public class MovieDataBase {
                         }
                     }
                 }
+
+
             }
+
+             */
+
+
 
         }
         return keys_pais_y_profesion;
@@ -730,6 +797,84 @@ public class MovieDataBase {
         }
 
         System.out.println("genero: " + genero + " " + counter);
+    }
+
+    public MyClosedHash<String, CastMember> cantidadProfesion(String profesion){
+
+        MyClosedHash<String, CastMember> result = new MyClosedHash<>(1000000);
+        for(int i = 0; i < movie_cast_member_storage.getTableHashSize(); i++){
+            OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getPosition(i);
+            while(temp != null){
+                if(temp.getValue().getCategory().contains(profesion)){
+                    int name_string_length = temp.getValue().getImbdNameId().length();
+                    String imbd_title_id_string = temp.getValue().getImbdNameId().substring(2,name_string_length);
+                    int imdb_title_id = Integer.parseInt(imbd_title_id_string);
+
+                    CastMember actor = cast_member_storage.get(imdb_title_id);
+
+                    if(actor.getBirthDate() != null) {
+                        result.put(temp.getValue().getImbdNameId(), actor);
+                    }
+                }
+                temp = temp.getNext();
+            }
+
+
+        }
+
+        System.out.println("Cantidad de actores/actrices = " + result.size());
+
+        return result;
+    }
+
+    public void Query4(){
+        MyClosedHash<Integer, Integer> nacimientoActores = new MyClosedHash<>(2000);
+        MyClosedHash<Integer, Integer> nacimientoActrices = new MyClosedHash<>(2000);
+        MyClosedHash<String, CastMember> actores = cantidadProfesion("actor");
+        MyClosedHash<String, CastMember> actrices = cantidadProfesion("actress");
+
+        MyClosedHash<String, CastMember> actores_con_fecha = cantidadProfesion("actor");
+        MyClosedHash<String, CastMember> actrices_con_fecha = cantidadProfesion("actress");
+        for(int i = 0; i < cast_member_storage.getTableHashSize(); i++){
+            if(actores.getPosition(i) != null){
+                if(actores.getPosition(i).getValue().getBirthDate() != null) {
+                    actores_con_fecha.put(actores.getPosition(i).getKey(), actores.getPosition(i).getValue());
+                    nacimientoActores.put(actores.getPosition(i).getValue().getBirthDate().getYear() + 1900, 1);
+                }
+            }
+
+            if(actrices.getPosition(i) != null){
+                if(actrices.getPosition(i).getValue().getBirthDate() != null) {
+                    actrices_con_fecha.put(actrices.getPosition(i).getKey(), actrices.getPosition(i).getValue());
+                    nacimientoActrices.put(actrices.getPosition(i).getValue().getBirthDate().getYear() + 1900, 1);
+                }
+            }
+        }
+
+        nacimientoActores.Bubblesort(1);
+        nacimientoActrices.Bubblesort(1);
+
+
+        System.out.println("actores: " + actores_con_fecha.size());
+        System.out.println("actrices: " + actrices_con_fecha.size());
+
+
+
+
+        Integer anoActores = nacimientoActores.getPosition(nacimientoActores.getTableHashSize() - 1).getKey();
+        int cantidadActores = nacimientoActores.getPosition(nacimientoActores.getTableHashSize() - 1).getReps();
+        Integer anoActrices = nacimientoActrices.getPosition(nacimientoActrices.getTableHashSize() - 1).getKey();
+        int cantidadActrices = nacimientoActrices.getPosition(nacimientoActrices.getTableHashSize() - 1).getReps();
+        System.out.println("Actores: ");
+        System.out.println("    Año: " + anoActores);
+        System.out.println("    Cantidad: " + cantidadActores);
+        System.out.println();
+        System.out.println("Actrices: ");
+        System.out.println("    Año: " + anoActrices);
+        System.out.println("    Cantidad: " + cantidadActrices);
+        System.out.println();
+
+
     }
 
 }

@@ -3,6 +3,7 @@ package TADS;
 public class MyClosedHash<K extends Comparable<K>, T> implements MyHash<K, T>{
 
     private int tableHashSize;
+    private int size;
 
     private ClosedHashNode<K, T>[] tableHash;
 
@@ -49,6 +50,7 @@ public class MyClosedHash<K extends Comparable<K>, T> implements MyHash<K, T>{
 
         if(!estaIngresado) {
             tableHash[position] = element;
+            size ++;
         }
 
 
@@ -94,16 +96,20 @@ public class MyClosedHash<K extends Comparable<K>, T> implements MyHash<K, T>{
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
-    public boolean contains(K key, T value) {
+    public boolean contains(K key) {
         return false;
     }
 
     private int hashFunction(ClosedHashNode<K, T> element){
-        return element.hashCode() % tableHashSize;
+        if(element.hashCode() >= 0) {
+            return element.hashCode() % tableHashSize;
+        }
+
+        return (element.hashCode() % tableHashSize) + tableHashSize;
     }
 
     public int getTableHashSize() {

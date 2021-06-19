@@ -6,6 +6,6 @@ public interface MyHash<K, T>{
     T get(K key);
     void delete(K key);
     int size();
-    boolean contains(K key, T value);
+    boolean contains(K key);
 
 }

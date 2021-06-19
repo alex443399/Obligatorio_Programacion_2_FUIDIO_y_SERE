@@ -12,7 +12,7 @@ public class Main {
 
     int menu_current_location;
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args11) throws Exception{
 
         Main main_instance = new Main();
         main_instance.Main_loop(); // Ojo con el 2.6, puede estar mal
