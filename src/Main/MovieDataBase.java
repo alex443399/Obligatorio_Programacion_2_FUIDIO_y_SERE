@@ -507,7 +507,12 @@ public class MovieDataBase {
 
             CastMember cast_member_posta = temp_node.getValue();
             //Conseguir profesional - End
+
+
+
             String temp_cause_of_death_de_cast_member_posta = cast_member_posta.getCauseOfDeath().getName().toLowerCase();
+
+            System.out.println(temp_cause_of_death_de_cast_member_posta.equals(""));
 
             OpenHashNode<String, Integer> nodo_temporal = cause_of_death_hash.getNode(temp_cause_of_death_de_cast_member_posta);
 
