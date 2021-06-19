@@ -45,9 +45,10 @@ public class CastMember {
         this.spousesWithChildren = parseIntNullEnabled(s_spousesWithChildren);
         this.children = parseIntNullEnabled(s_children);
         try{
-            if(reason_of_death.equals(" "))
+            if(reason_of_death.equals(""))
                 this.causeOfDeath = null;
-            this.causeOfDeath = new CauseOfDeath(reason_of_death);
+            else
+                this.causeOfDeath = new CauseOfDeath(reason_of_death);
         }
         catch (Exception e){
 

@@ -494,14 +494,14 @@ public class MovieDataBase {
 
         OpenHash<String, Integer> cause_of_death_hash = new OpenHash(death_hash_table_size);//48268 elementos que cumplen cond
 
-        for(int i = 0; i < cantidad_de_profesionales; i++){
+        for(int i = 0; i < cantidad_de_profesionales; i++) {
             //Conseguir profesional - Begin
             String profesional_imdb_name = keys_pais_y_profesion.get(i);
-            int profesional_key = Integer.parseInt(profesional_imdb_name.substring(2,profesional_imdb_name.length()));
+            int profesional_key = Integer.parseInt(profesional_imdb_name.substring(2, profesional_imdb_name.length()));
 
-            OpenHashNode<Integer,CastMember> temp_node = cast_member_storage.getNode(profesional_key);
+            OpenHashNode<Integer, CastMember> temp_node = cast_member_storage.getNode(profesional_key);
 
-            while(!temp_node.getValue().getImbdNameId().equals(profesional_imdb_name)){
+            while (!temp_node.getValue().getImbdNameId().equals(profesional_imdb_name)) {
                 temp_node = temp_node.getNext();
             }
 
@@ -509,26 +509,27 @@ public class MovieDataBase {
             //Conseguir profesional - End
 
 
+            CauseOfDeath temp_cause_of_death_de_cast_member_posta = cast_member_posta.getCauseOfDeath();
 
-            String temp_cause_of_death_de_cast_member_posta = cast_member_posta.getCauseOfDeath().getName().toLowerCase();
+            if(temp_cause_of_death_de_cast_member_posta != null)   {
 
-            System.out.println(temp_cause_of_death_de_cast_member_posta.equals(""));
+                String temp_string_cause_of_death_de_cast_member_posta = temp_cause_of_death_de_cast_member_posta.getName().toLowerCase();
 
-            OpenHashNode<String, Integer> nodo_temporal = cause_of_death_hash.getNode(temp_cause_of_death_de_cast_member_posta);
+                OpenHashNode<String, Integer> nodo_temporal = cause_of_death_hash.getNode(temp_string_cause_of_death_de_cast_member_posta);
 
-            if(nodo_temporal == null){
-                cause_of_death_hash.put(temp_cause_of_death_de_cast_member_posta,1);
-            }
-            else{
-                while (!nodo_temporal.getKey().equals(temp_cause_of_death_de_cast_member_posta)) {
-                    nodo_temporal = nodo_temporal.getNext();
-                    if(nodo_temporal == null)
-                        break;
-                }
-                if(nodo_temporal != null) {
-                    int current_cout = nodo_temporal.getValue();
+                if (nodo_temporal == null) {
+                    cause_of_death_hash.put(temp_string_cause_of_death_de_cast_member_posta, 1);
+                } else {
+                    while (!nodo_temporal.getKey().equals(temp_string_cause_of_death_de_cast_member_posta)) {
+                        nodo_temporal = nodo_temporal.getNext();
+                        if (nodo_temporal == null)
+                            break;
+                    }
+                    if (nodo_temporal != null) {
+                        int current_cout = nodo_temporal.getValue();
 
-                    nodo_temporal.setValue(current_cout + 1);
+                        nodo_temporal.setValue(current_cout + 1);
+                    }
                 }
             }
 
