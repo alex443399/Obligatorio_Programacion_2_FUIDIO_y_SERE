@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 
@@ -375,9 +374,9 @@ public class MovieDataBase {
             int actor_key_int = Integer.parseInt(actor_key_String.substring(2,actor_key_String.length()));
             CastMember actor = cast_member_storage.get(actor_key_int);
 
-            Date date_of_birth_of_actor = actor.getBirthDate();
-            if(date_of_birth_of_actor != null) {
-                int year = date_of_birth_of_actor.getYear() + 1900;
+            Integer actor_birth_year = actor.getBirth_year();
+            if(actor_birth_year != null) {
+                int year = actor_birth_year;
                 int index = year - year0;
                 count_anos[index][0]++;
                 entre = true;
@@ -396,9 +395,9 @@ public class MovieDataBase {
             int actress_key_int = Integer.parseInt(actress_key_String.substring(2,actress_key_String.length()));
             CastMember actress = cast_member_storage.get(actress_key_int);
 
-            Date date_of_birth_of_actress = actress.getBirthDate();
-            if(date_of_birth_of_actress != null) {
-                int year = date_of_birth_of_actress.getYear()+1900;
+            Integer actress_birth_year = actress.getBirth_year();
+            if(actress_birth_year != null) {
+                int year = actress_birth_year;
                 int index = year - year0;
                 count_anos[index][1]++;
 
@@ -420,7 +419,7 @@ public class MovieDataBase {
             }
         }
 
-        System.out.println("Cantidad de actores/actrices: " + sum);
+        //System.out.println("Cantidad de actores/actrices: " + sum);
         int max_ano_actores = max_ano[0] + year0;
         int max_ano_actress = max_ano[1] + year0;
         System.out.println("Actores: ");
@@ -436,12 +435,12 @@ public class MovieDataBase {
         long time_elapsed = end_time-start_time;
 
         System.out.println("Tiempo de ejecucion de la consulta: " + time_elapsed + "ms");
-
+/*
         cantidadProfesion("actor");
 
         System.out.println("________________");
-
-        Query4();
+*/
+        //Query4();
 
     }
 
@@ -508,29 +507,23 @@ public class MovieDataBase {
 
             CastMember cast_member_posta = temp_node.getValue();
             //Conseguir profesional - End
+            String temp_cause_of_death_de_cast_member_posta = cast_member_posta.getCauseOfDeath().getName().toLowerCase();
 
-            ArrayList<CauseOfDeath> causas_de_muerte_de_un_cast_member = cast_member_posta.getCauseOfDeath();
+            OpenHashNode<String, Integer> nodo_temporal = cause_of_death_hash.getNode(temp_cause_of_death_de_cast_member_posta);
 
-            for(int j = 0; j < causas_de_muerte_de_un_cast_member.size(); j++){
-
-                String temp_cause_of_death_de_cast_member_posta = causas_de_muerte_de_un_cast_member.get(j).getName().toLowerCase();
-
-                OpenHashNode<String, Integer> nodo_temporal = cause_of_death_hash.getNode(temp_cause_of_death_de_cast_member_posta);
-
-                if(nodo_temporal == null){
-                    cause_of_death_hash.put(temp_cause_of_death_de_cast_member_posta,1);
+            if(nodo_temporal == null){
+                cause_of_death_hash.put(temp_cause_of_death_de_cast_member_posta,1);
+            }
+            else{
+                while (!nodo_temporal.getKey().equals(temp_cause_of_death_de_cast_member_posta)) {
+                    nodo_temporal = nodo_temporal.getNext();
+                    if(nodo_temporal == null)
+                        break;
                 }
-                else{
-                    while (!nodo_temporal.getKey().equals(temp_cause_of_death_de_cast_member_posta)) {
-                        nodo_temporal = nodo_temporal.getNext();
-                        if(nodo_temporal == null)
-                            break;
-                    }
-                    if(nodo_temporal != null) {
-                        int current_cout = nodo_temporal.getValue();
+                if(nodo_temporal != null) {
+                    int current_cout = nodo_temporal.getValue();
 
-                        nodo_temporal.setValue(current_cout + 1);
-                    }
+                    nodo_temporal.setValue(current_cout + 1);
                 }
             }
 
@@ -547,7 +540,7 @@ public class MovieDataBase {
 
             OpenHashNode<Integer, CastMember> temp_cell = cast_member_storage.getPosition(i);
             if(temp_cell != null) {
-                String paisito = temp_cell.getValue().getBirthCountry();
+                String paisito = temp_cell.getValue().getPlace_of_birth();
                 if(paisito != null)
                     if(multiContains(paisito,key_words_paises)) {
                         String s = temp_cell.getValue().getImbdNameId();
@@ -558,7 +551,7 @@ public class MovieDataBase {
 
                 while (temp_cell != null) {
 
-                    paisito = temp_cell.getValue().getBirthCountry();
+                    paisito = temp_cell.getValue().getPlace_of_birth();
                     if(paisito != null) {
                         if (multiContains(paisito, key_words_paises)) {
                             String s = temp_cell.getValue().getImbdNameId();
@@ -618,68 +611,7 @@ public class MovieDataBase {
                 temp_cell = temp_cell.getNext();
             }
 
-
-
-            /*
-            if(temp_cell != null) {
-                MovieCastMember temp_cm = temp_cell.getValue();
-                if (temp_cm != null) {
-                    String name_actor = temp_cm.getImbdNameId();
-
-                    //version estupida del hash contains
-                    OpenHashNode<String, String> temp_node = keys_pais.getNode(name_actor);
-                    while(temp_node != null){// name_actor si vive en los paises
-
-
-                        if(temp_node.getValue().equals(name_actor)){
-                            String profesion = temp_cm.getCategory();
-                            if(multiContains(profesion,Profesiones))
-                                keys_pais_y_profesion.add(temp_cm.getImbdNameId());
-                        }
-
-                        temp_node = temp_node.getNext();
-                    }
-
-                }
-
-                while (temp_cell.getNext() != null) {
-                    temp_cell = temp_cell.getNext();
-                    temp_cm = temp_cell.getValue();
-
-
-                    if (temp_cm != null) {
-                        String name_actor = temp_cm.getImbdNameId();
-
-                        //version estupida del hash contains
-                        OpenHashNode<String, String> temp_node = keys_pais.getNode(name_actor);
-                        while(temp_node != null){// name_actor si vive en los paises
-
-
-
-                            if(temp_node.getValue().equals(name_actor)){
-                                String profesion = temp_cm.getCategory();
-                                if(multiContains(profesion,Profesiones)){
-                                    keys_pais_y_profesion.add(temp_cm.getImbdNameId());
-                                }
-                            }
-
-                            temp_node = temp_node.getNext();
-                        }
-                    }
-                }
-
-
-            }
-
-
-
-             */
-
-
-
         }
-
-        System.out.println(keys_pais_y_profesion.size());
         return keys_pais_y_profesion;
     }
 
@@ -691,7 +623,7 @@ public class MovieDataBase {
         for(int i = 0; i < N; i++){
             OpenHashNode<Integer, CastMember> temp_cell = cast_member_storage.getPosition(i);
             if(temp_cell != null) {
-                String paisito = temp_cell.getValue().getBirthCountry();
+                String paisito = temp_cell.getValue().getPlace_of_birth();
                 //if(paisito.equals("Oklahoma"))
                 //    System.out.println(temp_cell.getKey());
                 if (!paises.estaEnLista(paisito))
@@ -699,7 +631,7 @@ public class MovieDataBase {
 
                 while (temp_cell.getNext() != null) {
                     temp_cell = temp_cell.getNext();
-                    paisito = temp_cell.getValue().getBirthCountry();
+                    paisito = temp_cell.getValue().getPlace_of_birth();
 
                     //if(paisito.equals("Oklahoma"))
                     //    System.out.println(temp_cell.getKey());
@@ -851,16 +783,16 @@ public class MovieDataBase {
 
 
             if(actores.getPosition(i) != null){
-                if(actores.getPosition(i).getValue().getBirthDate() != null) {
+                if(actores.getPosition(i).getValue().getBirth_year() != null) {
                     actores_con_fecha.put(actores.getPosition(i).getKey(), actores.getPosition(i).getValue());
-                    nacimientoActores.put(actores.getPosition(i).getValue().getBirthDate().getYear() + 1900, 1);
+                    nacimientoActores.put(actores.getPosition(i).getValue().getBirth_year(), 1);
                 }
             }
 
             if(actrices.getPosition(i) != null){
-                if(actrices.getPosition(i).getValue().getBirthDate() != null) {
+                if(actrices.getPosition(i).getValue().getBirth_year() != null) {
                     actrices_con_fecha.put(actrices.getPosition(i).getKey(), actrices.getPosition(i).getValue());
-                    nacimientoActrices.put(actrices.getPosition(i).getValue().getBirthDate().getYear() + 1900, 1);
+                    nacimientoActrices.put(actrices.getPosition(i).getValue().getBirth_year(), 1);
                 }
             }
         }
