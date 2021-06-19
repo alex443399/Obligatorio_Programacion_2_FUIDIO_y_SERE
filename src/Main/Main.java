@@ -1,6 +1,7 @@
 package Main;
 import Exceptions.IlegalIndexException;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -71,7 +72,7 @@ public class Main {
                     }
                 }
                 else
-                    menu_current_location = 0; //????????running = false;
+                    running = false;
             }
             else {
                 System.out.println(error_msg);
@@ -102,7 +103,19 @@ public class Main {
         try{
             input_number = Integer.parseInt(input_string);
             if(input_number >= 1 && input_number <= 3){
-                menu_current_location = input_number;
+                if(input_number == 1)
+                    menu_current_location = input_number;
+                if(input_number == 3)
+                    running = false;
+                if(input_number == 2){
+                    if(db.data_loaded)
+                        menu_current_location = input_number;
+                    else{
+                        System.out.println("Debes cargar los datos antes de hacer consultas");
+                        menu_current_location = 0;
+                    }
+                }
+
             }
             else {
                 System.out.println(error_msg);
