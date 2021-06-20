@@ -425,10 +425,9 @@ public class MovieDataBase {
 
     }
 
-
     public void Query5(){
         long start_time = System.currentTimeMillis();
-        MyClosedHash<String, Integer> result = new MyClosedHash<>(5000000);
+        MyClosedHash<String, Integer> result = new MyClosedHash(100000);
         for (int i = 0; i < movie_storage.getTableHashSize(); i++){
             OpenHashNode<String , Movie> peli = movie_storage.getPosition(i);
             while(peli != null){
@@ -487,7 +486,7 @@ public class MovieDataBase {
 
             if(temp_cause_of_death_de_cast_member_posta != null)   {
 
-                String temp_string_cause_of_death_de_cast_member_posta = temp_cause_of_death_de_cast_member_posta.getName().toLowerCase();
+                String temp_string_cause_of_death_de_cast_member_posta = temp_cause_of_death_de_cast_member_posta.getName();
 
                 OpenHashNode<String, Integer> nodo_temporal = cause_of_death_hash.getNode(temp_string_cause_of_death_de_cast_member_posta);;
                 if (nodo_temporal == null) {
@@ -656,7 +655,7 @@ public class MovieDataBase {
                         temp.getValue().getCategory().contains("actress")) {
 
                     CastMember actor = cast_member_storage.get(temp.getValue().getImbdNameId());
-                    if (actor.getChildren() > 2) {
+                    if (actor.getChildren() >= 2) {
                         return true;
                     }
                 }
