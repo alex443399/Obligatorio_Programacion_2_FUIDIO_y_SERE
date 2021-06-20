@@ -27,10 +27,10 @@ public class MovieDataBase {
 
     boolean data_loaded = false;
 
-    OpenHash<Integer, MovieCastMember> movie_cast_member_storage;
+    OpenHash<String, MovieCastMember> movie_cast_member_storage;
     HeapImp<MovieRating> movie_rating_storage;
-    OpenHash<Integer, Movie> movie_storage;
-    OpenHash<Integer, CastMember> cast_member_storage;
+    OpenHash<String, Movie> movie_storage;
+    OpenHash<String, CastMember> cast_member_storage;
 
     public MovieDataBase(){
 
@@ -94,7 +94,7 @@ public class MovieDataBase {
 
         for(int i = 0; i < movie_cast_member_storage.getTableHashSize(); i++){
 
-            OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getPosition(i);
+            OpenHashNode<String, MovieCastMember> temp = movie_cast_member_storage.getPosition(i);
             while(temp != null){
 
                 if(temp.getValue().getCategory().contains("actor") ||
@@ -115,11 +115,8 @@ public class MovieDataBase {
             ClosedHashNode<String, Integer> retorno = result.getPosition(result.getTableHashSize() - i - 1);
             // La key guardade es un string, para poder buscar el nombre del acotor en
             // cast_member_strage debemos buscar con un key que es integer:
-            int name_string_length = retorno.getKey().length();
-            String imbd_title_id_string = retorno.getKey().substring(2,name_string_length);
-            int imdb_title_id = Integer.parseInt(imbd_title_id_string);
 
-            CastMember temp = cast_member_storage.get(imdb_title_id);
+            CastMember temp = cast_member_storage.get(retorno.getKey());
             String name = temp.getName();
 
             System.out.println("Nombre actor/actriz: " + name);
@@ -238,11 +235,8 @@ public class MovieDataBase {
             try {
                 temp = movie_rating_storage.pop();
                 elementosSacados.add(temp);
-                int name_string_length = temp.getImdbTitle().length();
-                String imbd_title_id_string = temp.getImdbTitle().substring(2,name_string_length);
-                int imdb_title_id = Integer.parseInt(imbd_title_id_string);
 
-                pelicula = movie_storage.get(imdb_title_id);
+                pelicula = movie_storage.get(temp.getImdbTitle());
 
                 if(pelicula.getYear() != null && pelicula.getYear() >= 1950  && pelicula.getYear() <= 1960)
                 {
@@ -271,22 +265,15 @@ public class MovieDataBase {
             try{
                 float sumaAltura = 0;
                 pelicula = resultados.get(i);
-                //Pasamos el id de pelicula a integer, para buscar en la relación esa pelicula:
-                int name_string_length = pelicula.getImbdTitled().length();
-                String imbd_title_id_string = pelicula.getImbdTitled().substring(2,name_string_length);
-                int imdb_title_id = Integer.parseInt(imbd_title_id_string);
 
-                OpenHashNode<Integer, MovieCastMember> relation = movie_cast_member_storage.getNode(imdb_title_id);
+                OpenHashNode<String, MovieCastMember> relation = movie_cast_member_storage.getNode(pelicula.getImbdTitled());
                 //Buscamos todos los actores que actuaron en la pelicula:
                 int cantidad_actores = 0;
                 while(relation != null){
-                    if(relation.getKey().equals(imdb_title_id) && (relation.getValue().getCategory().contains("actor")
+                    if(relation.getKey().equals(pelicula.getImbdTitled()) && (relation.getValue().getCategory().contains("actor")
                             || relation.getValue().getCategory().contains("actress"))){
-                        // Pasamos el id de actor a Integer:
-                        name_string_length = relation.getValue().getImbdNameId().length();
-                        String imdb_CastMember_id_string = relation.getValue().getImbdNameId().substring(2,name_string_length);
-                        int imdb_CastMember_id = Integer.parseInt(imdb_CastMember_id_string);
-                        CastMember actor = cast_member_storage.get(imdb_CastMember_id);
+
+                        CastMember actor = cast_member_storage.get(relation.getValue().getImbdNameId());
 
                         if(actor != null && actor.getHeight() != null) {
                             sumaAltura = sumaAltura + actor.getHeight();
@@ -336,7 +323,7 @@ public class MovieDataBase {
 
         for(int i = 0; i < cast_member_storage.getTableHashSize(); i++){
 
-            OpenHashNode<Integer, CastMember> temp_node = cast_member_storage.getPosition(i);
+            OpenHashNode<String, CastMember> temp_node = cast_member_storage.getPosition(i);
 
             while(temp_node != null){
 
@@ -367,8 +354,7 @@ public class MovieDataBase {
 
         for(int i = 0; i < actors.size(); i++){
             String actor_key_String = actors.get(i);
-            int actor_key_int = Integer.parseInt(actor_key_String.substring(2,actor_key_String.length()));
-            CastMember actor = cast_member_storage.get(actor_key_int);
+            CastMember actor = cast_member_storage.get(actor_key_String);
 
             Integer actor_birth_year = actor.getBirth_year();
             if(actor_birth_year != null) {
@@ -387,8 +373,8 @@ public class MovieDataBase {
 
 
             String actress_key_String = actresses.get(i);
-            int actress_key_int = Integer.parseInt(actress_key_String.substring(2,actress_key_String.length()));
-            CastMember actress = cast_member_storage.get(actress_key_int);
+
+            CastMember actress = cast_member_storage.get(actress_key_String);
 
             Integer actress_birth_year = actress.getBirth_year();
             if(actress_birth_year != null) {
@@ -444,7 +430,7 @@ public class MovieDataBase {
         long start_time = System.currentTimeMillis();
         MyClosedHash<String, Integer> result = new MyClosedHash<>(5000000);
         for (int i = 0; i < movie_storage.getTableHashSize(); i++){
-            OpenHashNode<Integer, Movie> peli = movie_storage.getPosition(i);
+            OpenHashNode<String , Movie> peli = movie_storage.getPosition(i);
             while(peli != null){
 
                 if(TieneActores(peli.getKey())){
@@ -490,18 +476,11 @@ public class MovieDataBase {
         OpenHash<String, Integer> cause_of_death_hash = new OpenHash(death_hash_table_size);//48268 elementos que cumplen cond
 
         for(int i = 0; i < cantidad_de_profesionales; i++) {
-            //Conseguir profesional - Begin
             String profesional_imdb_name = keys_pais_y_profesion.get(i);
-            int profesional_key = Integer.parseInt(profesional_imdb_name.substring(2, profesional_imdb_name.length()));
 
-            OpenHashNode<Integer, CastMember> temp_node = cast_member_storage.getNode(profesional_key);
-
-            while (!temp_node.getValue().getImbdNameId().equals(profesional_imdb_name)) {
-                temp_node = temp_node.getNext();
-            }
+            OpenHashNode<String, CastMember> temp_node = cast_member_storage.getNode(profesional_imdb_name);
 
             CastMember cast_member_posta = temp_node.getValue();
-            //Conseguir profesional - End
 
 
             CauseOfDeath temp_cause_of_death_de_cast_member_posta = cast_member_posta.getCauseOfDeath();
@@ -510,8 +489,7 @@ public class MovieDataBase {
 
                 String temp_string_cause_of_death_de_cast_member_posta = temp_cause_of_death_de_cast_member_posta.getName().toLowerCase();
 
-                OpenHashNode<String, Integer> nodo_temporal = cause_of_death_hash.getNode(temp_string_cause_of_death_de_cast_member_posta);
-
+                OpenHashNode<String, Integer> nodo_temporal = cause_of_death_hash.getNode(temp_string_cause_of_death_de_cast_member_posta);;
                 if (nodo_temporal == null) {
                     cause_of_death_hash.put(temp_string_cause_of_death_de_cast_member_posta, 1);
                 } else {
@@ -539,7 +517,7 @@ public class MovieDataBase {
         int N = cast_member_storage.getTableHashSize();
         for(int i = 0; i < N; i++){
 
-            OpenHashNode<Integer, CastMember> temp_cell = cast_member_storage.getPosition(i);
+            OpenHashNode<String, CastMember> temp_cell = cast_member_storage.getPosition(i);
             if(temp_cell != null) {
                 String paisito = temp_cell.getValue().getPlace_of_birth();
                 if(paisito != null)
@@ -583,7 +561,7 @@ public class MovieDataBase {
             if(debbug_text >= 3) System.out.println("Indice del hash: " + Integer.toString(index));
 
 
-            OpenHashNode<Integer, MovieCastMember> temp_cell = movie_cast_member_storage.getPosition(index);
+            OpenHashNode<String, MovieCastMember> temp_cell = movie_cast_member_storage.getPosition(index);
 
 
             while (temp_cell != null) {
@@ -622,7 +600,7 @@ public class MovieDataBase {
         ListaEnlazada<String> paises = new ListaEnlazada();
 
         for(int i = 0; i < N; i++){
-            OpenHashNode<Integer, CastMember> temp_cell = cast_member_storage.getPosition(i);
+            OpenHashNode<String, CastMember> temp_cell = cast_member_storage.getPosition(i);
             if(temp_cell != null) {
                 String paisito = temp_cell.getValue().getPlace_of_birth();
                 //if(paisito.equals("Oklahoma"))
@@ -656,10 +634,10 @@ public class MovieDataBase {
 
     }
 
-    public ListaEnlazada<Integer> peliculasDeUnActor(String idActor){
-        ListaEnlazada<Integer> result = new ListaEnlazada<>();
+    public ListaEnlazada<String> peliculasDeUnActor(String idActor){
+        ListaEnlazada<String> result = new ListaEnlazada();
         for (int i = 0; i < movie_cast_member_storage.getTableHashSize(); i++){
-            OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getNode(i);
+            OpenHashNode<String, MovieCastMember> temp = movie_cast_member_storage.getPosition(i);
             while(temp != null){
                 if(temp.getValue().getImbdNameId().equals(idActor)){
                     result.add(temp.getKey());
@@ -670,18 +648,14 @@ public class MovieDataBase {
         return result;
     }
 
-    public boolean TieneActores(Integer movieId){
-        OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getNode(movieId);
+    public boolean TieneActores(String movieId){
+        OpenHashNode<String, MovieCastMember> temp = movie_cast_member_storage.getNode(movieId);
         while(temp != null){
             if(temp.getKey().equals(movieId)) {
                 if (temp.getValue().getCategory().contains("actor") ||
                         temp.getValue().getCategory().contains("actress")) {
-                    //Pasamos el Id en la relacion a integer, para buscar en castMember:
-                    int name_string_length = temp.getValue().getImbdNameId().length();
-                    String imdb_CastMember_id_string = temp.getValue().getImbdNameId().substring(2, name_string_length);
-                    int imdb_CastMember_id = Integer.parseInt(imdb_CastMember_id_string);
 
-                    CastMember actor = cast_member_storage.get(imdb_CastMember_id);
+                    CastMember actor = cast_member_storage.get(temp.getValue().getImbdNameId());
                     if (actor.getChildren() > 2) {
                         return true;
                     }
@@ -721,7 +695,7 @@ public class MovieDataBase {
     public void cantidadDeGenero(String genero){
         int counter = 0;
         for(int i = 0; i < movie_storage.getTableHashSize(); i++){
-            OpenHashNode<Integer, Movie> temp = movie_storage.getNode(i);
+            OpenHashNode<String, Movie> temp = movie_storage.getPosition(i);
             while(temp != null){
                 ListaEnlazada<String> genres = temp.getValue().getGenre();
                 for(int j = 0; j < genres.size(); j++){
@@ -740,14 +714,11 @@ public class MovieDataBase {
 
         MyClosedHash<String, CastMember> result = new MyClosedHash<>(10000000);
         for(int i = 0; i < movie_cast_member_storage.getTableHashSize(); i++){
-            OpenHashNode<Integer, MovieCastMember> temp = movie_cast_member_storage.getPosition(i);
+            OpenHashNode<String, MovieCastMember> temp = movie_cast_member_storage.getPosition(i);
             while(temp != null){
                 if(temp.getValue().getCategory().contains(profesion)){
-                    int name_string_length = temp.getValue().getImbdNameId().length();
-                    String imbd_title_id_string = temp.getValue().getImbdNameId().substring(2,name_string_length);
-                    int imdb_title_id = Integer.parseInt(imbd_title_id_string);
 
-                    CastMember actor = cast_member_storage.get(imdb_title_id);
+                    CastMember actor = cast_member_storage.get(temp.getValue().getImbdNameId());
 
                     result.put(temp.getValue().getImbdNameId(), actor);
 

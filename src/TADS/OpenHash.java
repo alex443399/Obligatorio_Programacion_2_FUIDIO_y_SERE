@@ -51,6 +51,13 @@ public class OpenHash<K, T> implements MyHash<K, T>{// Hacer lo q estoy haciendo
     public OpenHashNode<K,T> getNode(K key) {
         int position = hashFunction(key);
         OpenHashNode<K, T> temp = HashTable[position];
+        if(temp == null)
+            return  temp;
+        while(!temp.getKey().equals(key)) {
+            temp = temp.getNext();
+            if(temp == null)
+                break;
+        }
         return temp;
 
     }

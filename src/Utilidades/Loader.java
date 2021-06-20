@@ -29,14 +29,14 @@ public class Loader {
     public static final String movie_cast_member_file_name = "IMDb title_principals.csv";
     public static final String rating_file_name = "IMDb ratings.csv";
 
-    public OpenHash<Integer, Movie> load_movie_database(int debbug_text) throws Exception{
+    public OpenHash<String, Movie> load_movie_database(int debbug_text) throws Exception{
         long start_time = System.currentTimeMillis();
 
         int number_of_columns = 22, number_of_rows = 85854;
 
         int hash_size = (int) (number_of_rows/hash_load_factor);
 
-        OpenHash<Integer, Movie> movie_storage = new OpenHash(hash_size);
+        OpenHash<String, Movie> movie_storage = new OpenHash(hash_size);
 
         if(debbug_text>0) System.out.println("Loading Movies Begining...");
 
@@ -70,7 +70,7 @@ public class Loader {
                 Movie movie_to_load = new Movie(registro[0], registro[1], registro[2], registro[3], registro[4], registro[5], registro[6], registro[7], registro[8], registro[9], registro[10], registro[11], registro[12], registro[13], registro[14], registro[15], registro[16], registro[17], registro[18], registro[19], registro[20], registro[21]);
 
                 movie_storage.put(
-                        imdb_title_id,
+                        registro[0],
                         movie_to_load
                 );
                 inserted_counter++;
@@ -94,7 +94,7 @@ public class Loader {
         return movie_storage;
     }
 
-    public OpenHash<Integer, CastMember> load_castmember_database(int debbug_text) throws Exception{//debbug_text 0 -> nada, 1-> Lo minimo letra, 2 -> letra + error y counter, 3 -> cada cargado
+    public OpenHash<String, CastMember> load_castmember_database(int debbug_text) throws Exception{//debbug_text 0 -> nada, 1-> Lo minimo letra, 2 -> letra + error y counter, 3 -> cada cargado
 
         long start_time = System.currentTimeMillis();
 
@@ -102,7 +102,7 @@ public class Loader {
 
         int hash_size = (int) (number_of_rows/hash_load_factor);
 
-        OpenHash<Integer, CastMember> cast_member_storage = new OpenHash(hash_size);
+        OpenHash<String, CastMember> cast_member_storage = new OpenHash(hash_size);
         if(debbug_text>0) System.out.println("Loading Cast Members Begining...");
 
         String path = proyect_path+cast_member_file_name;
@@ -158,7 +158,7 @@ public class Loader {
                 CastMember castMember_to_load = new CastMember(registro[0], registro[1], registro[2], registro[3], registro[4], registro[5], registro[6], registro[7], registro[8], registro[9], registro[10], registro[11], registro[12], registro[13], registro[14], registro[15], registro[16]);
 
                 cast_member_storage.put(
-                        imdb_CastMember_id,
+                        registro[0],
                         castMember_to_load
                 );
                 inserted_counter++;
@@ -254,7 +254,7 @@ public class Loader {
         return rating_storage;
     }
 
-    public OpenHash<Integer, MovieCastMember> load_movie_cast_member(int debbug_text) throws Exception{
+    public OpenHash<String, MovieCastMember> load_movie_cast_member(int debbug_text) throws Exception{
 
         long start_time = System.currentTimeMillis();
 
@@ -264,7 +264,7 @@ public class Loader {
 
         int hash_size = (int) (number_of_pk/hash_load_factor);
 
-        OpenHash<Integer, MovieCastMember> movie_cast_member_storage = new OpenHash(hash_size);
+        OpenHash<String, MovieCastMember> movie_cast_member_storage = new OpenHash(hash_size);
 
         if(debbug_text>0) System.out.println("Loading Movie Cast Members Begining...");
 
@@ -300,7 +300,7 @@ public class Loader {
                 );
 
                 movie_cast_member_storage.put(
-                        movie_id_number_int,
+                        registro[0],
                         movie_cast_member_to_load
                 );
                 inserted_counter++;
