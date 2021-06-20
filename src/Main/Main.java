@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args11) throws Exception{
 
         Main main_instance = new Main();
-        main_instance.Main_loop(); // Ojo con el 2.6, puede estar mal
+        main_instance.Main_loop();
 
     }
 

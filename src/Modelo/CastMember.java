@@ -35,8 +35,8 @@ public class CastMember {
             this.place_of_birth =place_of_birth;
             this.place_of_death =place_of_death;
 
-            this.birth_year = get_stupid_birth_year(date_of_birth);
-            this.death_year = get_stupid_birth_year(date_of_death);
+            this.birth_year = get_year_from_string(date_of_birth);
+            this.death_year = get_year_from_string(date_of_death);
 
 
         this.spousesString = spousesString;

@@ -228,7 +228,7 @@ public class MovieDataBase {
 
         int counter = 0; //El counter nos indicará el momento en el que obtenemos las 14 peliculas:
         //Los elementos que sacaremos los colocamos en elementosSacados, para luego insertarlos de nuevo:
-        ListaEnlazada<MovieRating> elementosSacados = new ListaEnlazada<>();
+        ListaEnlazada<MovieRating> elementosSacados = new ListaEnlazada();
         Lista<Movie> resultados = new ListaEnlazada<>(); //Aquí iran las 14 peliculas que queremos que nos
         //devuelva la consulta
 
@@ -243,16 +243,14 @@ public class MovieDataBase {
                 int imdb_title_id = Integer.parseInt(imbd_title_id_string);
 
                 pelicula = movie_storage.get(imdb_title_id);
-                SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
 
-                if(pelicula.getDatePublished() != null &&
-                        pelicula.getDatePublished().compareTo(sdformat.parse("1950-01-01")) >= 0
-                        && pelicula.getDatePublished().compareTo(sdformat.parse("1960-01-01")) < 0){
+                if(pelicula.getYear() != null && pelicula.getYear() >= 1950  && pelicula.getYear() <= 1960)
+                {
                     resultados.add(pelicula);
                     counter ++;
                 }
 
-            } catch (EmptyHeapException | ParseException e) {
+            } catch (EmptyHeapException e) {
                 e.printStackTrace();
             }
 
@@ -319,7 +317,6 @@ public class MovieDataBase {
         System.out.println();
     }
 
-
     public void Querry4(int debbug_text) throws IlegalIndexException {
         /**
          * Teniendo en cuenta los siguientes roles: actor y actress, se quiere
@@ -333,7 +330,7 @@ public class MovieDataBase {
 
         int cantidad_de_cast_members = 297705;
 
-        OpenHash<String, String> keys_de_castMember_que_vamos_a_filtrar = new OpenHash<>(cantidad_de_cast_members);
+        OpenHash<String, String> keys_de_castMember_que_vamos_a_filtrar = new OpenHash(cantidad_de_cast_members);
 
         // Cargamos el arreglo con las keys
 
@@ -369,7 +366,6 @@ public class MovieDataBase {
 
 
         for(int i = 0; i < actors.size(); i++){
-            boolean entre = false;
             String actor_key_String = actors.get(i);
             int actor_key_int = Integer.parseInt(actor_key_String.substring(2,actor_key_String.length()));
             CastMember actor = cast_member_storage.get(actor_key_int);
@@ -379,7 +375,6 @@ public class MovieDataBase {
                 int year = actor_birth_year;
                 int index = year - year0;
                 count_anos[index][0]++;
-                entre = true;
 
             }
 

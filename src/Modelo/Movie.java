@@ -103,9 +103,7 @@ public class Movie {
         return year;
     }
 
-    public Date getDatePublished() {
-        return datePublished;
-    }
+    public Date getDatePublished() { return datePublished; }
 
     public ListaEnlazada<String> getGenre() {
         return genre;

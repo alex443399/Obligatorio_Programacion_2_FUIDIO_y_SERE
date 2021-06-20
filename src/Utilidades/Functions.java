@@ -307,7 +307,7 @@ public class Functions {
         return false;
     }
 
-    public static Integer get_stupid_birth_year(String s){
+    public static Integer get_year_from_string(String s){
         try{
             String sub_s = s.substring(0,4);
             return Integer.parseInt(sub_s);

@@ -258,7 +258,7 @@ public class Loader {
 
         long start_time = System.currentTimeMillis();
 
-        int number_of_columns = 6, number_of_rows = 835493;
+        int number_of_columns = 6, number_of_rows = 85855;
 
         int number_of_pk = 85855;
 
