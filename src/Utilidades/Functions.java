@@ -308,6 +308,15 @@ public class Functions {
     }
 
     public static Integer get_year_from_string(String s){
+
+        if(s == null)
+            return null;
+        if(s.length()<=0)
+            return null;
+
+        while (s.charAt(0) == '"' && s.charAt(s.length()-1) == '"')
+            s = s.substring(1,s.length()-1);
+
         try{
             String sub_s = s.substring(0,4);
             return Integer.parseInt(sub_s);
