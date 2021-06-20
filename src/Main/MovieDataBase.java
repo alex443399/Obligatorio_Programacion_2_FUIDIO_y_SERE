@@ -300,7 +300,7 @@ public class MovieDataBase {
                 if(sumaAltura != 0){
                     float promedio = sumaAltura/canitdadAcotres;
                     System.out.println("Id pelicula: " + pelicula.getImbdTitled());
-                    System.out.println("Nombre: " + pelicula.getOriginalTitle());
+                    System.out.println("Nombre: " + pelicula.getTitled());
                     System.out.println("Altura promedio de actores: " + promedio);
                     System.out.println();
                 }
