@@ -9,7 +9,7 @@ public class CastMember {
     private String imbdNameId;
     private String name;
     private String birthName;
-    private Integer height;
+    private Float height;
     private String bio;
     private Integer birth_year;
     private String place_of_birth;
@@ -27,7 +27,12 @@ public class CastMember {
         this.imbdNameId = imbdNameId;
         this.name = name;
         this.birthName = birthName;
-        this.height = parseIntNullEnabled(s_height);
+        try {
+            this.height = Float.parseFloat(s_height);
+        }
+        catch(NumberFormatException e){
+            this.height = null;
+        }
         this.bio = bio;
 
 
@@ -67,7 +72,7 @@ public class CastMember {
         return birthName;
     }
 
-    public Integer getHeight() {
+    public Float getHeight() {
         return height;
     }
 

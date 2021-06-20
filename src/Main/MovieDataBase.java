@@ -278,7 +278,7 @@ public class MovieDataBase {
 
                 OpenHashNode<Integer, MovieCastMember> relation = movie_cast_member_storage.getNode(imdb_title_id);
                 //Buscamos todos los actores que actuaron en la pelicula:
-                int canitdadAcotres = 0;
+                int cantidad_actores = 0;
                 while(relation != null){
                     if(relation.getKey().equals(imdb_title_id) && (relation.getValue().getCategory().contains("actor")
                             || relation.getValue().getCategory().contains("actress"))){
@@ -290,7 +290,7 @@ public class MovieDataBase {
 
                         if(actor != null && actor.getHeight() != null) {
                             sumaAltura = sumaAltura + actor.getHeight();
-                            canitdadAcotres ++;
+                            cantidad_actores ++;
                         }
 
                     }
@@ -298,7 +298,7 @@ public class MovieDataBase {
                 }
 
                 if(sumaAltura != 0){
-                    float promedio = sumaAltura/canitdadAcotres;
+                    float promedio = sumaAltura/cantidad_actores;
                     System.out.println("Id pelicula: " + pelicula.getImbdTitled());
                     System.out.println("Nombre: " + pelicula.getTitled());
                     System.out.println("Altura promedio de actores: " + promedio);
