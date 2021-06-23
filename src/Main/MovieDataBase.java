@@ -41,7 +41,7 @@ public class MovieDataBase {
         try {
             int debbug_text = 0;
             movie_cast_member_storage = loader.load_movie_cast_member(debbug_text);
-            movie_rating_storage = loader.load_review_database(2);
+            movie_rating_storage = loader.load_review_database(debbug_text);
             movie_storage = loader.load_movie_database(debbug_text);
             cast_member_storage = loader.load_castmember_database(debbug_text); //debbug_tex = 0
             data_loaded = true;
