@@ -70,41 +70,44 @@ public class MovieRating implements Comparable<MovieRating> {
         votesRating.add(Integer.parseInt(votes_3));
         votesRating.add(Integer.parseInt(votes_3));
         votesRating.add(Integer.parseInt(votes_2));
-        votesRating.add(Integer.parseInt(votes_1));/*
-        this.allGenders_0age = new Rating(Integer.parseInt(allgenders_0age_votes),
-                Float.parseFloat(allgenders_0age_avg_vote));
-        this.allGenders_18age = new Rating(Integer.parseInt(allgenders_18age_votes),
-                Float.parseFloat(allgenders_18age_avg_vote));
-        this.allGenders_30age = new Rating(Integer.parseInt(allgenders_30age_votes),
-                Float.parseFloat(allgenders_30age_avg_vote));
-        this.allGenders_45age = new Rating(Integer.parseInt(allgenders_45age_votes),
-                Float.parseFloat(allgenders_18age_avg_vote));
-        this.malesAllAge = new Rating(Integer.parseInt(males_allages_votes),
-                Float.parseFloat(males_allages_avg_vote));
-        this.males_0age = new Rating(Integer.parseInt(males_0age_votes),
-                Float.parseFloat(males_0age_avg_vote));
-        this.males_18age = new Rating(Integer.parseInt(males_18age_votes),
-                Float.parseFloat(males_18age_avg_vote));
-        this.males_30age = new Rating(Integer.parseInt(males_30age_votes),
-                Float.parseFloat(males_30age_avg_vote));
-        this.males_45age = new Rating(Integer.parseInt(males_45age_votes),
-                Float.parseFloat(males_45age_avg_vote));
-        this.femalesAllAge = new Rating(Integer.parseInt(females_allages_votes),
-                Float.parseFloat(females_allages_avg_vote));
-        this.females_0age = new Rating(Integer.parseInt(females_0age_votes),
-                Float.parseFloat(females_0age_avg_vote));
-        this.females_18age = new Rating(Integer.parseInt(females_18age_votes),
-                Float.parseFloat(females_18age_avg_vote));
-        this.females_30age = new Rating(Integer.parseInt(females_30age_votes),
-                Float.parseFloat(females_30age_avg_vote));
-        this.females_45age = new Rating(Integer.parseInt(females_45age_votes),
-                Float.parseFloat(females_45age_avg_vote));
-        this.top_1000Voters = new Rating(Integer.parseInt(top1000_voters_rating),
-                Float.parseFloat(top1000_voters_vote));
-        this.usVoters = new Rating(Integer.parseInt(us_voters_ratings),
-                Float.parseFloat(us_voters_votes));
-        this.nonUsVoters = new Rating(Integer.parseInt(non_us_voters_ratings),
-                Float.parseFloat(non_us_voters_votes));*/
+        votesRating.add(Integer.parseInt(votes_1));
+
+        try {
+            this.allGenders_0age = new Rating(Float.parseFloat(allgenders_0age_votes),
+                    Float.parseFloat(allgenders_0age_avg_vote));
+            this.allGenders_18age = new Rating(Float.parseFloat(allgenders_18age_votes),
+                    Float.parseFloat(allgenders_18age_avg_vote));
+            this.allGenders_30age = new Rating(Float.parseFloat(allgenders_30age_votes),
+                    Float.parseFloat(allgenders_30age_avg_vote));
+            this.allGenders_45age = new Rating(Float.parseFloat(allgenders_45age_votes),
+                    Float.parseFloat(allgenders_18age_avg_vote));
+            this.malesAllAge = new Rating(Float.parseFloat(males_allages_votes),
+                    Float.parseFloat(males_allages_avg_vote));
+            this.males_0age = new Rating(Float.parseFloat(males_0age_votes),
+                    Float.parseFloat(males_0age_avg_vote));
+            this.males_18age = new Rating(Float.parseFloat(males_18age_votes),
+                    Float.parseFloat(males_18age_avg_vote));
+            this.males_30age = new Rating(Float.parseFloat(males_30age_votes),
+                    Float.parseFloat(males_30age_avg_vote));
+            this.males_45age = new Rating(Float.parseFloat(males_45age_votes),
+                    Float.parseFloat(males_45age_avg_vote));
+            this.femalesAllAge = new Rating(Float.parseFloat(females_allages_votes),
+                    Float.parseFloat(females_allages_avg_vote));
+            this.females_0age = new Rating(Float.parseFloat(females_0age_votes),
+                    Float.parseFloat(females_0age_avg_vote));
+            this.females_18age = new Rating(Float.parseFloat(females_18age_votes),
+                    Float.parseFloat(females_18age_avg_vote));
+            this.females_30age = new Rating(Float.parseFloat(females_30age_votes),
+                    Float.parseFloat(females_30age_avg_vote));
+            this.females_45age = new Rating(Float.parseFloat(females_45age_votes),
+                    Float.parseFloat(females_45age_avg_vote));
+            this.top_1000Voters = new Rating(Float.parseFloat(top1000_voters_rating),
+                    Float.parseFloat(top1000_voters_vote));
+            this.usVoters = new Rating(Float.parseFloat(us_voters_ratings),
+                    Float.parseFloat(us_voters_votes));
+            this.nonUsVoters = new Rating(Float.parseFloat(non_us_voters_ratings),
+                    Float.parseFloat(non_us_voters_votes));
+        } catch (Exception ignored){ }
 
     }
 
@@ -165,4 +168,74 @@ public class MovieRating implements Comparable<MovieRating> {
     public Rating getNon_us() {
         return non_us;
     }
+
+    public Rating getAllGenders_0age() {
+        return allGenders_0age;
+    }
+
+    public Rating getAllGenders_18age() {
+        return allGenders_18age;
+    }
+
+    public Rating getAllGenders_30age() {
+        return allGenders_30age;
+    }
+
+    public Rating getAllGenders_45age() {
+        return allGenders_45age;
+    }
+
+    public Rating getMalesAllAge() {
+        return malesAllAge;
+    }
+
+    public Rating getMales_0age() {
+        return males_0age;
+    }
+
+    public Rating getMales_18age() {
+        return males_18age;
+    }
+
+    public Rating getMales_30age() {
+        return males_30age;
+    }
+
+    public Rating getMales_45age() {
+        return males_45age;
+    }
+
+    public Rating getFemalesAllAge() {
+        return femalesAllAge;
+    }
+
+    public Rating getFemales_0age() {
+        return females_0age;
+    }
+
+    public Rating getFemales_18age() {
+        return females_18age;
+    }
+
+    public Rating getFemales_30age() {
+        return females_30age;
+    }
+
+    public Rating getFemales_45age() {
+        return females_45age;
+    }
+
+    public Rating getTop_1000Voters() {
+        return top_1000Voters;
+    }
+
+    public Rating getUsVoters() {
+        return usVoters;
+    }
+
+    public Rating getNonUsVoters() {
+        return nonUsVoters;
+    }
+
+
 }

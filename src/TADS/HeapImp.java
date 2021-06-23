@@ -76,7 +76,7 @@ public class HeapImp<T extends Comparable<T>> implements MyHeap<T>{
             Integer max_child_position = maxPosition(getLeftChild(position), getRightChild(position));
 
             while(position < amount_of_elements_stored && values[max_child_position] != null &&
-                    values[max_child_position].compareTo(values[position]) > 0){
+                    values[max_child_position].compareTo(values[position]) > 0){ //change
 
                 T pivot = values[position];
                 values[position] = values[max_child_position];
@@ -157,6 +157,16 @@ public class HeapImp<T extends Comparable<T>> implements MyHeap<T>{
     private void print(){
 
 
+    }
+
+    public T getMovie(T relacion){
+        T result = null;
+        for(int i = 0; i < amount_of_elements_stored; i++){
+            if(values[i].equals(relacion)){
+                return values[i];
+            }
+        }
+        return result;
     }
 
 
