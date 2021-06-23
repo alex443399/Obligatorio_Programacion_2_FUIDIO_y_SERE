@@ -18,6 +18,11 @@ public class Loader {
 
     public final String proyect_path;
 
+    private OpenHash<String, Movie> movieHash;
+    private OpenHash<String, CastMember> castMemberHash;
+    private OpenHash<String, MovieCastMember> movieCastMemberHash;
+    private HeapImp<MovieRating> movieRatingHash;
+
 
 
     public Loader(String proyect_path) {
@@ -91,6 +96,8 @@ public class Loader {
         if(debbug_text>0) System.out.println("Duration: " + Long.toString(time_elapsed) + "ms");
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
+
+        movieHash = movie_storage;
         return movie_storage;
     }
 
@@ -180,6 +187,8 @@ public class Loader {
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
 
+
+        castMemberHash = cast_member_storage;
         return cast_member_storage;
     }
 
@@ -221,8 +230,10 @@ public class Loader {
             if(debbug_text>2) System.out.println("Begining to load: tt" + imbd_title_id_string + ", fraction: " + Integer.toString(i) + "/" + Integer.toString(number_of_rows));
 
             try {
+
+                Movie peliculaAsociada = movieHash.get(registro[0]);
                 MovieRating rating_to_load = new MovieRating
-                        (registro[0], registro[1], registro[2], registro[3], registro[4], registro[5], registro[6], registro[7], registro[8], registro[9],
+                        (peliculaAsociada, registro[0], registro[1], registro[2], registro[3], registro[4], registro[5], registro[6], registro[7], registro[8], registro[9],
                                 registro[10], registro[11], registro[12], registro[13], registro[14], registro[15], registro[16], registro[17], registro[18], registro[19],
                                 registro[20], registro[21], registro[22], registro[23], registro[24], registro[25], registro[26], registro[27], registro[28], registro[29],
                                 registro[30], registro[31], registro[32], registro[33], registro[34], registro[35], registro[36], registro[37], registro[38], registro[39],
@@ -251,6 +262,8 @@ public class Loader {
         if(debbug_text>0) System.out.println("Duration: " + Long.toString(time_elapsed) + "ms");
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
+
+        movieRatingHash = rating_storage;
         return rating_storage;
     }
 
@@ -322,6 +335,8 @@ public class Loader {
 
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
+
+        movieCastMemberHash = movie_cast_member_storage;
         return movie_cast_member_storage;
     }
 

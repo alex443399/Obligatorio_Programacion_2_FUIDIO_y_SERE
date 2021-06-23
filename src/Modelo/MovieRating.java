@@ -9,6 +9,8 @@ import static Utilidades.Functions.parseIntNullEnabled;
 
 public class MovieRating implements Comparable<MovieRating> {
 
+    private Movie peliculaAsociada;
+
     private String imdbTitle;
 
     private Float weightedAverage;
@@ -44,7 +46,7 @@ public class MovieRating implements Comparable<MovieRating> {
     private Rating nonUsVoters;
 
 
-    public MovieRating(String imdbTitle, String weighted_average_vote, String total_votes, String mean_votes, String median_votes,
+    public MovieRating(Movie peliculaAsociada,String imdbTitle, String weighted_average_vote, String total_votes, String mean_votes, String median_votes,
                        String votes_10, String votes_9, String votes_8, String votes_7, String votes_6, String votes_5, String votes_4, String votes_3, String votes_2, String votes_1,
                        String allgenders_0age_avg_vote, String allgenders_0age_votes, String allgenders_18age_avg_vote, String allgenders_18age_votes, String allgenders_30age_avg_vote, String allgenders_30age_votes, String allgenders_45age_avg_vote, String allgenders_45age_votes,
                        String males_allages_avg_vote, String males_allages_votes,
@@ -55,6 +57,7 @@ public class MovieRating implements Comparable<MovieRating> {
                        String us_voters_ratings, String us_voters_votes,
                        String non_us_voters_ratings, String non_us_voters_votes
     ){
+        this.peliculaAsociada = peliculaAsociada;
         this.imdbTitle = imdbTitle;
         this.weightedAverage = Float.parseFloat(weighted_average_vote);
         this.totalVotes = parseIntNullEnabled(total_votes);
@@ -237,5 +240,7 @@ public class MovieRating implements Comparable<MovieRating> {
         return nonUsVoters;
     }
 
-
+    public Movie getPeliculaAsociada() {
+        return peliculaAsociada;
+    }
 }
