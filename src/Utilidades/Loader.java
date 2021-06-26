@@ -16,13 +16,6 @@ public class Loader {
 
     public final String proyect_path;
 
-    private OpenHash<String, Movie> movieHash;
-    private OpenHash<String, CastMember> castMemberHash;
-    private OpenHash<String, MovieCastMember> movieCastMemberHash;
-    private HeapImp<MovieRating> movieRatingHash;
-
-
-
     public Loader(String proyect_path) {
         this.proyect_path = proyect_path;
     }
@@ -95,7 +88,6 @@ public class Loader {
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
 
-        movieHash = movie_storage;
         return movie_storage;
     }
 
@@ -185,12 +177,10 @@ public class Loader {
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
 
-
-        castMemberHash = cast_member_storage;
         return cast_member_storage;
     }
 
-    public HeapImp<MovieRating> load_review_database(int debbug_text) throws Exception{
+    public HeapImp<MovieRating> load_review_database(OpenHash<String, Movie> movieHash, int debbug_text) throws Exception{
 
         long start_time = System.currentTimeMillis();
 
@@ -261,7 +251,6 @@ public class Loader {
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
 
-        movieRatingHash = rating_storage;
         return rating_storage;
     }
 
@@ -334,7 +323,6 @@ public class Loader {
         if(debbug_text>1) System.out.println("Errores: " + error_counter);
         if(debbug_text>1) System.out.println("Inserciones: " + inserted_counter);
 
-        movieCastMemberHash = movie_cast_member_storage;
         return movie_cast_member_storage;
     }
 

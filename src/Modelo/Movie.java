@@ -3,21 +3,18 @@ package Modelo;
 import Exceptions.InvalidDateFormatException;
 import TADS.ListaEnlazada;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
-import java.util.List;
 
 import static Utilidades.Functions.*;
 
 public class Movie {
 
-    private String imbdTitled;
-    private String titled;
+    private String imbdTitle;
+    private String title;
     private String originalTitle;
     private Integer year;
     private Date datePublished;
-    private ListaEnlazada<String > genre;
+    private ListaEnlazada<String> genre;
     private Integer duration;
     private ListaEnlazada<String> country;
     private String language;
@@ -30,14 +27,14 @@ public class Movie {
     private Integer votes;
     private String budget;
     private String usaGrossIncome;
-    private String worldWideGorssIncome;
+    private String worldWideGrossIncome;
     private Integer metaScore;
     private Integer reviewsFromUsers;
     private Integer reviewsFromCritics;
 
-    public Movie(String imbdTitled, String titled, String originalTitle, int year, Date datePublished, ListaEnlazada<String> genre, int duration, ListaEnlazada country, String language, ListaEnlazada director, ListaEnlazada writer, String productorCompany, ListaEnlazada actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldWideGorssIncome, int metaScore, int reviewsFromUsers, int reviewsFromCritics) {
-        this.imbdTitled = imbdTitled;
-        this.titled = titled;
+    public Movie(String imbdTitle, String title, String originalTitle, int year, Date datePublished, ListaEnlazada<String> genre, int duration, ListaEnlazada country, String language, ListaEnlazada director, ListaEnlazada writer, String productorCompany, ListaEnlazada actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldWideGrossIncome, int metaScore, int reviewsFromUsers, int reviewsFromCritics) {
+        this.imbdTitle = imbdTitle;
+        this.title = title;
         this.originalTitle = originalTitle;
         this.year = year;
         this.datePublished = datePublished;
@@ -54,15 +51,15 @@ public class Movie {
         this.votes = votes;
         this.budget = budget;
         this.usaGrossIncome = usaGrossIncome;
-        this.worldWideGorssIncome = worldWideGorssIncome;
+        this.worldWideGrossIncome = worldWideGrossIncome;
         this.metaScore = metaScore;
         this.reviewsFromUsers = reviewsFromUsers;
         this.reviewsFromCritics = reviewsFromCritics;
     }
 
-    public Movie(String imbdTitled, String titled, String originalTitle, String s_year, String s_datePublished, String s_genre, String s_duration, String s_country, String language, String s_director, String s_writer, String productorCompany, String s_actors, String description, String s_avgVote, String s_votes, String budget, String usaGrossIncome, String worldWideGorssIncome, String s_metaScore, String s_reviewsFromUsers, String s_reviewsFromCritics) throws InvalidDateFormatException {
-        this.imbdTitled = imbdTitled;
-        this.titled = titled;
+    public Movie(String imbdTitle, String title, String originalTitle, String s_year, String s_datePublished, String s_genre, String s_duration, String s_country, String language, String s_director, String s_writer, String productorCompany, String s_actors, String description, String s_avgVote, String s_votes, String budget, String usaGrossIncome, String worldWideGrossIncome, String s_metaScore, String s_reviewsFromUsers, String s_reviewsFromCritics) throws InvalidDateFormatException {
+        this.imbdTitle = imbdTitle;
+        this.title = title;
         this.originalTitle = originalTitle;
         this.year = parseYear(s_year); // Int
 
@@ -81,18 +78,18 @@ public class Movie {
         this.votes = parseIntNullEnabled(s_votes);
         this.budget = budget;
         this.usaGrossIncome = usaGrossIncome;
-        this.worldWideGorssIncome = worldWideGorssIncome;
+        this.worldWideGrossIncome = worldWideGrossIncome;
         this.metaScore = parseIntNullEnabled(s_metaScore);
         this.reviewsFromUsers = parseIntNullEnabled(s_reviewsFromUsers);
         this.reviewsFromCritics = parseIntNullEnabled(s_reviewsFromCritics);
     }
 
-    public String getImbdTitled() {
-        return imbdTitled;
+    public String getImbdTitle() {
+        return imbdTitle;
     }
 
-    public String getTitled() {
-        return titled;
+    public String getTitle() {
+        return title;
     }
 
     public String getOriginalTitle() {
@@ -157,8 +154,8 @@ public class Movie {
         return usaGrossIncome;
     }
 
-    public String getWorldWideGorssIncome() {
-        return worldWideGorssIncome;
+    public String getWorldWideGrossIncome() {
+        return worldWideGrossIncome;
     }
 
     public Integer getMetaScore() {

@@ -8,10 +8,6 @@ import Utilidades.Loader;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import static Utilidades.Functions.multiContains;
 
@@ -42,7 +38,7 @@ public class MovieDataBase {
             int debbug_text = 0;
             movie_cast_member_storage = loader.load_movie_cast_member(debbug_text);
             movie_storage = loader.load_movie_database(debbug_text);
-            movie_rating_storage = loader.load_review_database(debbug_text);
+            movie_rating_storage = loader.load_review_database(movie_storage, debbug_text);
             cast_member_storage = loader.load_castmember_database(debbug_text);
             data_loaded = true;
         }
@@ -266,11 +262,11 @@ public class MovieDataBase {
                 float sumaAltura = 0;
                 pelicula = resultados.get(i);
 
-                OpenHashNode<String, MovieCastMember> relation = movie_cast_member_storage.getNode(pelicula.getImbdTitled());
+                OpenHashNode<String, MovieCastMember> relation = movie_cast_member_storage.getNode(pelicula.getImbdTitle());
                 //Buscamos todos los actores que actuaron en la pelicula:
                 int cantidad_actores = 0;
                 while(relation != null){
-                    if(relation.getKey().equals(pelicula.getImbdTitled()) && (relation.getValue().getCategory().contains("actor")
+                    if(relation.getKey().equals(pelicula.getImbdTitle()) && (relation.getValue().getCategory().contains("actor")
                             || relation.getValue().getCategory().contains("actress"))){
 
                         CastMember actor = cast_member_storage.get(relation.getValue().getImbdNameId());
@@ -286,8 +282,8 @@ public class MovieDataBase {
 
                 if(sumaAltura != 0){
                     float promedio = sumaAltura/cantidad_actores;
-                    System.out.println("Id pelicula: " + pelicula.getImbdTitled());
-                    System.out.println("Nombre: " + pelicula.getTitled());
+                    System.out.println("Id pelicula: " + pelicula.getImbdTitle());
+                    System.out.println("Nombre: " + pelicula.getTitle());
                     System.out.println("Altura promedio de actores: " + promedio);
                     System.out.println();
                 }

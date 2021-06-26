@@ -103,14 +103,6 @@ public class ListaEnlazada <T> implements Lista<T>{
         return false;
     }
 
-    public void addFirst(T value){
-        Nodo<T> temp = new Nodo<T>(value);
-        temp.setNextValue(first);
-        first = temp;
-
-        size ++;
-    }
-
     public boolean contains(T value){
         boolean contain = false;
         Nodo<T> temp = first;

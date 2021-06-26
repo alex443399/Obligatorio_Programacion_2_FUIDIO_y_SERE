@@ -154,20 +154,4 @@ public class HeapImp<T extends Comparable<T>> implements MyHeap<T>{
         return amount_of_elements_stored<=0;
     }
 
-    private void print(){
-
-
-    }
-
-    public T getMovie(T relacion){
-        T result = null;
-        for(int i = 0; i < amount_of_elements_stored; i++){
-            if(values[i].equals(relacion)){
-                return values[i];
-            }
-        }
-        return result;
-    }
-
-
 }

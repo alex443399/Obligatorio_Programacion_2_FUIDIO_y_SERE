@@ -16,8 +16,7 @@ public class MovieCastMember {
     private String job;
     private ListaEnlazada<String> characters;
 
-    public MovieCastMember(String imbdTitled, String ordering, String imbdNameId,
-                           String category, String job, String characters){
+    public MovieCastMember(String imbdTitled, String ordering, String imbdNameId, String category, String job, String characters){
         this.imbdNameId = imbdNameId;
         this.imbdTitled = imbdTitled;
         this.ordering = Integer.parseInt(ordering);
@@ -52,7 +51,4 @@ public class MovieCastMember {
         return characters;
     }
 
-    public Integer Name_Key(){
-        return Integer.parseInt(imbdNameId.substring(2,imbdNameId.length()));
-    }
 }

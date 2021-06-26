@@ -19,14 +19,6 @@ public class MovieRating implements Comparable<MovieRating> {
     private Float medianVote;
     private ArrayList<Integer> votesRating;
 
-    private Rating allGenders;
-    private Rating males;
-    private Rating females;
-    private Rating top1000;
-    private Rating us;
-    private Rating non_us;
-
-
     private Rating allGenders_0age;
     private Rating allGenders_18age;
     private Rating allGenders_30age;
@@ -62,6 +54,7 @@ public class MovieRating implements Comparable<MovieRating> {
         this.weightedAverage = Float.parseFloat(weighted_average_vote);
         this.totalVotes = parseIntNullEnabled(total_votes);
         this.meanVotes = Float.parseFloat(mean_votes);
+        this.medianVote = Float.parseFloat(median_votes);
         this.votesRating = new ArrayList<>();
         votesRating.add(Integer.parseInt(votes_10));
         votesRating.add(Integer.parseInt(votes_9));
@@ -146,30 +139,6 @@ public class MovieRating implements Comparable<MovieRating> {
 
     public ArrayList<Integer> getVotesRating() {
         return votesRating;
-    }
-
-    public Rating getAllGenders() {
-        return allGenders;
-    }
-
-    public Rating getMales() {
-        return males;
-    }
-
-    public Rating getFemales() {
-        return females;
-    }
-
-    public Rating getTop1000() {
-        return top1000;
-    }
-
-    public Rating getUs() {
-        return us;
-    }
-
-    public Rating getNon_us() {
-        return non_us;
     }
 
     public Rating getAllGenders_0age() {
