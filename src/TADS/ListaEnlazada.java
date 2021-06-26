@@ -1,7 +1,5 @@
 package TADS;
 
-import Exceptions.EmptyQueueException;
-import Exceptions.EmptyStackException;
 import Exceptions.IlegalIndexException;
 
 

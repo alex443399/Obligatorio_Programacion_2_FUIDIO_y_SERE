@@ -1,6 +1,5 @@
 package TADS;
 
-import Exceptions.EmptyStackException;
 import Exceptions.IlegalIndexException;
 
 
