@@ -10,10 +10,9 @@ public class Main {
     boolean running = false;
     Scanner scanner;
     MovieDataBase db;
-
     int menu_current_location;
 
-    public static void main(String[] args11) throws Exception{
+    public static void main(String[] args11) {
 
         Main main_instance = new Main();
         main_instance.Main_loop();
@@ -64,12 +63,7 @@ public class Main {
             input_number = Integer.parseInt(input_string);
             if(input_number >= 1 && input_number <= 6){
                 if(input_number<6) {
-                    try {
-                        db.Query(input_number);
-                    }
-                    catch (IlegalIndexException e){
-                        System.out.println("Hubo un error haciendo la Query " + input_number);
-                    }
+                    db.Query(input_number);
                 }
                 else
                     running = false;

@@ -1,6 +1,5 @@
 package Modelo;
 
-import Exceptions.InvalidDateFormatException;
 import TADS.ListaEnlazada;
 
 import java.util.Date;
@@ -28,11 +27,11 @@ public class Movie {
     private String budget;
     private String usaGrossIncome;
     private String worldWideGrossIncome;
-    private Integer metaScore;
-    private Integer reviewsFromUsers;
-    private Integer reviewsFromCritics;
+    private Float metaScore;
+    private Float reviewsFromUsers;
+    private Float reviewsFromCritics;
 
-    public Movie(String imbdTitle, String title, String originalTitle, int year, Date datePublished, ListaEnlazada<String> genre, int duration, ListaEnlazada country, String language, ListaEnlazada director, ListaEnlazada writer, String productorCompany, ListaEnlazada actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldWideGrossIncome, int metaScore, int reviewsFromUsers, int reviewsFromCritics) {
+    public Movie(String imbdTitle, String title, String originalTitle, int year, Date datePublished, ListaEnlazada<String> genre, int duration, ListaEnlazada country, String language, ListaEnlazada director, ListaEnlazada writer, String productorCompany, ListaEnlazada actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldWideGrossIncome, Float metaScore, Float reviewsFromUsers, Float reviewsFromCritics) {
         this.imbdTitle = imbdTitle;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -57,7 +56,7 @@ public class Movie {
         this.reviewsFromCritics = reviewsFromCritics;
     }
 
-    public Movie(String imbdTitle, String title, String originalTitle, String s_year, String s_datePublished, String s_genre, String s_duration, String s_country, String language, String s_director, String s_writer, String productorCompany, String s_actors, String description, String s_avgVote, String s_votes, String budget, String usaGrossIncome, String worldWideGrossIncome, String s_metaScore, String s_reviewsFromUsers, String s_reviewsFromCritics) throws InvalidDateFormatException {
+    public Movie(String imbdTitle, String title, String originalTitle, String s_year, String s_datePublished, String s_genre, String s_duration, String s_country, String language, String s_director, String s_writer, String productorCompany, String s_actors, String description, String s_avgVote, String s_votes, String budget, String usaGrossIncome, String worldWideGrossIncome, String s_metaScore, String s_reviewsFromUsers, String s_reviewsFromCritics){
         this.imbdTitle = imbdTitle;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -79,9 +78,9 @@ public class Movie {
         this.budget = budget;
         this.usaGrossIncome = usaGrossIncome;
         this.worldWideGrossIncome = worldWideGrossIncome;
-        this.metaScore = parseIntNullEnabled(s_metaScore);
-        this.reviewsFromUsers = parseIntNullEnabled(s_reviewsFromUsers);
-        this.reviewsFromCritics = parseIntNullEnabled(s_reviewsFromCritics);
+        this.metaScore = parseFloatNullEnabled(s_metaScore);
+        this.reviewsFromUsers = parseFloatNullEnabled(s_reviewsFromUsers);
+        this.reviewsFromCritics = parseFloatNullEnabled(s_reviewsFromCritics);
     }
 
     public String getImbdTitle() {
@@ -158,15 +157,15 @@ public class Movie {
         return worldWideGrossIncome;
     }
 
-    public Integer getMetaScore() {
+    public Float getMetaScore() {
         return metaScore;
     }
 
-    public Integer getReviewsFromUsers() {
+    public Float getReviewsFromUsers() {
         return reviewsFromUsers;
     }
 
-    public Integer getReviewsFromCritics() {
+    public Float getReviewsFromCritics() {
         return reviewsFromCritics;
     }
 }

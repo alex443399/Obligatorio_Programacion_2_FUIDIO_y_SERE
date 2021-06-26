@@ -1,7 +1,5 @@
 package Modelo;
 
-import Exceptions.InvalidDateFormatException;
-
 import static Utilidades.Functions.*;
 
 public class CastMember {
@@ -23,7 +21,7 @@ public class CastMember {
     CauseOfDeath causeOfDeath;
 
 
-    public CastMember(String imbdNameId, String name, String birthName, String s_height, String bio, String birthDetails, String date_of_birth, String place_of_birth, String deathDetails, String date_of_death, String place_of_death, String reason_of_death, String spousesString, String s_spouses, String s_divorces, String s_spousesWithChildren, String s_children) throws InvalidDateFormatException {
+    public CastMember(String imbdNameId, String name, String birthName, String s_height, String bio, String birthDetails, String date_of_birth, String place_of_birth, String deathDetails, String date_of_death, String place_of_death, String reason_of_death, String spousesString, String s_spouses, String s_divorces, String s_spousesWithChildren, String s_children){
         this.imbdNameId = imbdNameId;
         this.name = name;
         this.birthName = birthName;
