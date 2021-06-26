@@ -434,7 +434,7 @@ public class MovieDataBase {
 
     public void Query5(){
         long start_time = System.currentTimeMillis();
-        MyClosedHash<String, Integer> result = new MyClosedHash(100000);
+        MyClosedHash<String, Integer> result = new MyClosedHash(1000);
         for (int i = 0; i < movie_storage.getTableHashSize(); i++){
             OpenHashNode<String , Movie> peli = movie_storage.getPosition(i);
             while(peli != null){
