@@ -102,9 +102,7 @@ public class Functions {
         // https://javarevisited.blogspot.com/2014/12/9-things-about-null-in-java.html#axzz6wvZ1ouSu
         if(s == null)
             return null;
-
-        int l = s.length();
-        if(s == "")
+        if(s == "" || s.isEmpty())
             return null;
         else
             return Float.parseFloat(s);
