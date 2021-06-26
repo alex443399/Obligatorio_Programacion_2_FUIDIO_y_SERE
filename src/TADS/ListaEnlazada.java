@@ -5,7 +5,7 @@ import Exceptions.EmptyStackException;
 import Exceptions.IlegalIndexException;
 
 
-public class ListaEnlazada <T> implements Lista<T>, MyStack<T>, MyQueue<T>, MyDoubleQueue<T> {
+public class ListaEnlazada <T> implements Lista<T>{
 
     private Nodo<T> first;
     private Nodo<T> last;
@@ -111,140 +111,6 @@ public class ListaEnlazada <T> implements Lista<T>, MyStack<T>, MyQueue<T>, MyDo
         first = temp;
 
         size ++;
-    }
-
-
-    //METODOS DE STACK:
-
-    @Override
-    public void pop() throws EmptyStackException {
-        // Sale del stack por el principio
-        Nodo<T> temp = first;
-
-        if (first == null){
-            throw new EmptyStackException("The stack is empty");
-        }
-
-        first = first.getNextValue();
-
-        if(first == null){
-            last = null;
-        }
-
-        size --;
-
-    }
-
-    @Override
-    public T top() throws EmptyStackException {
-        if (first == null){
-            throw new EmptyStackException("The stack is empty");
-        }
-        return first.getValue();
-    }
-
-    @Override
-    public void push(T element) {
-        // Entra al stack por el principio:
-        Nodo<T> temp = new Nodo<>(element);
-        temp.setNextValue(first);
-        first = temp;
-        size ++;
-    }
-
-
-    @Override //Este método aplica tanto para Queue como para stacks:
-    public boolean isEmpty() {
-        return first == null;
-    }
-
-    @Override
-    public void makeEmpty() {
-        first = null;
-        last = null;
-        size = 0;
-    }
-
-    //METODOS DEL QUEUE:
-
-    @Override
-    public void enqueue(T element) {
-        // Entra al queue por el ultimo lugar:
-        Nodo<T> temp = new Nodo<T>(element);
-        if(first == null){
-            first = temp;
-        }
-        else {
-
-            last.setNextValue(temp);
-        }
-        last = temp;
-        size ++;
-    }
-
-    @Override
-    public T dequeue()  {
-        // Sale del queue por el primer lugar:
-        Nodo<T> temp = first;
-        Nodo<T> primero = first.getNextValue();
-        first.setNextValue(null);
-        first = primero;
-        size --;
-        return temp.getValue();
-
-    }
-
-
-    //METODOS DE MyDoubleQueue:
-
-    @Override
-    public void enqueueLeft(T element) {
-        // Entra por el primer lugar:
-        addFirst(element);
-    }
-
-    @Override
-    public T dequeueLeft() throws EmptyQueueException {
-        // Sale por el primer lugar
-        if(first == null){
-            throw new EmptyQueueException("The queue is empty");
-        }
-
-        return dequeue();
-    }
-
-    @Override
-    public void enqueueRight(T element) {
-        // Entra al queue por el ultimo lugar:
-        enqueue(element);
-        size ++;
-    }
-
-    @Override
-    public T dequeueRight() throws EmptyQueueException {
-        // sale del queue por el ultimo lugar:
-        if(isEmpty()){
-            throw new EmptyQueueException("La cola esta vacía");
-        }
-
-        Nodo<T> temp = first;
-        if(size == 1){
-            first = null;
-            return temp.getValue();
-        }
-
-        int count = 0;
-        while(count < size - 2){
-            temp = temp.getNextValue();
-            count ++;
-        } //Nos paramos un elemento anterior al ultimo:
-        T data = last.getValue();
-        temp.setNextValue(null);
-
-        size --;
-
-        return data;
-
     }
 
     public boolean contains(T value){

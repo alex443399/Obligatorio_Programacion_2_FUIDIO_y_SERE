@@ -3,11 +3,9 @@ package Utilidades;
 
 import Modelo.*;
 import TADS.HeapImp;
-import TADS.MyBSTImpl;
 import TADS.OpenHash;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;

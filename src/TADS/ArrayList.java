@@ -4,7 +4,7 @@ import Exceptions.EmptyStackException;
 import Exceptions.IlegalIndexException;
 
 
-public class ArrayList<T> implements Lista<T>, MyStack<T> {
+public class ArrayList<T> implements Lista<T>{
 
     private T[] lista;//(T[]) new Object[50];
     private int size = 0;
@@ -70,54 +70,6 @@ public class ArrayList<T> implements Lista<T>, MyStack<T> {
     }
 
     //Operaciones del Stack:
-
-
-    @Override
-    public void pop() throws EmptyStackException {
-        if(size == 0){
-            throw new EmptyStackException("Stack is empty!");
-        }
-
-        lista[size - 1] = null;
-        size --;
-    }
-
-    @Override
-    public T top() throws EmptyStackException {
-        if(size == 0){
-            throw new EmptyStackException("Stack is empty");
-        }
-
-        return lista[size - 1];
-    }
-
-    @Override
-    public void push(Object element) {
-        if(size < lista.length){
-            lista[size] = (T) element;
-        } else{
-            T[] temp = (T[]) new Object[lista.length*2];
-            for(int i = 0; i < lista.length; i++){
-                temp[i] = lista[i];
-            }
-            lista = temp;
-            lista[size] = (T) element;
-        }
-
-        size ++;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    @Override
-    public void makeEmpty() {
-        for(int i = 0; i < size; i ++){
-            lista[i] = null;
-        }
-    }
 
     public String[] toStringArray(){
         String[] awns = new String[size];
